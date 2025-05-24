@@ -1,4 +1,4 @@
-# GlitzMe Rentals
+# GlitzMe Party Rentals
 
 A luxury event rental website built with Flask, featuring a modern and elegant design for premium event services.
 
