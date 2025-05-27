@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - GlitzMe Rentals</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='Images/Logos/GlitzMeRentalsLogo(NoBG).png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='Images/Logos/GlitzMeRentalsLogo(NoBG).png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='Images/Logos/GlitzMeRentalsLogo(NoBG).png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='Images/Logos/GlitzMeRentalsLogo(NoBG).png') }}">
+    
+    <!-- Responsive CSS Loading -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/mobile.css') }}" media="screen and (max-width: 768px), screen and (max-height: 600px)">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/desktop.css') }}" media="screen and (min-width: 769px) and (min-height: 601px)">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Navigation active state styling */
+        .nav-menu a.active {
+            background-color: #FFD700;
+            padding: 8px 16px;
+            border-radius: 4px;
+            color: #000;
+            font-weight: 500;
+        }
+
+        /* Existing styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Main content positioning */
+        main.contact-page {
+            padding-top: 80px; /* Height of the navbar */
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="{{ url_for('static', filename='Images/Logos/GlitzMeRentalsLogo(NoBG).png') }}" 
+                    alt="GlitzMe Rentals Logo" 
+                    role="img"
+                    title="GlitzMe Rentals - Las Vegas Party Rentals">
+            </div>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('services') }}">Services</a></li>
+                <li><a href="{{ url_for('experiences') }}">Experiences</a></li>
+                <li><a href="{{ url_for('packages') }}">Packages</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('gallery') }}">Gallery</a></li>
+                <li><a href="{{ url_for('reviews') }}">Reviews</a></li>
+                <li><a href="{{ url_for('contact') }}" class="active">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Content -->
+    <main class="contact-page">
+        <div class="container">
+            <div class="section-header">
+                <h1>📞 Get Your Quote 📞</h1>
+                <p>Ready to create memorable experiences? Contact us today!</p>
+            </div>
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <!-- Contact Form -->
+            <div class="contact-form">
+                <form action="{{ url_for('contact') }}" method="POST">
+                    <div class="form-group">
+                        <label for="name">Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="event_date">Event Date</label>
+                        <input type="date" id="event_date" name="event_date">
+                    </div>
+                    <div class="form-group">
+                        <label for="event_type">Event Type</label>
+                        <select id="event_type" name="event_type">
+                            <option value="">Select Event Type</option>
+                            <option value="birthday">Birthday Party</option>
+                            <option value="school">School Event</option>
+                            <option value="church">Church Event</option>
+                            <option value="community">Community Event</option>
+                            <option value="holiday">Holiday Experience</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+            <!-- Contact Info -->
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h4>Call Us</h4>
+                        <p>(702) 344-4717</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4>Email Us</h4>
+                        <p>Glitzme.rentals21@gmail.com</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Service Area</h4>
+                        <p>Las Vegas Valley, Nevada</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-instagram"></i>
+                    <div>
+                        <h4>Follow Us</h4>
+                        <p>@glitzme_rentals</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h2>✨ GlitzMe Rentals ✨</h2>
+                    <p>Local Family Owned party rental business serving the Las Vegas Valley. Creating memorable experiences with exceptional customer service - there's no other way but the GlitzMe WAY!</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/glitzme_rentals/" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="{{ url_for('services') }}" aria-label="View our Soft Play Rentals">Soft Play Rentals</a></li>
+                        <li><a href="{{ url_for('services') }}" aria-label="View our Tables and Chairs">Tables & Chairs</a></li>
+                        <li><a href="{{ url_for('experiences') }}" aria-label="View our Holiday Experiences">Holiday Experiences</a></li>
+                        <li><a href="{{ url_for('packages') }}" aria-label="View our Package Deals">Package Deals</a></li>
+                        <li><a href="{{ url_for('about') }}" aria-label="Learn more about us">About Us</a></li>
+                        <li><a href="{{ url_for('contact') }}" aria-label="View Designs By GlitzMe">Designs By GlitzMe</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <ul>
+                        <li><span aria-label="Phone number">📞 (702) 344-4717</span></li>
+                        <li><span aria-label="Email address">📧 Glitzme.rentals21@gmail.com</span></li>
+                        <li><span aria-label="Instagram handle">📱 @glitzme_rentals</span></li>
+                        <li><span aria-label="Service area">📍 Las Vegas Valley, NV</span></li>
+                        <li><span aria-label="Business type">👨‍👩‍👧‍👦 Family Owned & Operated</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Glitzme LLC. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- External JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 
