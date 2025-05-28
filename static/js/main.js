@@ -71,26 +71,25 @@ document.addEventListener('DOMContentLoaded', function() {
                             const otherDetail = otherItem.querySelector('.service-detail-mobile');
                             if (otherCard && otherDetail) {
                                 otherCard.classList.remove('active');
-                                otherDetail.style.maxHeight = '0';
-                                otherDetail.style.opacity = '0';
-                                otherDetail.style.marginTop = '0';
+                                otherDetail.classList.remove('active');
                             }
                         });
                         
                         // Toggle current service
                         if (!isActive) {
                             card.classList.add('active');
-                            detail.style.maxHeight = detail.scrollHeight + 'px';
-                            detail.style.opacity = '1';
-                            detail.style.marginTop = '1rem';
+                            detail.classList.add('active');
                             
                             // Smooth scroll to show the opened content
                             setTimeout(() => {
-                                detail.scrollIntoView({ 
+                                card.scrollIntoView({ 
                                     behavior: 'smooth', 
-                                    block: 'nearest' 
+                                    block: 'start'
                                 });
-                            }, 300);
+                            }, 100);
+                        } else {
+                            card.classList.remove('active');
+                            detail.classList.remove('active');
                         }
                     });
                 }
@@ -103,59 +102,67 @@ document.addEventListener('DOMContentLoaded', function() {
                 const firstDetail = firstItem.querySelector('.service-detail-mobile');
                 if (firstCard && firstDetail) {
                     firstCard.classList.add('active');
-                    firstDetail.style.maxHeight = firstDetail.scrollHeight + 'px';
-                    firstDetail.style.opacity = '1';
-                    firstDetail.style.marginTop = '1rem';
+                    firstDetail.classList.add('active');
                 }
             }
         }
 
         // Desktop functionality - Split view
         function initDesktopServices() {
-            const serviceCards = document.querySelectorAll('.services-desktop .service-selector-card');
-            const serviceDetails = document.querySelectorAll('.services-desktop .service-detail');
+            const selectorCards = document.querySelectorAll('.services-desktop .service-selector-card');
+            const serviceDetails = document.querySelectorAll('.service-detail');
 
-            serviceCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const serviceId = this.getAttribute('data-service');
+            selectorCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const serviceId = card.getAttribute('data-service');
                     
                     // Remove active class from all cards and details
-                    serviceCards.forEach(c => c.classList.remove('active'));
+                    selectorCards.forEach(c => c.classList.remove('active'));
                     serviceDetails.forEach(d => d.classList.remove('active'));
                     
                     // Add active class to clicked card and corresponding detail
-                    this.classList.add('active');
-                    const targetDetail = document.querySelector('.services-desktop #' + serviceId);
-                    if (targetDetail) {
-                        targetDetail.classList.add('active');
-                    }
+                    card.classList.add('active');
+                    document.getElementById(serviceId).classList.add('active');
                 });
             });
         }
 
-        // Gallery thumbnail functionality (works for both mobile and desktop)
-        function initGalleries() {
-            const galleries = document.querySelectorAll('.service-gallery');
-            
-            galleries.forEach(gallery => {
-                const thumbnails = gallery.querySelectorAll('.thumbnail');
-                const mainImage = gallery.querySelector('.main-image');
+        // Mobile Service Accordion
+        const mobileSelectorCards = document.querySelectorAll('.services-list .service-selector-card');
+        const mobileServiceDetails = document.querySelectorAll('.service-detail-mobile');
+
+        mobileSelectorCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const serviceId = card.getAttribute('data-service') + '-mobile';
+                const detail = document.getElementById(serviceId);
                 
-                thumbnails.forEach((thumbnail, index) => {
-                    thumbnail.addEventListener('click', function() {
-                        // Remove active class from all thumbnails in this gallery
-                        thumbnails.forEach(t => t.classList.remove('active'));
-                        
-                        // Add active class to clicked thumbnail
-                        this.classList.add('active');
-                        
-                        // Update main image (placeholder for now)
-                        // In the future, this will switch the actual images
-                        console.log(`Switching to image ${index + 1} in gallery`);
-                    });
-                });
+                // Toggle active state
+                card.classList.toggle('active');
+                if (detail.classList.contains('active')) {
+                    detail.classList.remove('active');
+                } else {
+                    mobileServiceDetails.forEach(d => d.classList.remove('active'));
+                    detail.classList.add('active');
+                }
             });
-        }
+        });
+
+        // Gallery Thumbnail Switching
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        thumbnails.forEach(thumb => {
+            thumb.addEventListener('click', () => {
+                const gallery = thumb.closest('.service-gallery');
+                const mainImage = gallery.querySelector('.main-image');
+                const thumbImage = thumb.querySelector('.image-placeholder').innerHTML;
+                
+                // Update main image
+                mainImage.querySelector('.image-placeholder').innerHTML = thumbImage;
+                
+                // Update active state of thumbnails
+                gallery.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                thumb.classList.add('active');
+            });
+        });
 
         // Initialize based on screen size
         function initServices() {
@@ -173,8 +180,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (servicesDesktop) servicesDesktop.style.display = 'grid';
                 initDesktopServices();
             }
-            
-            initGalleries();
         }
 
         // Initialize on load

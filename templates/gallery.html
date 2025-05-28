@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - GlitzMe Rentals</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" sizes="32x32" href="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}">
+    <link rel="icon" type="image/jpeg" sizes="16x16" href="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}">
+    
+    <!-- Responsive CSS Loading - Mobile for small screens and portrait orientation -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/mobile.css') }}" media="screen and (max-width: 768px), screen and (max-height: 600px)">
+    <!-- Desktop CSS for larger screens and landscape orientation -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/desktop.css') }}" media="screen and (min-width: 769px) and (min-height: 601px)">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}" alt="GlitzMe Rentals">
+            </div>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('services') }}">Services</a></li>
+                <li><a href="{{ url_for('experiences') }}">Experiences</a></li>
+                <li><a href="{{ url_for('packages') }}">Packages</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('gallery') }}" class="active">Gallery</a></li>
+                <li><a href="{{ url_for('contact_page') }}">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <div class="section-header">
+                <h2>📸 Event Gallery 📸</h2>
+                <p>See our rentals and experiences in action at schools, churches, and community events</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-school"></i>
+                        <p>[School Event Setup Image]</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-church"></i>
+                        <p>[Church Event Setup Image]</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-users"></i>
+                        <p>[Community Event Setup Image]</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-birthday-cake"></i>
+                        <p>[Birthday Party Setup Image]</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-baby"></i>
+                        <p>[Soft Play in Action Image]</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-snowman"></i>
+                        <p>[Winter Wonderland Event Image]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section quick-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{{ url_for('services') }}">Services</a></li>
+                        <li><a href="{{ url_for('experiences') }}">Holiday Experiences</a></li>
+                        <li><a href="{{ url_for('packages') }}">Package Deals</a></li>
+                        <li><a href="{{ url_for('about') }}">About Us</a></li>
+                        <li><a href="{{ url_for('contact_page') }}">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section rentals-info">
+                    <h3>✨ GlitzMe Rentals ✨</h3>
+                    <p>Local Family Owned party rental business serving the Las Vegas Valley. Creating memorable experiences with exceptional customer service - there's no other way but the GlitzMe WAY!</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/glitzme_rentals/" target="_blank" rel="noopener noreferrer" class="instagram-link">
+                            <i class="fab fa-instagram"></i>
+                            <span>Follow Us on Instagram!</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section social">
+                    <h4>Contact Info</h4>
+                    <ul>
+                        <li>(702) 344-4717</li>
+                        <li>Glitzme.rentals21@gmail.com</li>
+                        <li>Las Vegas Valley, NV</li>
+                        <li>Family Owned & Operated</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Glitzme LLC. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- External JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 

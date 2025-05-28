@@ -39,8 +39,38 @@ def index():
     """Homepage route"""
     return render_template('index.html')
 
-@app.route('/contact', methods=['POST'])
-def contact():
+@app.route('/services')
+def services():
+    """Services page route"""
+    return render_template('services.html')
+
+@app.route('/experiences')
+def experiences():
+    """Experiences page route"""
+    return render_template('experiences.html')
+
+@app.route('/packages')
+def packages():
+    """Packages page route"""
+    return render_template('packages.html')
+
+@app.route('/about')
+def about():
+    """About page route"""
+    return render_template('about.html')
+
+@app.route('/gallery')
+def gallery():
+    """Gallery page route"""
+    return render_template('gallery.html')
+
+@app.route('/contact')
+def contact_page():
+    """Contact page route"""
+    return render_template('contact.html')
+
+@app.route('/contact/submit', methods=['POST'])
+def contact_submit():
     """Handle contact form submissions"""
     # Get form data
     name = request.form.get('name', '').strip()
@@ -53,12 +83,12 @@ def contact():
     # Basic validation
     if not name or not email or not message:
         flash('Please fill in all required fields (Name, Email, and Message).', 'error')
-        return redirect(url_for('index') + '#contact')
+        return redirect(url_for('contact_page'))
     
     # For now, we'll just show a success message
     flash('Thank you for your inquiry! We will contact you within 24 hours to discuss your event needs.', 'success')
     
-    return redirect(url_for('index') + '#contact')
+    return redirect(url_for('contact_page'))
 
 @app.route('/health')
 def health_check():
@@ -68,16 +98,6 @@ def health_check():
         'service': 'GlitzMe Rentals',
         'timestamp': datetime.now().isoformat()
     })
-
-@app.route('/services')
-def services():
-    """Services page route (future expansion)"""
-    return redirect(url_for('index') + '#services')
-
-@app.route('/gallery')
-def gallery():
-    """Gallery page route (future expansion)"""
-    return redirect(url_for('index') + '#gallery')
 
 @app.errorhandler(404)
 def not_found(error):
@@ -91,4 +111,4 @@ def internal_error(error):
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 6001))
-    app.run(host='0.0.0.0', port=port, debug=False) 
+    app.run(host='0.0.0.0', port=port, debug=True) 
