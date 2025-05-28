@@ -35,62 +35,30 @@ def add_security_headers(response):
     return response
 
 @app.route('/')
-def home():
+def index():
     """Homepage route"""
-    return render_template('home.html')
+    return render_template('index.html')
 
-@app.route('/services')
-def services():
-    """Services page route"""
-    return render_template('services.html')
-
-@app.route('/experiences')
-def experiences():
-    """Experiences page route"""
-    return render_template('experiences.html')
-
-@app.route('/packages')
-def packages():
-    """Packages page route"""
-    return render_template('packages.html')
-
-@app.route('/about')
-def about():
-    """About page route"""
-    return render_template('about.html')
-
-@app.route('/gallery')
-def gallery():
-    """Gallery page route"""
-    return render_template('gallery.html')
-
-@app.route('/reviews')
-def reviews():
-    """Reviews page route"""
-    return render_template('reviews.html')
-
-@app.route('/contact', methods=['GET', 'POST'])
+@app.route('/contact', methods=['POST'])
 def contact():
-    """Contact page route"""
-    if request.method == 'POST':
-        # Get form data
-        name = request.form.get('name', '').strip()
-        email = request.form.get('email', '').strip()
-        phone = request.form.get('phone', '').strip()
-        event_date = request.form.get('event_date', '').strip()
-        event_type = request.form.get('event_type', '').strip()
-        message = request.form.get('message', '').strip()
-        
-        # Basic validation
-        if not name or not email or not message:
-            flash('Please fill in all required fields (Name, Email, and Message).', 'error')
-            return redirect(url_for('contact'))
-        
-        # For now, we'll just show a success message
-        flash('Thank you for your inquiry! We will contact you within 24 hours to discuss your event needs.', 'success')
-        return redirect(url_for('contact'))
-        
-    return render_template('contact.html')
+    """Handle contact form submissions"""
+    # Get form data
+    name = request.form.get('name', '').strip()
+    email = request.form.get('email', '').strip()
+    phone = request.form.get('phone', '').strip()
+    event_date = request.form.get('event_date', '').strip()
+    event_type = request.form.get('event_type', '').strip()
+    message = request.form.get('message', '').strip()
+    
+    # Basic validation
+    if not name or not email or not message:
+        flash('Please fill in all required fields (Name, Email, and Message).', 'error')
+        return redirect(url_for('index') + '#contact')
+    
+    # For now, we'll just show a success message
+    flash('Thank you for your inquiry! We will contact you within 24 hours to discuss your event needs.', 'success')
+    
+    return redirect(url_for('index') + '#contact')
 
 @app.route('/health')
 def health_check():
@@ -101,15 +69,25 @@ def health_check():
         'timestamp': datetime.now().isoformat()
     })
 
+@app.route('/services')
+def services():
+    """Services page route (future expansion)"""
+    return redirect(url_for('index') + '#services')
+
+@app.route('/gallery')
+def gallery():
+    """Gallery page route (future expansion)"""
+    return redirect(url_for('index') + '#gallery')
+
 @app.errorhandler(404)
 def not_found(error):
     """Handle 404 errors"""
-    return render_template('404.html'), 404
+    return redirect(url_for('index'))
 
 @app.errorhandler(500)
 def internal_error(error):
     """Handle 500 errors"""
-    return render_template('500.html'), 500
+    return "Internal server error", 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 6001))

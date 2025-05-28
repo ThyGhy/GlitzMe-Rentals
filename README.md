@@ -105,6 +105,12 @@ The application is configured to run with:
 - `GET /services`: Redirects to services section
 - `GET /gallery`: Redirects to gallery section
 
+## Contact Information
+
+- **Phone**: +1 (555) 123-4567
+- **Email**: hello@glitzmerentals.com
+- **Address**: 123 Luxury Lane, Event City, EC 12345
+
 ## License
 
-© 2025 GlitzMe Rentals. All rights reserved. 
+© 2024 GlitzMe Rentals. All rights reserved. 

@@ -8,8 +8,7 @@
 body {
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
-    color: #ffffff;
-    background-color: #000000;
+    color: #333;
     overflow-x: hidden;
 }
 
@@ -58,25 +57,25 @@ h3 {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #FFD700 0%, #FFC000 100%);
-    color: #000000;
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+    box-shadow: 0 8px 25px rgba(255, 107, 157, 0.5);
 }
 
 .btn-secondary {
     background: transparent;
-    color: #FFD700;
-    border: 2px solid #FFD700;
+    color: #ff6b9d;
+    border: 2px solid #ff6b9d;
 }
 
 .btn-secondary:hover {
-    background: #FFD700;
-    color: #000000;
+    background: #ff6b9d;
+    color: white;
     transform: translateY(-2px);
 }
 
@@ -94,7 +93,7 @@ h3 {
 
 .navbar.scrolled {
     background: rgba(255, 255, 255, 0.98);
-    box-shadow: 0 2px 20px rgba(255, 215, 0, 0.1);
+    box-shadow: 0 2px 20px rgba(255, 107, 157, 0.1);
     padding: 0.5rem 0;
 }
 
@@ -105,7 +104,6 @@ h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative;
 }
 
 .nav-logo {
@@ -114,9 +112,8 @@ h3 {
 }
 
 .nav-logo img {
-    height: 60px;
+    height: 50px;
     width: auto;
-    object-fit: contain;
 }
 
 .nav-menu {
@@ -144,7 +141,7 @@ h3 {
 
 .nav-menu a {
     text-decoration: none;
-    color: #000000;
+    color: #333;
     font-weight: 500;
     font-size: 1.1rem;
     transition: color 0.3s ease;
@@ -153,19 +150,7 @@ h3 {
 }
 
 .nav-menu a:hover {
-    color: #FFD700;
-}
-
-.nav-menu a::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 2px;
-    background: linear-gradient(135deg, #FFD700 0%, #FFC000 100%);
-    transition: width 0.3s ease;
+    color: #ff6b9d;
 }
 
 .hamburger {
@@ -178,7 +163,7 @@ h3 {
 .hamburger span {
     width: 25px;
     height: 3px;
-    background: #000000;
+    background: #333;
     margin: 3px 0;
     transition: 0.3s;
 }
@@ -202,7 +187,7 @@ h3 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
+    background: linear-gradient(135deg, #ffeef4 0%, #ffd6e8 50%, #ffb3d9 100%);
     padding: 100px 15px 60px;
     text-align: center;
 }
@@ -214,7 +199,7 @@ h3 {
 }
 
 .hero-content h1 {
-    background: linear-gradient(135deg, #FFD700 0%, #FFC000 100%);
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -223,8 +208,8 @@ h3 {
 }
 
 .hero-subtitle {
-    font-size: 1.1rem;
-    color: #FFE44D;
+    font-size: 1rem;
+    color: #ff6b9d;
     font-weight: 600;
     margin-bottom: 1rem;
     animation: fadeInUp 1s ease 0.1s both;
@@ -232,7 +217,7 @@ h3 {
 
 .hero-content p {
     font-size: 1.1rem;
-    color: #FFFFFF;
+    color: #666;
     margin-bottom: 2rem;
     animation: fadeInUp 1s ease 0.2s both;
     line-height: 1.6;
@@ -261,19 +246,19 @@ h3 {
     max-width: 300px;
     object-fit: contain;
     animation: float 6s ease-in-out infinite;
-    filter: drop-shadow(0 8px 25px rgba(32, 178, 170, 0.3));
+    filter: drop-shadow(0 8px 25px rgba(255, 107, 157, 0.3));
     transition: all 0.3s ease;
 }
 
 .hero-logo:hover {
     transform: scale(1.03);
-    filter: drop-shadow(0 12px 35px rgba(32, 178, 170, 0.4));
+    filter: drop-shadow(0 12px 35px rgba(255, 107, 157, 0.4));
 }
 
 .hero-placeholder {
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.3);
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -288,12 +273,12 @@ h3 {
 
 .hero-placeholder i {
     font-size: 4rem;
-    color: #FFD700;
+    color: #ff6b9d;
     margin-bottom: 1rem;
 }
 
 .hero-placeholder p {
-    color: #cccccc;
+    color: #333;
     font-weight: 500;
     font-size: 0.9rem;
     font-style: italic;
@@ -303,19 +288,19 @@ h3 {
 .image-placeholder {
     margin-top: 1rem;
     padding: 0.8rem;
-    background: rgba(255, 215, 0, 0.15);
+    background: rgba(255, 107, 157, 0.1);
     border-radius: 8px;
     font-style: italic;
-    color: #FFFFFF;
+    color: #666;
     text-align: center;
-    border: 2px dashed rgba(255, 215, 0, 0.3);
+    border: 2px dashed rgba(255, 107, 157, 0.3);
     font-size: 0.9rem;
 }
 
 /* Services Section - Mobile Enhanced Split-View */
 .services {
     padding: 4rem 0;
-    background: #ffffff;
+    background: #fff;
 }
 
 .section-header {
@@ -324,7 +309,7 @@ h3 {
 }
 
 .section-header h2 {
-    background: linear-gradient(135deg, #FFD700 0%, #FFC000 100%);
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -332,7 +317,7 @@ h3 {
 }
 
 .section-header p {
-    color: #000000;
+    color: #666;
     font-size: 1rem;
     max-width: 90%;
     margin: 0 auto;
@@ -357,41 +342,41 @@ h3 {
 
 /* Service Selector Cards - Mobile */
 .service-selector-card {
-    background: #ffffff;
+    background: #fff;
     padding: 1.5rem;
     border-radius: 15px;
     cursor: pointer;
     transition: all 0.3s ease;
-    border: 2px solid rgba(255, 215, 0, 0.1);
-    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.1);
+    border: 2px solid rgba(255, 107, 157, 0.1);
+    box-shadow: 0 5px 15px rgba(255, 107, 157, 0.1);
     position: relative;
 }
 
 .service-selector-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
-    border-color: rgba(255, 215, 0, 0.3);
+    box-shadow: 0 10px 25px rgba(255, 107, 157, 0.2);
+    border-color: rgba(255, 107, 157, 0.3);
 }
 
 .service-selector-card.active {
-    background: linear-gradient(135deg, #FFD700 0%, #FFC000 100%);
-    color: #000000;
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+    color: white;
     transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(255, 215, 0, 0.3);
+    box-shadow: 0 15px 35px rgba(255, 107, 157, 0.3);
     border-color: transparent;
 }
 
 .service-selector-card .service-icon {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #FFD700 0%, #FFC000 100%);
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 1rem;
     font-size: 1.2rem;
-    color: #000000;
+    color: white;
     transition: all 0.3s ease;
 }
 
@@ -401,7 +386,7 @@ h3 {
 }
 
 .service-selector-card h3 {
-    color: #333333;
+    color: #333;
     margin-bottom: 0.5rem;
     font-size: 1.1rem;
     transition: color 0.3s ease;
@@ -412,14 +397,14 @@ h3 {
 }
 
 .service-preview {
-    color: #666666;
+    color: #666;
     font-size: 0.85rem;
     margin: 0;
     transition: color 0.3s ease;
 }
 
 .service-selector-card.active .service-preview {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 /* Service Details - Mobile Accordion */
@@ -437,10 +422,10 @@ h3 {
 }
 
 .service-info {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    background: linear-gradient(135deg, #ffeef4 0%, #ffd6e8 100%);
     padding: 1.5rem;
     border-radius: 15px;
-    border: 1px solid rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 107, 157, 0.1);
     margin-bottom: 1.5rem;
 }
 
@@ -457,20 +442,20 @@ h3 {
 }
 
 .package {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.7);
     padding: 1rem;
     border-radius: 10px;
-    border: 1px solid rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 107, 157, 0.1);
 }
 
 .package h4 {
-    color: #FFD700;
+    color: #ff6b9d;
     margin-bottom: 0.5rem;
     font-size: 1rem;
 }
 
 .package p {
-    color: #000000;
+    color: #666;
     line-height: 1.5;
     margin: 0;
     font-size: 0.9rem;
@@ -481,8 +466,8 @@ h3 {
     background: #fff;
     border-radius: 15px;
     padding: 1rem;
-    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.1);
-    border: 1px solid rgba(255, 215, 0, 0.1);
+    box-shadow: 0 8px 25px rgba(255, 107, 157, 0.1);
+    border: 1px solid rgba(255, 107, 157, 0.1);
 }
 
 .gallery-main {
@@ -517,23 +502,23 @@ h3 {
 
 .thumbnail:hover {
     transform: scale(1.05);
-    border-color: rgba(255, 215, 0, 0.3);
+    border-color: rgba(255, 107, 157, 0.3);
 }
 
 .thumbnail.active {
-    border-color: #FFD700;
+    border-color: #ff6b9d;
     transform: scale(1.1);
 }
 
 .thumbnail .image-placeholder {
     width: 100%;
     height: 100%;
-    background: rgba(255, 215, 0, 0.15);
+    background: rgba(255, 107, 157, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 0.7rem;
-    color: #FFFFFF;
+    color: #666;
     border: none;
     border-radius: 6px;
     margin: 0;
@@ -544,12 +529,12 @@ h3 {
 .image-placeholder {
     margin-top: 1rem;
     padding: 0.8rem;
-    background: rgba(255, 215, 0, 0.15);
+    background: rgba(255, 107, 157, 0.1);
     border-radius: 8px;
     font-style: italic;
-    color: #FFFFFF;
+    color: #666;
     text-align: center;
-    border: 2px dashed rgba(255, 215, 0, 0.3);
+    border: 2px dashed rgba(255, 107, 157, 0.3);
     font-size: 0.9rem;
 }
 
@@ -562,13 +547,13 @@ h3 {
     align-items: center;
     justify-content: center;
     border: none;
-    background: rgba(255, 215, 0, 0.05);
+    background: rgba(255, 107, 157, 0.05);
     font-size: 0.8rem;
 }
 
 .main-image .image-placeholder i {
     font-size: 2rem;
-    color: #FFD700;
+    color: #ff6b9d;
     margin-bottom: 0.5rem;
 }
 
@@ -660,7 +645,7 @@ h3 {
 }
 
 .experiences .section-header h2 {
-    background: linear-gradient(135deg, #FFD700 0%, #FFC000 100%);
+    background: linear-gradient(135deg, #ff6b9d 0%, #ffd700 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -668,7 +653,7 @@ h3 {
 }
 
 .experiences .section-header p {
-    color: #FFFFFF;
+    color: #ecf0f1;
     font-size: 1rem;
     max-width: 90%;
     margin: 0 auto;
@@ -698,14 +683,14 @@ h3 {
 .experience-icon {
     width: 100px;
     height: 100px;
-    background: linear-gradient(135deg, #FFD700 0%, #FFC000 100%);
+    background: linear-gradient(135deg, #ff6b9d 0%, #ffd700 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.5rem;
     font-size: 2.5rem;
-    color: #000000;
+    color: white;
 }
 
 .experience-card h3 {
@@ -715,7 +700,7 @@ h3 {
 }
 
 .experience-card p {
-    color: #FFFFFF;
+    color: #ecf0f1;
     line-height: 1.6;
     font-size: 0.95rem;
 }
@@ -756,7 +741,7 @@ h3 {
     top: 0;
     bottom: 0;
     width: 3px;
-    background: linear-gradient(135deg, #FFD700 0%, #FFC000 100%);
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
     transform: scaleY(0);
     transition: transform 0.3s ease;
 }
@@ -772,17 +757,17 @@ h3 {
 }
 
 .package-tab h3 {
-    color: #333333;
+    color: #333;
     margin-bottom: 0.5rem;
     font-size: 1.1rem;
-    background: linear-gradient(135deg, #FFD700 0%, #FFC000 100%);
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
 .package-tab p {
-    color: #333333;
+    color: #666;
     line-height: 1.5;
     margin: 0;
     font-size: 0.85rem;
@@ -801,15 +786,15 @@ h3 {
     height: auto;
     border-radius: 15px;
     object-fit: cover;
-    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
-    border: 3px solid rgba(255, 215, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(255, 107, 157, 0.2);
+    border: 3px solid rgba(255, 107, 157, 0.1);
     transition: all 0.3s ease;
 }
 
 .packages-showcase:hover {
     transform: scale(1.03);
-    box-shadow: 0 15px 35px rgba(255, 215, 0, 0.3);
-    border-color: rgba(255, 215, 0, 0.3);
+    box-shadow: 0 15px 35px rgba(255, 107, 157, 0.3);
+    border-color: rgba(255, 107, 157, 0.3);
 }
 
 /* Landscape Orientation Adjustments for Mobile */
@@ -873,7 +858,7 @@ h3 {
 /* About Section - Mobile */
 .about {
     padding: 4rem 0;
-    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+    background: linear-gradient(135deg, #ffeef4 0%, #ffd6e8 100%);
 }
 
 .about-content {
@@ -884,7 +869,7 @@ h3 {
 }
 
 .about-text h3 {
-    color: #FFFFFF;
+    color: #333;
     margin-bottom: 1rem;
     margin-top: 1.5rem;
     font-size: 1.3rem;
@@ -895,7 +880,7 @@ h3 {
 }
 
 .about-text p {
-    color: #FFFFFF;
+    color: #666;
     line-height: 1.6;
     margin-bottom: 1rem;
     font-size: 0.95rem;
@@ -913,15 +898,15 @@ h3 {
     height: auto;
     border-radius: 15px;
     object-fit: cover;
-    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
-    border: 3px solid rgba(255, 215, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(255, 107, 157, 0.2);
+    border: 3px solid rgba(255, 107, 157, 0.1);
     transition: all 0.3s ease;
 }
 
 .about-team-photo:hover {
     transform: scale(1.03);
-    box-shadow: 0 15px 35px rgba(255, 215, 0, 0.3);
-    border-color: rgba(255, 215, 0, 0.3);
+    box-shadow: 0 15px 35px rgba(255, 107, 157, 0.3);
+    border-color: rgba(255, 107, 157, 0.3);
 }
 
 .about-placeholder {
@@ -935,19 +920,19 @@ h3 {
     align-items: center;
     justify-content: center;
     backdrop-filter: blur(10px);
-    border: 2px dashed rgba(255, 215, 0, 0.3);
+    border: 2px dashed rgba(255, 107, 157, 0.3);
     text-align: center;
     padding: 1.5rem;
 }
 
 .about-placeholder i {
     font-size: 3rem;
-    color: #FFD700;
+    color: #ff6b9d;
     margin-bottom: 1rem;
 }
 
 .about-placeholder p {
-    color: #FFFFFF;
+    color: #333;
     font-weight: 500;
     font-size: 0.9rem;
     font-style: italic;
@@ -956,7 +941,7 @@ h3 {
 /* Gallery Section - Mobile */
 .gallery {
     padding: 4rem 0;
-    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+    background: linear-gradient(135deg, #ffeef4 0%, #ffd6e8 100%);
 }
 
 .gallery-grid {
@@ -985,29 +970,28 @@ h3 {
     align-items: center;
     justify-content: center;
     backdrop-filter: blur(10px);
-    border: 2px dashed rgba(255, 215, 0, 0.3);
+    border: 2px dashed rgba(255, 107, 157, 0.3);
     text-align: center;
     padding: 1.5rem;
 }
 
 .gallery-placeholder i {
     font-size: 2.5rem;
-    color: #FFD700;
+    color: #ff6b9d;
     margin-bottom: 1rem;
 }
 
 .gallery-placeholder p {
-    color: #FFFFFF;
+    color: #333;
     font-weight: 500;
     font-size: 0.9rem;
     font-style: italic;
-    margin: 0;
 }
 
 /* Contact Section - Mobile */
 .contact {
     padding: 4rem 0;
-    background: #000000;
+    background: #fff;
 }
 
 .contact-info {
@@ -1029,24 +1013,24 @@ h3 {
 .contact-item i {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #FFD700 0%, #FFC000 100%);
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #000000;
+    color: white;
     font-size: 1.2rem;
     flex-shrink: 0;
 }
 
 .contact-item h4 {
-    color: #FFFFFF;
+    color: #333;
     margin-bottom: 0.25rem;
     font-size: 1.1rem;
 }
 
 .contact-item p {
-    color: #FFFFFF;
+    color: #666;
     font-size: 0.95rem;
 }
 
@@ -1065,7 +1049,7 @@ h3 {
 }
 
 .footer-section h3 {
-    background: linear-gradient(135deg, #FFD700 0%, #FFC000 100%);
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1074,7 +1058,7 @@ h3 {
 }
 
 .footer-section p {
-    color: #FFFFFF;
+    color: #ccc;
     line-height: 1.6;
     margin-bottom: 1.5rem;
     font-size: 0.95rem;
@@ -1086,18 +1070,8 @@ h3 {
 
 .footer-section ul li {
     margin-bottom: 0.5rem;
-    color: #FFFFFF;
+    color: #ccc;
     font-size: 0.95rem;
-}
-
-.footer-section ul li a {
-    color: #FFFFFF;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.footer-section ul li a:hover {
-    color: #FFD700;
 }
 
 .social-links {
@@ -1110,12 +1084,12 @@ h3 {
 .social-links a {
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, #FFD700 0%, #FFC000 100%);
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #000000;
+    color: white;
     text-decoration: none;
     transition: transform 0.3s ease;
 }
@@ -1129,7 +1103,7 @@ h3 {
     padding-top: 2rem;
     margin-top: 2rem;
     border-top: 1px solid #555;
-    color: #FFFFFF;
+    color: #ccc;
     font-size: 0.9rem;
 }
 
@@ -1267,7 +1241,7 @@ h3 {
 }
 
 .team .section-header h2 {
-    background: linear-gradient(135deg, #FFD700 0%, #FFC000 100%);
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1275,7 +1249,7 @@ h3 {
 }
 
 .team .section-header p {
-    color: #666666;
+    color: #666;
     font-size: 1rem;
     font-style: italic;
     margin-top: 0.5rem;
@@ -1298,7 +1272,7 @@ h3 {
     text-align: center;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    border: 1px solid rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 107, 157, 0.1);
 }
 
 .team-member:hover {
@@ -1315,12 +1289,12 @@ h3 {
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid rgba(255, 215, 0, 0.2);
+    border: 3px solid rgba(255, 107, 157, 0.2);
     transition: all 0.3s ease;
 }
 
 .team-photo:hover {
-    border-color: rgba(255, 215, 0, 0.5);
+    border-color: rgba(255, 107, 157, 0.5);
     transform: scale(1.05);
 }
 
@@ -1328,8 +1302,8 @@ h3 {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    background: rgba(255, 215, 0, 0.1);
-    border: 3px dashed rgba(255, 215, 0, 0.3);
+    background: rgba(255, 107, 157, 0.1);
+    border: 3px dashed rgba(255, 107, 157, 0.3);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1341,7 +1315,7 @@ h3 {
 
 .photo-placeholder i {
     font-size: 3rem;
-    color: #FFD700;
+    color: #ff6b9d;
     margin-bottom: 0.5rem;
 }
 
@@ -1353,13 +1327,13 @@ h3 {
 }
 
 .member-info h3 {
-    color: #333333;
+    color: #333;
     margin-bottom: 0.5rem;
     font-size: 1.3rem;
 }
 
 .member-role {
-    color: #FFD700;
+    color: #ff6b9d;
     font-weight: 500;
     font-size: 0.95rem;
     margin: 0;
@@ -1432,95 +1406,4 @@ h3 {
     .member-role {
         font-size: 0.9rem;
     }
-}
-
-.wip-notice {
-    position: absolute;
-    top: -8px;
-    left: 15px;
-    z-index: 1001;
-}
-
-.wip-notice span {
-    background: rgba(220, 53, 69, 0.9);
-    color: white;
-    padding: 3px 6px;
-    border-radius: 3px;
-    font-size: 0.65rem;
-    font-weight: 500;
-    white-space: nowrap;
-    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
-    backdrop-filter: blur(10px);
-}
-
-/* Dark background sections - white text */
-.hero, .experiences, .about, .footer {
-    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-    color: #FFFFFF;
-}
-
-/* Light background sections - dark text */
-.team, .packages {
-    color: #333333;
-}
-
-.team .section-header p {
-    color: #666666;
-    font-size: 1rem;
-    font-style: italic;
-    margin-top: 0.5rem;
-}
-
-.team-member {
-    background: white;
-}
-
-.member-info h3 {
-    color: #333333;
-}
-
-.member-role {
-    color: #FFD700;
-}
-
-/* Contact section */
-.contact {
-    background: #000000;
-}
-
-.contact-item h4 {
-    color: #FFFFFF;
-}
-
-.contact-item p {
-    color: #FFFFFF;
-}
-
-/* Package tabs */
-.package-tab h3 {
-    color: #333333;
-}
-
-.package-tab p {
-    color: #333333;
-}
-
-/* Service cards */
-.service-selector-card h3 {
-    color: #333333;
-}
-
-.service-preview {
-    color: #666666;
-}
-
-/* Footer section */
-.footer-section h3 {
-    color: #FFFFFF;
-}
-
-.footer-section p,
-.footer-section ul li,
-.footer-section ul li a {
-    color: #FFFFFF;
 } 
