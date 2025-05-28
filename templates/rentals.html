@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Package Deals - GlitzMe Rentals</title>
+    <title>Individual Rentals - GlitzMe Rentals</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/jpeg" sizes="32x32" href="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}">
@@ -12,9 +12,7 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}">
     
     <!-- Responsive CSS Loading -->
-    <!-- Mobile CSS for screens up to 768px -->
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/mobile.css') }}" media="screen and (max-width: 768px)">
-    <!-- Desktop CSS for screens larger than 768px -->
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/desktop.css') }}" media="screen and (min-width: 769px)">
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -29,8 +27,8 @@
             </div>
             <ul class="nav-menu">
                 <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('rentals') }}">Rentals</a></li>
-                <li><a href="{{ url_for('packages') }}" class="active">Packages</a></li>
+                <li><a href="{{ url_for('rentals') }}" class="active">Rentals</a></li>
+                <li><a href="{{ url_for('packages') }}">Packages</a></li>
                 <li><a href="{{ url_for('about') }}">About</a></li>
                 <li><a href="{{ url_for('gallery') }}">Gallery</a></li>
                 <li><a href="{{ url_for('contact_page') }}">Contact</a></li>
@@ -43,39 +41,52 @@
         </div>
     </nav>
 
-    <!-- Packages Section -->
-    <section id="packages" class="packages">
+    <!-- Rentals Section -->
+    <section id="rentals" class="rentals">
         <div class="container">
             <div class="section-header">
-                <h1>Packages, Bundles, and Experiences</h1>
-                <p>Complete entertainment packages, bundles, and experiences to make your event planning even easier</p>
+                <h1>Individual Rentals</h1>
+                <p>Browse our selection of individual rental items to create your perfect event setup</p>
             </div>
-            <div class="packages-grid">
-                {% for package in packages %}
-                <div class="package-card">
-                    <div class="package-image">
-                        <img src="{{ url_for('static', filename=package.image) }}" alt="{{ package.name }}">
+            <div class="rentals-grid">
+                {% for rental in rentals %}
+                <div class="rental-card">
+                    <div class="rental-image">
+                        <img src="{{ url_for('static', filename=rental.image) }}" alt="{{ rental.name }}">
                         <div class="image-hint">Tap Image to View</div>
                     </div>
-                    <div class="package-info">
-                        <h3>{{ package.name }}</h3>
+                    <div class="rental-info">
+                        <h3>{{ rental.name }}</h3>
                         <div class="price-info">
-                            <p><span>{{ package.price_text }}:</span> ${{ package.price }}</p>
-                            <p><span>{{ package.deposit_text }}:</span> ${{ package.deposit }}</p>
+                            <p><span>{{ rental.price_text }}:</span> ${{ rental.price }}</p>
+                            <p><span>{{ rental.deposit_text }}:</span> ${{ rental.deposit }}</p>
                         </div>
                     </div>
                 </div>
                 {% endfor %}
             </div>
 
-            <!-- Pagination Controls -->
+            {% if total_pages > 1 %}
             <div class="pagination">
-                <form method="get">
-                    <button type="submit" name="page" value="{{ current_page - 1 }}" class="pagination-button" {% if current_page == 1 %}disabled{% endif %}>Previous</button>
-                    <span class="pagination-info">Page {{ current_page }} of {{ total_pages }}</span>
-                    <button type="submit" name="page" value="{{ current_page + 1 }}" class="pagination-button" {% if current_page == total_pages %}disabled{% endif %}>Next</button>
+                <form method="GET" action="{{ url_for('rentals') }}">
+                    <button type="submit" name="page" value="{{ current_page - 1 }}" 
+                            class="pagination-button" 
+                            {% if current_page <= 1 %}disabled{% endif %}>
+                        Previous
+                    </button>
+                    
+                    <span class="pagination-info">
+                        Page {{ current_page }} of {{ total_pages }}
+                    </span>
+                    
+                    <button type="submit" name="page" value="{{ current_page + 1 }}"
+                            class="pagination-button"
+                            {% if current_page >= total_pages %}disabled{% endif %}>
+                        Next
+                    </button>
                 </form>
             </div>
+            {% endif %}
         </div>
     </section>
 
@@ -130,13 +141,13 @@
     <!-- External JavaScript -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script>
+        // Image Modal functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Image Modal functionality
             const modal = document.querySelector('.image-modal');
             const modalImage = document.querySelector('.modal-image');
             const modalClose = document.querySelector('.modal-close');
             const modalOverlay = document.querySelector('.modal-overlay');
-            const packageCards = document.querySelectorAll('.package-card');
+            const rentalCards = document.querySelectorAll('.rental-card');
 
             function openModal(imgSrc, imgAlt) {
                 modalImage.src = imgSrc;
@@ -147,15 +158,15 @@
 
             function closeModal() {
                 modal.classList.remove('active');
-                document.body.style.overflow = ''; // Restore scrolling
+                document.body.style.overflow = ''; // Re-enable scrolling
                 setTimeout(() => {
                     modalImage.src = ''; // Clear source after animation
                 }, 300);
             }
 
-            // Open modal when clicking on package cards
-            packageCards.forEach(card => {
-                const img = card.querySelector('.package-image img');
+            // Open modal when clicking on rental cards
+            rentalCards.forEach(card => {
+                const img = card.querySelector('.rental-image img');
                 
                 // Handle click events
                 card.addEventListener('click', (e) => {
@@ -173,33 +184,13 @@
             });
 
             // Close modal when clicking the close button or overlay
-            [modalClose, modalOverlay].forEach(element => {
-                element.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    closeModal();
-                });
+            modalClose.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', closeModal);
 
-                // Handle touch events for mobile
-                element.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    closeModal();
-                }, { passive: false });
+            // Close modal on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeModal();
             });
-
-            // Close modal when pressing Escape key
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && modal.classList.contains('active')) {
-                    closeModal();
-                }
-            });
-
-            // Prevent scrolling on modal content while allowing image to be seen
-            modalContent = document.querySelector('.modal-content');
-            modalContent.addEventListener('touchmove', (e) => {
-                e.stopPropagation();
-            }, { passive: true });
         });
     </script>
 </body>

@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initServicesSection();
     }
 
-    // Start the application
+    // Call init to start all functionality
     init();
 });
 

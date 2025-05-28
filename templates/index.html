@@ -27,9 +27,8 @@
                 <img src="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}" alt="GlitzMe Rentals">
             </div>
             <ul class="nav-menu">
-                <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('services') }}">Services</a></li>
-                <li><a href="{{ url_for('experiences') }}">Experiences</a></li>
+                <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
+                <li><a href="{{ url_for('rentals') }}">Rentals</a></li>
                 <li><a href="{{ url_for('packages') }}">Packages</a></li>
                 <li><a href="{{ url_for('about') }}">About</a></li>
                 <li><a href="{{ url_for('gallery') }}">Gallery</a></li>
@@ -45,13 +44,12 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <div class="container hero-container">
-            <div class="hero-left">
-                <div class="hero-content">
-                    <h1>GlitzME Rentals</h1>
-                    <p class="hero-subtitle">Local Family Owned Party Rental Business</p>
-                    <p>Creating memorable experiences with exceptional customer service in the Las Vegas Valley. From soft play and jump houses to magical holiday experiences - there's no other way but the GlitzMe WAY!</p>
-                </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>GlitzME Rentals</h1>
+                <p class="hero-subtitle">Local Family Owned Party Rental Business</p>
+                <p>Creating memorable experiences with exceptional customer service in the Las Vegas Valley. From soft play and jump houses to magical holiday experiences - there's no other way but the GlitzMe WAY!</p>
+            
                 <!-- Meet the Team Section -->
                 <div class="team-section">
                     <div class="section-header">
@@ -99,8 +97,7 @@
                 <div class="footer-section quick-links">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="{{ url_for('services') }}">Services</a></li>
-                        <li><a href="{{ url_for('experiences') }}">Holiday Experiences</a></li>
+                        <li><a href="{{ url_for('rentals') }}">Rentals</a></li>
                         <li><a href="{{ url_for('packages') }}">Package Deals</a></li>
                         <li><a href="{{ url_for('about') }}">About Us</a></li>
                         <li><a href="{{ url_for('contact_page') }}">Contact</a></li>
