@@ -334,7 +334,7 @@ def health_check():
     """Health check endpoint for monitoring"""
     return jsonify({
         'status': 'healthy',
-        'service': 'GlitzMe Rentals',
+        'service': 'GlitzME Rentals',
         'timestamp': datetime.now().isoformat()
     })
 

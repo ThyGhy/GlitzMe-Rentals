@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery - GlitzMe Rentals</title>
+    <title>Gallery - GlitzME Rentals</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/jpeg" sizes="32x32" href="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}">
@@ -24,7 +24,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <img src="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}" alt="GlitzMe Rentals">
+                <img src="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}" alt="GlitzME Rentals">
             </div>
             <ul class="nav-menu">
                 <li><a href="{{ url_for('index') }}">Home</a></li>
@@ -46,44 +46,75 @@
     <section id="gallery" class="gallery">
         <div class="container">
             <div class="section-header">
-                <h2>📸 Event Gallery 📸</h2>
-                <p>See our rentals and experiences in action at schools, churches, and community events</p>
+                <h1>Gallery</h1>
+                <p>See our rentals, and experiences in action, and hear from our satisfied customers!</p>
             </div>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        <i class="fas fa-school"></i>
-                        <p>[School Event Setup Image]</p>
+            <div class="gallery-container">
+                <!-- Image Gallery -->
+                <div class="image-gallery">
+                    <h2>Photos</h2>
+                    <div class="gallery-grid">
+                        <div class="gallery-item">
+                            <div class="gallery-placeholder">
+                                <i class="fas fa-school"></i>
+                                <p>[School Event Setup Image]</p>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <div class="gallery-placeholder">
+                                <i class="fas fa-church"></i>
+                                <p>[Church Event Setup Image]</p>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <div class="gallery-placeholder">
+                                <i class="fas fa-users"></i>
+                                <p>[Community Event Setup Image]</p>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <div class="gallery-placeholder">
+                                <i class="fas fa-birthday-cake"></i>
+                                <p>[Birthday Party Setup Image]</p>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <div class="gallery-placeholder">
+                                <i class="fas fa-baby"></i>
+                                <p>[Soft Play in Action Image]</p>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <div class="gallery-placeholder">
+                                <i class="fas fa-snowman"></i>
+                                <p>[Winter Wonderland Event Image]</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        <i class="fas fa-church"></i>
-                        <p>[Church Event Setup Image]</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        <i class="fas fa-users"></i>
-                        <p>[Community Event Setup Image]</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        <i class="fas fa-birthday-cake"></i>
-                        <p>[Birthday Party Setup Image]</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        <i class="fas fa-baby"></i>
-                        <p>[Soft Play in Action Image]</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        <i class="fas fa-snowman"></i>
-                        <p>[Winter Wonderland Event Image]</p>
+
+                <!-- Video Carousel -->
+                <div class="video-gallery">
+                    <h2>Customer Testimonials</h2>
+                    <div class="video-carousel">
+                        <div class="carousel-container">
+                            <div class="carousel-track">
+                                {% for video in ['Testimonial1.mp4', 'Testimonial2.mp4', 'Testimonial3.mp4', 'Testimonial4.mp4'] %}
+                                <div class="carousel-slide">
+                                    <video controls poster="{{ url_for('static', filename='Images/testimonial-poster.jpg') }}">
+                                        <source src="{{ url_for('static', filename='Videos/' + video) }}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                    <p class="testimonial-caption">Hear what our happy customers have to say about their experience with GlitzME Rentals</p>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="carousel-nav">
+                            <button class="carousel-prev"><i class="fas fa-chevron-left"></i></button>
+                            <div class="carousel-dots"></div>
+                            <button class="carousel-next"><i class="fas fa-chevron-right"></i></button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -104,8 +135,8 @@
                     </ul>
                 </div>
                 <div class="footer-section rentals-info">
-                    <h3>✨ GlitzMe Rentals ✨</h3>
-                    <p>Local Family Owned party rental business serving the Las Vegas Valley. Creating memorable experiences with exceptional customer service - there's no other way but the GlitzMe WAY!</p>
+                    <h3>GlitzME Rentals</h3>
+                    <p>Local Family Owned party rental business serving the Las Vegas Valley. Creating memorable experiences with exceptional customer service - there's no other way but the GlitzME WAY!</p>
                     <div class="social-links">
                         <a href="https://www.instagram.com/glitzme_rentals/" target="_blank" rel="noopener noreferrer" class="instagram-link">
                             <i class="fab fa-instagram"></i>

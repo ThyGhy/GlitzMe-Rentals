@@ -1,4 +1,4 @@
-// GlitzMe Rentals - Main JavaScript Functionality
+// GlitzME Rentals - Main JavaScript Functionality
 
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Additional utility functions
-const GlitzMeUtils = {
+const GlitzMEUtils = {
     // Function to add image switching functionality when real images are added
     switchGalleryImage: function(galleryElement, imageIndex, imageSrc) {
         const mainImage = galleryElement.querySelector('.main-image img');
@@ -242,5 +242,66 @@ const GlitzMeUtils = {
 
 // Export for potential future module use
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { GlitzMeUtils };
-} 
+    module.exports = { GlitzMEUtils };
+}
+
+// Video Carousel Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const carousel = document.querySelector('.video-carousel');
+    if (!carousel) return;
+
+    const track = carousel.querySelector('.carousel-track');
+    const slides = carousel.querySelectorAll('.carousel-slide');
+    const prevButton = carousel.querySelector('.carousel-prev');
+    const nextButton = carousel.querySelector('.carousel-next');
+    const dotsContainer = carousel.querySelector('.carousel-dots');
+
+    let currentIndex = 0;
+    const slideWidth = 100; // percentage
+
+    // Create dots
+    slides.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.classList.add('carousel-dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(index));
+        dotsContainer.appendChild(dot);
+    });
+
+    // Update dots
+    function updateDots() {
+        const dots = dotsContainer.querySelectorAll('.carousel-dot');
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+        });
+    }
+
+    // Go to specific slide
+    function goToSlide(index) {
+        currentIndex = index;
+        track.style.transform = `translateX(-${index * slideWidth}%)`;
+        updateDots();
+    }
+
+    // Previous slide
+    prevButton.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+        goToSlide(currentIndex);
+    });
+
+    // Next slide
+    nextButton.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % slides.length;
+        goToSlide(currentIndex);
+    });
+
+    // Pause other videos when playing one
+    const videos = carousel.querySelectorAll('video');
+    videos.forEach(video => {
+        video.addEventListener('play', () => {
+            videos.forEach(v => {
+                if (v !== video) v.pause();
+            });
+        });
+    });
+}); 

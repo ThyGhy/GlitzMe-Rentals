@@ -1,4 +1,4 @@
-# GlitzMe Party Rentals
+# GlitzME Party Rentals
 
 A luxury event rental website built with Flask, featuring a modern and elegant design for premium event services.
 
@@ -40,7 +40,7 @@ A luxury event rental website built with Flask, featuring a modern and elegant d
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd GlitzMe-Rentals
+cd GlitzME-Rentals
 ```
 
 2. Create a virtual environment:
@@ -113,4 +113,4 @@ The application is configured to run with:
 
 ## License
 
-© 2024 GlitzMe Rentals. All rights reserved. 
+© 2024 GlitzME Rentals. All rights reserved. 

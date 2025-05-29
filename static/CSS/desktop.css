@@ -95,7 +95,7 @@ h3 {
 
 .navbar.scrolled {
     background: rgba(40, 40, 40, 0.98);
-    box-shadow: 0 2px 20px rgba(255, 215, 0, 0.1);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
     padding: 1rem 0 0.5rem;
 }
 
@@ -811,19 +811,15 @@ h3 {
 
 .about-team-photo {
     width: 100%;
-    max-width: 400px;
     height: auto;
-    border-radius: 20px;
-    object-fit: cover;
-    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.2);
-    border: 4px solid rgba(255, 215, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(32, 178, 170, 0.3);
     transition: all 0.3s ease;
 }
 
 .about-team-photo:hover {
-    transform: scale(1.05);
-    box-shadow: 0 20px 50px rgba(255, 215, 0, 0.3);
-    border-color: rgba(255, 215, 0, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(32, 178, 170, 0.5);
 }
 
 .about-placeholder {
@@ -861,10 +857,29 @@ h3 {
     background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
 }
 
+.gallery-container {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+.image-gallery h3,
+.video-gallery h3 {
+    color: #fff;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, #20B2AA 0%, #48D1CC 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
 }
 
 .gallery-item {
@@ -872,37 +887,113 @@ h3 {
     border-radius: 20px;
     overflow: hidden;
     transition: transform 0.3s ease;
+    cursor: pointer;
 }
 
 .gallery-item:hover {
     transform: scale(1.05);
 }
 
-.gallery-placeholder {
+/* Video Carousel Styles */
+.video-carousel {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(32, 178, 170, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.carousel-container {
+    position: relative;
     width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.4);
+    overflow: hidden;
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+}
+
+.carousel-track {
     display: flex;
-    flex-direction: column;
+    transition: transform 0.5s ease;
+}
+
+.carousel-slide {
+    flex: 0 0 100%;
+    padding: 0 1rem;
+}
+
+.testimonial-caption {
+    color: #fff;
+    text-align: center;
+    margin-top: 1rem;
+    font-style: italic;
+    font-size: 0.95rem;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+.carousel-slide video {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-nav {
+    display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(10px);
-    border: 2px dashed rgba(255, 215, 0, 0.3);
-    text-align: center;
-    padding: 2rem;
+    gap: 1rem;
+    margin-top: 1.5rem;
 }
 
-.gallery-placeholder i {
-    font-size: 3rem;
-    color: #FFA500;
-    margin-bottom: 1rem;
-}
-
-.gallery-placeholder p {
+.carousel-prev,
+.carousel-next {
+    background: rgba(32, 178, 170, 0.2);
+    border: none;
     color: #fff;
-    font-weight: 500;
-    font-size: 1rem;
-    font-style: italic;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.carousel-prev:hover,
+.carousel-next:hover {
+    background: rgba(32, 178, 170, 0.4);
+    transform: scale(1.1);
+}
+
+.carousel-dots {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-dot.active {
+    background: #48D1CC;
+    transform: scale(1.2);
+}
+
+@media (max-width: 1200px) {
+    .gallery-container {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 /* Contact Section - Desktop */
