@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, jsonify
 import os
 from datetime import datetime
+import random
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'glitzme-rentals-secret-key-2024')
@@ -151,7 +152,7 @@ def rentals():
     ]
 
     # Pagination
-    items_per_page = 8
+    items_per_page = 4
     total_items = len(rental_items)
     total_pages = (total_items + items_per_page - 1) // items_per_page  # Ceiling division
 
@@ -301,7 +302,14 @@ def about():
 @app.route('/gallery')
 def gallery():
     """Gallery page route"""
-    return render_template('gallery.html')
+    # Get list of all event photos
+    event_photos_dir = os.path.join(app.static_folder, 'Images/EventPhotos')
+    event_photos = [f for f in os.listdir(event_photos_dir) if f.endswith('.jpg')]
+    
+    # Randomly select 16 photos
+    selected_photos = random.sample(event_photos, min(16, len(event_photos)))
+    
+    return render_template('gallery.html', photos=selected_photos)
 
 @app.route('/contact')
 def contact_page():

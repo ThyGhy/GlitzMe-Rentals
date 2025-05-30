@@ -6,10 +6,10 @@
     <title>Contact Us - GlitzME Rentals</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/jpeg" sizes="32x32" href="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}">
-    <link rel="icon" type="image/jpeg" sizes="16x16" href="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}">
     
     <!-- Responsive CSS Loading - Mobile for small screens and portrait orientation -->
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/mobile.css') }}" media="screen and (max-width: 768px), screen and (max-height: 600px)">
@@ -24,7 +24,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <img src="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}" alt="GlitzME Rentals">
+                <img src="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}" alt="GlitzME Rentals">
             </div>
             <ul class="nav-menu">
                 <li><a href="{{ url_for('index') }}">Home</a></li>
@@ -46,77 +46,31 @@
     <section id="contact" class="contact">
         <div class="container">
             <div class="section-header">
-                <h2>Get Your Quote</h2>
-                <p>Ready to create memorable experiences? Contact us today!</p>
+                <h1>Lets Get this Party Started!</h1>
+                <h2>Contact us today and plan your next event the GlitzME way!</h2>
             </div>
             <div class="contact-info">
                 <div class="contact-item">
                     <i class="fas fa-phone"></i>
                     <div>
-                        <h4>Call Us</h4>
+                        <h3>Call Us</h3>
                         <p>(702) 344-4717</p>
                     </div>
                 </div>
                 <div class="contact-item">
                     <i class="fas fa-envelope"></i>
                     <div>
-                        <h4>Email Us</h4>
+                        <h3>Email Us</h3>
                         <p>Glitzme.rentals21@gmail.com</p>
                     </div>
                 </div>
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <div>
-                        <h4>Service Area</h4>
-                        <p>Las Vegas Valley, Nevada</p>
-                    </div>
-                </div>
-                <div class="contact-item">
+                <a href="https://www.instagram.com/glitzme_rentals/" target="_blank" rel="noopener noreferrer" class="contact-item">
                     <i class="fab fa-instagram"></i>
                     <div>
-                        <h4>Follow Us</h4>
+                        <h3>Follow Us</h3>
                         <p>@glitzme_rentals</p>
                     </div>
-                </div>
-            </div>
-
-            <!-- Contact Form -->
-            <div class="contact-form">
-                <form action="{{ url_for('contact_submit') }}" method="POST">
-                    <div class="form-group">
-                        <label for="name">Name *</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email *</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone</label>
-                        <input type="tel" id="phone" name="phone">
-                    </div>
-                    <div class="form-group">
-                        <label for="event_date">Event Date</label>
-                        <input type="date" id="event_date" name="event_date">
-                    </div>
-                    <div class="form-group">
-                        <label for="event_type">Event Type</label>
-                        <select id="event_type" name="event_type">
-                            <option value="">Select Event Type</option>
-                            <option value="birthday">Birthday Party</option>
-                            <option value="school">School Event</option>
-                            <option value="church">Church Event</option>
-                            <option value="community">Community Event</option>
-                            <option value="holiday">Holiday Event</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message *</label>
-                        <textarea id="message" name="message" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Send Message</button>
-                </form>
+                </a>
             </div>
         </div>
     </section>
@@ -126,7 +80,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section quick-links">
-                    <h4>Quick Links</h4>
+                    <h3>Quick Links</h3>
                     <ul>
                         <li><a href="{{ url_for('rentals') }}">Rentals</a></li>
                         <li><a href="{{ url_for('packages') }}">Package Deals</a></li>
@@ -145,7 +99,7 @@
                     </div>
                 </div>
                 <div class="footer-section social">
-                    <h4>Contact Info</h4>
+                    <h3>Contact Info</h3>
                     <ul>
                         <li>(702) 344-4717</li>
                         <li>Glitzme.rentals21@gmail.com</li>

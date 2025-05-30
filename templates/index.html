@@ -6,10 +6,10 @@
     <title>GlitzME Rentals - Las Vegas Party Rentals & Experiences</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/jpeg" sizes="32x32" href="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}">
-    <link rel="icon" type="image/jpeg" sizes="16x16" href="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}">
     
     <!-- Responsive CSS Loading - Mobile for small screens and portrait orientation -->
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/mobile.css') }}" media="screen and (max-width: 768px), screen and (max-height: 600px)">
@@ -20,104 +20,122 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <!-- Skip to main content link for keyboard users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="nav-container">
             <div class="nav-logo">
-                <img src="{{ url_for('static', filename='Images/Logos/GMRLogo(NBG).png') }}" alt="GlitzME Rentals">
+                <a href="{{ url_for('index') }}" aria-label="GlitzME Rentals Home" class="active" aria-current="page">
+                    <img src="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}" alt="GlitzME Rentals Logo">
+                </a>
             </div>
             <ul class="nav-menu">
-                <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
                 <li><a href="{{ url_for('rentals') }}">Rentals</a></li>
                 <li><a href="{{ url_for('packages') }}">Packages</a></li>
                 <li><a href="{{ url_for('about') }}">About</a></li>
                 <li><a href="{{ url_for('gallery') }}">Gallery</a></li>
                 <li><a href="{{ url_for('contact_page') }}">Contact</a></li>
             </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+            <button class="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-menu">
+                <span class="sr-only">Menu</span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>GlitzME Rentals</h1>
-                <p class="hero-subtitle">Local Family Owned Party Rental Business</p>
-                <p>Creating memorable experiences with exceptional customer service in the Las Vegas Valley. From soft play and jump houses to magical holiday experiences - there's no other way but the GlitzME WAY!</p>
-            
-                <!-- Meet the Team Section -->
-                <div class="team-section">
-                    <div class="section-header">
-                        <h2>👥 Meet the Team 👥</h2>
-                        <p>"None of us is as smart as all of us." - Ken Blanchard</p>
-                    </div>
-                    <div class="team-grid">
-                        <div class="team-member">
-                            <div class="member-photo">
-                                <img src="{{ url_for('static', filename='Images/Team/RavinGMR.jpg') }}" alt="Ravin Herring" class="team-photo">
-                            </div>
-                            <div class="member-info">
-                                <h3>Ravin Herring</h3>
-                                <p class="member-role">Founder & Creative Director</p>
-                            </div>
+    <!-- Main Content -->
+    <main id="main-content">
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 id="hero-title" class="sr-only">GlitzME Rentals - Las Vegas Party Rentals</h1>
+                    <img src="{{ url_for('static', filename='Images/Logos/GM_MagnetLayout(Transparent, WhiteText, Logo)(1).png') }}" 
+                         alt="GlitzME Rentals - Offering Tables, Chairs, and more fun items for your events!" 
+                         class="hero-image">
+                
+                    <!-- Meet the Team Section -->
+                    <section class="team-section" aria-labelledby="team-section-title">
+                        <div class="section-header">
+                            <h2 id="team-section-title">Meet the Team</h2>
+                            <p>"None of us is as smart as all of us." - Ken Blanchard</p>
                         </div>
-                        <div class="team-member">
-                            <div class="member-photo">
-                                <img src="{{ url_for('static', filename='Images/Team/DeshawnGMR.jpg') }}" alt="Deshawn Proby" class="team-photo">
-                            </div>
-                            <div class="member-info">
-                                <h3>Deshawn Proby</h3>
-                                <p class="member-role">Co-Founder & Photographer</p>
-                            </div>
+                        <div class="team-grid">
+                            <article class="team-member">
+                                <div class="member-photo">
+                                    <img src="{{ url_for('static', filename='Images/Team/RavinGMR.jpg') }}" 
+                                         alt="Photo of Ravin Herring" 
+                                         class="team-photo">
+                                </div>
+                                <div class="member-info">
+                                    <h3>Ravin Herring</h3>
+                                    <p class="member-role">Founder & Creative Director</p>
+                                </div>
+                            </article>
+                            <article class="team-member">
+                                <div class="member-photo">
+                                    <img src="{{ url_for('static', filename='Images/Team/DeshawnGMR.jpg') }}" 
+                                         alt="Photo of Deshawn Proby" 
+                                         class="team-photo">
+                                </div>
+                                <div class="member-info">
+                                    <h3>Deshawn Proby</h3>
+                                    <p class="member-role">Co-Founder & Photographer</p>
+                                </div>
+                            </article>
+                            <article class="team-member">
+                                <div class="member-photo">
+                                    <img src="{{ url_for('static', filename='Images/Team/MarvinGMR.jpg') }}" 
+                                         alt="Photo of Marvin Herring" 
+                                         class="team-photo">
+                                </div>
+                                <div class="member-info">
+                                    <h3>Marvin Herring</h3>
+                                    <p class="member-role">Co-Founder & Business Development</p>
+                                </div>
+                            </article>
                         </div>
-                        <div class="team-member">
-                            <div class="member-photo">
-                                <img src="{{ url_for('static', filename='Images/Team/MarvinGMR.jpg') }}" alt="Marvin Herring" class="team-photo">
-                            </div>
-                            <div class="member-info">
-                                <h3>Marvin Herring</h3>
-                                <p class="member-role">Co-Founder & Business Development</p>
-                            </div>
-                        </div>
-                    </div>
+                    </section>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section quick-links">
-                    <h4>Quick Links</h4>
+                <nav class="footer-section quick-links" aria-label="Footer quick links">
+                    <h3>Quick Links</h3>
                     <ul>
                         <li><a href="{{ url_for('rentals') }}">Rentals</a></li>
                         <li><a href="{{ url_for('packages') }}">Package Deals</a></li>
                         <li><a href="{{ url_for('about') }}">About Us</a></li>
                         <li><a href="{{ url_for('contact_page') }}">Contact</a></li>
                     </ul>
-                </div>
+                </nav>
                 <div class="footer-section rentals-info">
                     <h3>GlitzME Rentals</h3>
                     <p>Local Family Owned party rental business serving the Las Vegas Valley. Creating memorable experiences with exceptional customer service - there's no other way but the GlitzME WAY!</p>
                     <div class="social-links">
-                        <a href="https://www.instagram.com/glitzme_rentals/" target="_blank" rel="noopener noreferrer" class="instagram-link">
-                            <i class="fab fa-instagram"></i>
+                        <a href="https://www.instagram.com/glitzme_rentals/" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="instagram-link"
+                           aria-label="Follow us on Instagram (opens in new tab)">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
                             <span>Follow Us on Instagram!</span>
                         </a>
                     </div>
                 </div>
                 <div class="footer-section social">
-                    <h4>Contact Info</h4>
+                    <h3>Contact Info</h3>
                     <ul>
-                        <li>(702) 344-4717</li>
-                        <li>Glitzme.rentals21@gmail.com</li>
+                        <li>Phone: (702) 344-4717</li>
+                        <li>Email: Glitzme.rentals21@gmail.com</li>
                         <li>Las Vegas Valley, NV</li>
                         <li>Family Owned & Operated</li>
                     </ul>
