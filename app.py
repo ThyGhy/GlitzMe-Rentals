@@ -1,15 +1,15 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, jsonify
+from flask import Flask, render_template, request, flash, redirect, url_for, jsonify, send_from_directory
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 import random
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'glitzme-rentals-secret-key-2024')
 
-# Add security headers like Maurion.Online
+# Add security and caching headers
 @app.after_request
-def add_security_headers(response):
-    # Set comprehensive CSP that allows necessary resources
+def add_headers(response):
+    # Existing security headers
     csp = (
         "default-src 'self'; "
         "font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com; "
@@ -20,7 +20,7 @@ def add_security_headers(response):
     )
     response.headers['Content-Security-Policy'] = csp
     
-    # Set permissions policy
+    # Existing permissions policy
     permissions = (
         "geolocation=(), "
         "microphone=(), "
@@ -33,6 +33,18 @@ def add_security_headers(response):
         "encrypted-media=*"
     )
     response.headers['Permissions-Policy'] = permissions
+
+    # Add caching headers for static files
+    if request.path.startswith('/static/'):
+        # Cache static files for 1 week
+        response.cache_control.max_age = 604800  # 7 days in seconds
+        response.cache_control.public = True
+        response.headers['Vary'] = 'Accept-Encoding'
+        
+        # Add expires header
+        expires_date = datetime.utcnow() + timedelta(days=7)
+        response.headers['Expires'] = expires_date.strftime('%a, %d %b %Y %H:%M:%S GMT')
+
     return response
 
 @app.route('/')
@@ -46,106 +58,122 @@ def rentals():
     # List of all rental items
     rental_items = [
         {
+            'name': 'Tables & Chairs',
+            'image': 'Images/SingularRentals/GMR (Tables & Chairs)(1).png',
+            'price': 'Tables $5-$14 per (Depends On Table Type), Chairs $1-$6 per (Depends On Chair Type), Ask for Details',
+            'deposit': '$25.00 - $150.00 Required Deposit',
+            'price_text': 'Prices',
+            'deposit_text': 'Required Deposit (Refundable)'
+        },
+        {
+            'name': 'Jump Houses',
+            'image': 'Images/SingularRentals/GMR(JumpHouses).png',
+            'price': '$65.00/Day Rental',
+            'deposit': '$100.00 Required Refundable Deposit',
+            'price_text': 'Price Per Day',
+            'deposit_text': 'Required Deposit (Refundable)'
+        },
+        {
+            'name': 'Double Water Slide',
+            'image': 'Images/SingularRentals/GMR (Double Water Slide)(1).png',
+            'price': '$225.00/Day Rental',
+            'deposit': '$100.00 Required Deposit',
+            'price_text': 'Price Per Day',
+            'deposit_text': 'Required Deposit (Non-Refundable)'
+        },
+        {
             'name': 'Arcade Games',
             'image': 'Images/SingularRentals/GMR (Arcade Games)(1).png',
-            'price': 200,
-            'deposit': 100,
+            'price': '$200.00/Day Rental',
+            'deposit': '$100.00 Required Deposit',
             'price_text': 'Price Per Day',
             'deposit_text': 'Required Deposit (Refundable)'
         },
         {
             'name': 'Canopy Tents',
             'image': 'Images/SingularRentals/GMR (Canopy Tent)(1).png',
-            'price': "70 - $130 (Depends on Size)",
-            'deposit': 100,
+            'price': '10x10 $70.00 Day Rentals',
+            'deposit': '$100.00 Required Refundable Deposit',
             'price_text': 'Price Per Day',
             'deposit_text': 'Required Deposit (Refundable)'
         },
         {
             'name': 'Red Carpet',
             'image': 'Images/SingularRentals/GMR (Red Carpet)(1).png',
-            'price': 80,
-            'deposit': 50,
+            'price': '$80.00/Day Rental',
+            'deposit': '$50.00 Required Deposit',
             'price_text': 'Price Per Day',
             'deposit_text': 'Required Deposit (Non-Refundable)'
         },
         {
             'name': 'Soft Play Jump House',
             'image': 'Images/SingularRentals/GMR (Soft Play Jump House)(1).png',
-            'price': 55,
-            'deposit': 70,
+            'price': 'Jump House Day Rental $65.00',
+            'deposit': '$70.00 Required Deposit',
             'price_text': 'Price Per Day',
             'deposit_text': 'Required Deposit (Non-Refundable)'
         },
         {
             'name': 'Black Carpet',
             'image': 'Images/SingularRentals/GMR (Black Carpet)(1).png',
-            'price': 80,
-            'deposit': 50,
+            'price': '$80.00/Day Rental',
+            'deposit': '$50.00 Required Deposit',
             'price_text': 'Price Per Day',
             'deposit_text': 'Required Deposit (Non-Refundable)'
         },
         {
             'name': 'Nacho Machine',
             'image': 'Images/SingularRentals/GMR (Nacho Machine)(1).png',
-            'price': 85,
-            'deposit': 50,
+            'price': '$60.00/Day Rental',
+            'deposit': '$50.00 Required Deposit',
             'price_text': 'Price Per Day',
             'deposit_text': 'Required Deposit (Refundable)'
         },
         {
             'name': 'Work Lights',
             'image': 'Images/SingularRentals/GMR (Work Lights)(1).png',
-            'price': "10 E.A",
-            'deposit': 25,
+            'price': '$10.00 E.A',
+            'deposit': '$25.00 Required Deposit',
             'price_text': 'Price Per Day',
             'deposit_text': 'Required Deposit (Non-Refundable)'
         },
         {
-            'name': 'Tables & Chairs',
-            'image': 'Images/SingularRentals/GMR (Tables & Chairs)(1).png',
-            'price': "8 Per Table, $2 Per Chair",
-            'deposit': "25 - $150",
-            'price_text': 'Prices',
-            'deposit_text': 'Required Deposit (Refundable)'
-        },
-        {
             'name': "Shot O' Clock Chiller",
             'image': "Images/SingularRentals/GMR (Shot O' Clock Chiller)(1).png",
-            'price': 80,
-            'deposit': 50,
+            'price': '$80.00/Day Rental',
+            'deposit': '$50.00 Required Deposit',
             'price_text': 'Price Per Day',
             'deposit_text': 'Required Deposit (Refundable)'
         },
         {
             'name': 'Mobile Bars',
             'image': 'Images/SingularRentals/GMR (Mobile Bars)(1).png',
-            'price': "30 - $60 (Depends on Quantity)",
-            'deposit': 100,
+            'price': 'Starting at $30.00',
+            'deposit': '$100.00 Required Deposit',
             'price_text': 'Prices Vary',
             'deposit_text': 'Required Deposit (Refundable)'
         },
         {
             'name': 'Round Tables',
             'image': 'Images/SingularRentals/GMR (Round Tables)(1).png',
-            'price': "10 per table",
-            'deposit': "25 - $150",
+            'price': '$10.00 per table',
+            'deposit': '$25.00 - $150.00 Required Deposit',
             'price_text': 'Prices',
             'deposit_text': 'Required Deposit (Refundable)'
         },
         {
             'name': 'Kids Throne Chair',
             'image': 'Images/SingularRentals/GMR (Kids Throne Chair)(1).png',
-            'price': 44,
-            'deposit': 50,
+            'price': '$44.00/Day Rental',
+            'deposit': '$50.00 Required Deposit',
             'price_text': 'Price Per Day',
             'deposit_text': 'Required Deposit (Refundable)'
         },
         {
             'name': 'Snow Machine',
             'image': 'Images/SingularRentals/GMR (Snow Machine)(1).png',
-            'price': 45,
-            'deposit': 25,
+            'price': '$45.00/Day Rental',
+            'deposit': '$25.00 Required Deposit',
             'price_text': 'Price Per Day',
             'deposit_text': 'Required Deposit (Refundable)'
         }
@@ -178,95 +206,71 @@ def rentals():
 @app.route('/packages')
 def packages():
     """Packages page route with pagination"""
-    # List of all package items
+    # Default price settings for all packages
+    DEFAULT_PRICE = 'Contact For Details'
+    
+    # List of package configurations
     package_items = [
+        {
+            'name': 'Movie Theater Experience',
+            'image': 'Images/Packages/GMR (Movie Theater Experience)(1).png',
+            'price': DEFAULT_PRICE,
+            'price_text': DEFAULT_PRICE
+        },
         {
             'name': 'Boy Soft Play Extreme',
             'image': 'Images/Packages/GMR (Boy Soft Play Extreme)(1).png',
-            'price': 275,
-            'deposit': 100,
-            'price_text': 'Price Per Event',
-            'deposit_text': 'Required Deposit (Non-Refundable)'
+            'price': DEFAULT_PRICE,
+            'price_text': DEFAULT_PRICE
         },
         {
             'name': 'Girl Soft Play Extreme',
             'image': 'Images/Packages/GMR (Girl Soft Play Extreme)(1).png',
-            'price': 275,
-            'deposit': 100,
-            'price_text': 'Price Per Event',
-            'deposit_text': 'Required Deposit (Non-Refundable)'
+            'price': DEFAULT_PRICE,
+            'price_text': DEFAULT_PRICE
         },
         {
             'name': 'Super Simple Soft Play',
             'image': 'Images/Packages/GMR (Super Simple Soft Play)(1).png',
-            'price': 150,
-            'deposit': 100,
-            'price_text': 'Price Per Event',
-            'deposit_text': 'Required Deposit (Non-Refundable)'
+            'price': DEFAULT_PRICE,
+            'price_text': DEFAULT_PRICE
         },
         {
             'name': 'Game Room Extreme',
             'image': 'Images/Packages/GMR (Game Room Extreme)(1).png',
-            'price': 450,
-            'deposit': 200,
-            'price_text': 'Package Price',
-            'deposit_text': 'Required Deposit (Non-Refundable)'
+            'price': DEFAULT_PRICE,
+            'price_text': DEFAULT_PRICE
         },
         {
             'name': 'Game Package',
             'image': 'Images/Packages/GMR (Game Package)(1).png',
-            'price': 260,
-            'deposit': 100,
-            'price_text': 'Price Per Day',
-            'deposit_text': 'Required Deposit (Refundable)'
+            'price': DEFAULT_PRICE,
+            'price_text': DEFAULT_PRICE
         },
         {
             'name': 'Spooky Walkway',
             'image': 'Images/Packages/GMR (Spooky Walkway)(1).png',
-            'price': 350,
-            'deposit': 100,
-            'price_text': 'Experience Price',
-            'deposit_text': 'Required Deposit (Non-Refundable)'
+            'price': DEFAULT_PRICE,
+            'price_text': DEFAULT_PRICE
         },
         {
             'name': 'Winter Wonderland',
             'image': 'Images/Packages/GMR (Winter Wonderland)(1).png',
-            'price': 350,
-            'deposit': 100,
-            'price_text': 'Experience Price',
-            'deposit_text': 'Required Deposit (Non-Refundable)'
+            'price': DEFAULT_PRICE,
+            'price_text': DEFAULT_PRICE
         },
         {
-            'name': 'Day Party Package (Jump House)',
-            'image': 'Images/Packages/GMR (Day Party Packages, Jump House)(1).png',
-            'price': 152,
-            'deposit': 100,
-            'price_text': 'Package Price',
-            'deposit_text': 'Required Deposit (Refundable)'
-        },
-        {
-            'name': 'Day Party Package (Waterslide)',
-            'image': 'Images/Packages/GMR (Day Party Package, Waterslide)(1).png',
-            'price': 250,
-            'deposit': 100,
-            'price_text': 'Package Price',
-            'deposit_text': 'Required Deposit (Non-Refundable)'
+            'name': 'Treasure Package',
+            'image': 'Images/Packages/coming-soon-placeholder.png',
+            'price': DEFAULT_PRICE,
+            'price_text': DEFAULT_PRICE,
+            'image_placeholder': 'Image Coming Soon'
         },
         {
             'name': 'Mobile Bar Experience',
             'image': 'Images/Packages/GMR (Mobile Bar Experience)(1).png',
-            'price': 200,
-            'deposit': 100,
-            'price_text': 'Experience Price',
-            'deposit_text': 'Required Deposit (Refundable)'
-        },
-        {
-            'name': 'Hot Cocoa Stand',
-            'image': 'Images/Packages/GMR (Hot Cocoa Stand)(1).png',
-            'price': 250,
-            'deposit': 100,
-            'price_text': 'Price Per Event',
-            'deposit_text': 'Required Deposit (Non-Refundable)'
+            'price': DEFAULT_PRICE,
+            'price_text': DEFAULT_PRICE
         },
     ]
 

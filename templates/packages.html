@@ -59,14 +59,17 @@
                     {% for package in packages %}
                     <article class="package-card" role="listitem">
                         <div class="package-image">
+                            {% if package.image_placeholder %}
+                            <div class="placeholder-message">{{ package.image_placeholder }}</div>
+                            {% else %}
                             <img src="{{ url_for('static', filename=package.image) }}" alt="{{ package.name }}">
                             <div class="image-hint" aria-hidden="true">Tap Image to View</div>
+                            {% endif %}
                         </div>
                         <div class="package-info">
                             <h2>{{ package.name }}</h2>
                             <div class="price-info">
-                                <p><span>{{ package.price_text }}:</span> ${{ package.price }}</p>
-                                <p><span>{{ package.deposit_text }}:</span> ${{ package.deposit }}</p>
+                                <p>{{ package.price }}</p>
                             </div>
                         </div>
                     </article>
