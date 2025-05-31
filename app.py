@@ -70,7 +70,7 @@ def rentals():
             'image': 'Images/SingularRentals/GMR(JumpHouses).png',
             'price': '$65.00/Day Rental',
             'deposit': '$100.00 Required Refundable Deposit',
-            'price_text': 'Price Per Day',
+            'price_text': 'Price',
             'deposit_text': 'Required Deposit (Refundable)'
         },
         {
@@ -78,7 +78,7 @@ def rentals():
             'image': 'Images/SingularRentals/GMR (Double Water Slide)(1).png',
             'price': '$225.00/Day Rental',
             'deposit': '$100.00 Required Deposit',
-            'price_text': 'Price Per Day',
+            'price_text': 'Price',
             'deposit_text': 'Required Deposit (Non-Refundable)'
         },
         {
@@ -86,15 +86,15 @@ def rentals():
             'image': 'Images/SingularRentals/GMR (Arcade Games)(1).png',
             'price': '$200.00/Day Rental',
             'deposit': '$100.00 Required Deposit',
-            'price_text': 'Price Per Day',
+            'price_text': 'Price',
             'deposit_text': 'Required Deposit (Refundable)'
         },
         {
             'name': 'Canopy Tents',
             'image': 'Images/SingularRentals/GMR (Canopy Tent)(1).png',
-            'price': '10x10 $70.00 Day Rentals',
+            'price': 'Starting at $70',
             'deposit': '$100.00 Required Refundable Deposit',
-            'price_text': 'Price Per Day',
+            'price_text': 'Prices Vary',
             'deposit_text': 'Required Deposit (Refundable)'
         },
         {
@@ -102,79 +102,47 @@ def rentals():
             'image': 'Images/SingularRentals/GMR (Red Carpet)(1).png',
             'price': '$80.00/Day Rental',
             'deposit': '$50.00 Required Deposit',
-            'price_text': 'Price Per Day',
-            'deposit_text': 'Required Deposit (Non-Refundable)'
-        },
-        {
-            'name': 'Soft Play Jump House',
-            'image': 'Images/SingularRentals/GMR (Soft Play Jump House)(1).png',
-            'price': 'Jump House Day Rental $65.00',
-            'deposit': '$70.00 Required Deposit',
-            'price_text': 'Price Per Day',
+            'price_text': 'Price',
             'deposit_text': 'Required Deposit (Non-Refundable)'
         },
         {
             'name': 'Black Carpet',
             'image': 'Images/SingularRentals/GMR (Black Carpet)(1).png',
-            'price': '$80.00/Day Rental',
-            'deposit': '$50.00 Required Deposit',
-            'price_text': 'Price Per Day',
+            'price': '$80/Day Rental',
+            'deposit': '$50 Required Deposit',
+            'price_text': 'Price',
             'deposit_text': 'Required Deposit (Non-Refundable)'
         },
         {
             'name': 'Nacho Machine',
             'image': 'Images/SingularRentals/GMR (Nacho Machine)(1).png',
-            'price': '$60.00/Day Rental',
-            'deposit': '$50.00 Required Deposit',
-            'price_text': 'Price Per Day',
-            'deposit_text': 'Required Deposit (Refundable)'
-        },
-        {
-            'name': 'Work Lights',
-            'image': 'Images/SingularRentals/GMR (Work Lights)(1).png',
-            'price': '$10.00 E.A',
-            'deposit': '$25.00 Required Deposit',
-            'price_text': 'Price Per Day',
-            'deposit_text': 'Required Deposit (Non-Refundable)'
-        },
-        {
-            'name': "Shot O' Clock Chiller",
-            'image': "Images/SingularRentals/GMR (Shot O' Clock Chiller)(1).png",
-            'price': '$80.00/Day Rental',
-            'deposit': '$50.00 Required Deposit',
-            'price_text': 'Price Per Day',
+            'price': '$60/Day Rental',
+            'deposit': '$50 Required Deposit',
+            'price_text': 'Price',
             'deposit_text': 'Required Deposit (Refundable)'
         },
         {
             'name': 'Mobile Bars',
             'image': 'Images/SingularRentals/GMR (Mobile Bars)(1).png',
-            'price': 'Starting at $30.00',
-            'deposit': '$100.00 Required Deposit',
+            'price': 'Starting at $30',
+            'deposit': '$100 Required Deposit',
             'price_text': 'Prices Vary',
             'deposit_text': 'Required Deposit (Refundable)'
         },
         {
-            'name': 'Round Tables',
-            'image': 'Images/SingularRentals/GMR (Round Tables)(1).png',
-            'price': '$10.00 per table',
-            'deposit': '$25.00 - $150.00 Required Deposit',
-            'price_text': 'Prices',
-            'deposit_text': 'Required Deposit (Refundable)'
-        },
-        {
-            'name': 'Kids Throne Chair',
+            'name': 'Queens/Throne Chair',
             'image': 'Images/SingularRentals/GMR (Kids Throne Chair)(1).png',
-            'price': '$44.00/Day Rental',
-            'deposit': '$50.00 Required Deposit',
-            'price_text': 'Price Per Day',
+            'price': '$44/Day Rental',
+            'deposit': '$50 Required Deposit',
+            'price_text': 'Price',
             'deposit_text': 'Required Deposit (Refundable)'
         },
         {
             'name': 'Snow Machine',
             'image': 'Images/SingularRentals/GMR (Snow Machine)(1).png',
-            'price': '$45.00/Day Rental',
-            'deposit': '$25.00 Required Deposit',
-            'price_text': 'Price Per Day',
+            'price': '$45/Day Rental',
+            'deposit': '$25 Required Deposit',
+            'price_text': 'Price',
             'deposit_text': 'Required Deposit (Refundable)'
         }
     ]
