@@ -21,9 +21,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Skip to main content link for keyboard users -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-
     <!-- Navigation -->
     <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="nav-container">
@@ -98,6 +95,18 @@
                 </nav>
             </div>
         </section>
+
+        <!-- Cancellation Policy -->
+        <section class="cancellation-policy" aria-label="Cancellation Policy">
+            <div class="policy-text">
+                <p>Cancellation Policy:</p>
+                <ul>
+                    <li>72 Hours prior to event - 15% fee</li>
+                    <li>48 hours prior to event - 50% fee</li>
+                    <li>24 hours prior to event - no refund</li>
+                </ul>
+            </div>
+        </section>
     </main>
 
     <!-- Image Modal/Lightbox -->
@@ -118,6 +127,7 @@
                     <ul>
                         <li><a href="{{ url_for('rentals') }}">Rentals</a></li>
                         <li><a href="{{ url_for('packages') }}">Package Deals</a></li>
+                        <li><a href="{{ url_for('gallery') }}">Gallery</a></li>
                         <li><a href="{{ url_for('about') }}">About Us</a></li>
                         <li><a href="{{ url_for('contact_page') }}">Contact</a></li>
                     </ul>

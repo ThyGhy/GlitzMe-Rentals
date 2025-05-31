@@ -2018,4 +2018,42 @@ h3 {
     .transcript-content h3 {
         font-size: 1.3rem;
     }
+}
+
+/* Cancellation Policy - Desktop */
+.cancellation-policy {
+    padding: 1.5rem;
+    margin: 3rem auto 2rem;
+    max-width: 1000px;
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.4) 0%, rgba(42, 42, 42, 0.4) 100%);
+    border-radius: 15px;
+    border: 1px solid rgba(127, 255, 212, 0.1);
+}
+
+.policy-text {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+}
+
+.policy-text p {
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+    color: #7FFFD4;
+    font-size: 1rem;
+}
+
+.policy-text ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+}
+
+.policy-text li {
+    line-height: 1.5;
+    margin: 0;
 } 
