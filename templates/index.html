@@ -42,6 +42,18 @@
             color: #fff; 
             overflow-x: hidden; 
         }
+        /* Screen reader only class */
+        .sr-only {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0, 0, 0, 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+        }
         .navbar { position: fixed; top: 0; width: 100%; background: rgba(40, 40, 40, 0.95); backdrop-filter: blur(10px); z-index: 1000; padding: 0.8rem 0; }
         .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
         .nav-logo img { height: 90px; width: auto; transition: height 0.3s ease; }
@@ -58,20 +70,20 @@
     </style>
     
     <!-- Responsive CSS Loading - Mobile for small screens and portrait orientation -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/mobile.css') }}" media="screen and (max-width: 768px), screen and (max-height: 600px)">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/mobile.min.css') }}" media="screen and (max-width: 768px), screen and (max-height: 600px)">
     <!-- Desktop CSS for larger screens and landscape orientation -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/desktop.css') }}" media="screen and (min-width: 769px) and (min-height: 601px)">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/desktop.min.css') }}" media="screen and (min-width: 769px) and (min-height: 601px)">
     
-    <!-- Font Awesome with improved accessibility -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'; this.onload=null;">
+    <!-- Minimal Font Awesome CSS - only icons we actually use -->
+    <link rel="preload" href="{{ url_for('static', filename='CSS/fontawesome-minimal.css') }}" as="style">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/fontawesome-minimal.css') }}" media="print" onload="this.media='all'; this.onload=null;">
     
     <!-- Accessibility-compliant CSS loading fallback -->
     <script>
         // Ensure CSS loads even if onload doesn't fire
         (function() {
             var fontLink = document.querySelector('link[href*="fonts.googleapis.com"]');
-            var iconLink = document.querySelector('link[href*="font-awesome"]');
+            var iconLink = document.querySelector('link[href*="fontawesome-minimal"]');
             
             setTimeout(function() {
                 if (fontLink && fontLink.media === 'print') {
@@ -90,10 +102,10 @@
         <div class="nav-container">
             <div class="nav-logo">
                 <a href="{{ url_for('index') }}" aria-label="GlitzME Rentals Home" class="active" aria-current="page">
-                    <img src="{{ url_for('static', filename='Images/Logos/GMLogo-optimized.webp') }}" 
-                         srcset="{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }} 768w, 
-                                 {{ url_for('static', filename='Images/Logos/GMLogo-optimized.webp') }} 1200w"
-                         sizes="(max-width: 768px) 50px, 90px"
+                    <img src="{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }}" 
+                         srcset="{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }} 480w, 
+                                 {{ url_for('static', filename='Images/Logos/GMLogo-optimized.webp') }} 800w"
+                         sizes="(max-width: 480px) 50px, 90px"
                          alt="GlitzME Rentals Logo"
                          loading="eager"
                          fetchpriority="high"
@@ -123,11 +135,12 @@
         <section class="hero" aria-labelledby="hero-title">
             <div class="container">
                 <div class="hero-content">
-                    <h1 id="hero-title" class="sr-only">GlitzME Rentals - Las Vegas Party Rentals</h1>
+                    <h1 class="sr-only">GlitzME Rentals - Las Vegas Party Rentals</h1>
                     <img src="{{ url_for('static', filename='Images/Logos/glitzme-hero-main.webp') }}" 
-                         srcset="{{ url_for('static', filename='Images/Logos/glitzme-hero-mobile.webp') }} 768w, 
+                         srcset="{{ url_for('static', filename='Images/Logos/glitzme-hero-tiny.webp') }} 320w, 
+                                 {{ url_for('static', filename='Images/Logos/glitzme-hero-mobile.webp') }} 768w,
                                  {{ url_for('static', filename='Images/Logos/glitzme-hero-main.webp') }} 1200w"
-                         sizes="(max-width: 768px) 250px, 800px"
+                         sizes="(max-width: 320px) 200px, (max-width: 768px) 250px, 800px"
                          alt="GlitzME Rentals - Offering Tables, Chairs, and more fun items for your events!" 
                          class="hero-image" 
                          loading="eager"

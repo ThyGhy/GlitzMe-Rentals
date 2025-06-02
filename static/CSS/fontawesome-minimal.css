@@ -1,0 +1,33 @@
+/* Minimal Font Awesome CSS - Only icons used on GlitzME Rentals */
+
+.fab,.fas{font-family:"Font Awesome 6 Free";font-weight:900;font-style:normal;font-variant:normal;text-rendering:auto;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+
+.fab{font-family:"Font Awesome 6 Brands";font-weight:400}
+
+/* Instagram icon */
+.fa-instagram:before{content:"\f16d"}
+
+/* Chevron icons */
+.fa-chevron-left:before{content:"\f053"}
+.fa-chevron-right:before{content:"\f054"}
+
+/* Contact icons */
+.fa-phone:before{content:"\f095"}
+.fa-envelope:before{content:"\f0e0"}
+
+/* Font face declarations for only the fonts we need */
+@font-face{
+    font-family:"Font Awesome 6 Free";
+    font-style:normal;
+    font-weight:900;
+    font-display:swap;
+    src:url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-solid-900.woff2) format("woff2")
+}
+
+@font-face{
+    font-family:"Font Awesome 6 Brands";
+    font-style:normal;
+    font-weight:400;
+    font-display:swap;
+    src:url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-brands-400.woff2) format("woff2")
+} 

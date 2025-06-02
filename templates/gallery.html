@@ -16,12 +16,12 @@
     <link rel="preload" as="image" href="{{ url_for('static', filename='Images/Logos/GMLogo-optimized.webp') }}" media="(min-width: 769px)">
     
     <!-- Responsive CSS Loading - Mobile for small screens and portrait orientation -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/mobile.css') }}" media="screen and (max-width: 768px), screen and (max-height: 600px)">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/mobile.min.css') }}" media="screen and (max-width: 768px), screen and (max-height: 600px)">
     <!-- Desktop CSS for larger screens and landscape orientation -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/desktop.css') }}" media="screen and (min-width: 769px) and (min-height: 601px)">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/desktop.min.css') }}" media="screen and (min-width: 769px) and (min-height: 601px)">
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/fontawesome-minimal.css') }}">
 </head>
 <body>
     <!-- Navigation -->
