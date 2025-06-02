@@ -59,7 +59,7 @@ def rentals():
     rental_items = [
         {
             'name': 'Tables & Chairs',
-            'image': 'Images/SingularRentals/GMR (Tables & Chairs)(1).png',
+            'image': 'Images/SingularRentals/GMR (Tables & Chairs)(1).webp',
             'price': 'Tables $5-$14 per (Depends On Table Type), Chairs $1-$6 per (Depends On Chair Type), Ask for Details',
             'deposit': '$25.00 - $150.00 Required Deposit',
             'price_text': 'Prices',
@@ -67,7 +67,7 @@ def rentals():
         },
         {
             'name': 'Jump Houses',
-            'image': 'Images/SingularRentals/GMR(JumpHouses).png',
+            'image': 'Images/SingularRentals/GMR(JumpHouses).webp',
             'price': '$65.00/Day Rental',
             'deposit': '$100.00 Required Refundable Deposit',
             'price_text': 'Price',
@@ -75,7 +75,7 @@ def rentals():
         },
         {
             'name': 'Double Water Slide',
-            'image': 'Images/SingularRentals/GMR (Double Water Slide)(1).png',
+            'image': 'Images/SingularRentals/GMR (Double Water Slide)(1).webp',
             'price': '$225.00/Day Rental',
             'deposit': '$100.00 Required Deposit',
             'price_text': 'Price',
@@ -83,7 +83,7 @@ def rentals():
         },
         {
             'name': 'Arcade Games',
-            'image': 'Images/SingularRentals/GMR (Arcade Games)(1).png',
+            'image': 'Images/SingularRentals/GMR (Arcade Games)(1).webp',
             'price': '$200.00/Day Rental',
             'deposit': '$100.00 Required Deposit',
             'price_text': 'Price',
@@ -91,7 +91,7 @@ def rentals():
         },
         {
             'name': 'Canopy Tents',
-            'image': 'Images/SingularRentals/GMR (Canopy Tent)(1).png',
+            'image': 'Images/SingularRentals/GMR (Canopy Tent)(1).webp',
             'price': 'Starting at $70',
             'deposit': '$100.00 Required Refundable Deposit',
             'price_text': 'Prices Vary',
@@ -99,7 +99,7 @@ def rentals():
         },
         {
             'name': 'Red Carpet',
-            'image': 'Images/SingularRentals/GMR (Red Carpet)(1).png',
+            'image': 'Images/SingularRentals/GMR (Red Carpet)(1).webp',
             'price': '$80.00/Day Rental',
             'deposit': '$50.00 Required Deposit',
             'price_text': 'Price',
@@ -107,7 +107,7 @@ def rentals():
         },
         {
             'name': 'Black Carpet',
-            'image': 'Images/SingularRentals/GMR (Black Carpet)(1).png',
+            'image': 'Images/SingularRentals/GMR (Black Carpet)(1).webp',
             'price': '$80/Day Rental',
             'deposit': '$50 Required Deposit',
             'price_text': 'Price',
@@ -115,7 +115,7 @@ def rentals():
         },
         {
             'name': 'Nacho Machine',
-            'image': 'Images/SingularRentals/GMR (Nacho Machine)(1).png',
+            'image': 'Images/SingularRentals/GMR (Nacho Machine)(1).webp',
             'price': '$60/Day Rental',
             'deposit': '$50 Required Deposit',
             'price_text': 'Price',
@@ -123,7 +123,7 @@ def rentals():
         },
         {
             'name': 'Mobile Bars',
-            'image': 'Images/SingularRentals/GMR (Mobile Bars)(1).png',
+            'image': 'Images/SingularRentals/GMR (Mobile Bars)(1).webp',
             'price': 'Starting at $30',
             'deposit': '$100 Required Deposit',
             'price_text': 'Prices Vary',
@@ -131,7 +131,7 @@ def rentals():
         },
         {
             'name': 'Queens/Throne Chair',
-            'image': 'Images/SingularRentals/GMR (Kids Throne Chair)(1).png',
+            'image': 'Images/SingularRentals/GMR (Kids Throne Chair)(1).webp',
             'price': '$44/Day Rental',
             'deposit': '$50 Required Deposit',
             'price_text': 'Price',
@@ -139,7 +139,7 @@ def rentals():
         },
         {
             'name': 'Snow Machine',
-            'image': 'Images/SingularRentals/GMR (Snow Machine)(1).png',
+            'image': 'Images/SingularRentals/GMR (Snow Machine)(1).webp',
             'price': '$45/Day Rental',
             'deposit': '$25 Required Deposit',
             'price_text': 'Price',
@@ -181,49 +181,49 @@ def packages():
     package_items = [
         {
             'name': 'Movie Theater Experience',
-            'image': 'Images/Packages/GMR (Movie Theater Experience)(1).png',
+            'image': 'Images/Packages/GMR (Movie Theater Experience)(1).webp',
             'price': DEFAULT_PRICE,
             'price_text': DEFAULT_PRICE
         },
         {
             'name': 'Boy Soft Play Extreme',
-            'image': 'Images/Packages/GMR (Boy Soft Play Extreme)(1).png',
+            'image': 'Images/Packages/GMR (Boy Soft Play Extreme)(1).webp',
             'price': DEFAULT_PRICE,
             'price_text': DEFAULT_PRICE
         },
         {
             'name': 'Girl Soft Play Extreme',
-            'image': 'Images/Packages/GMR (Girl Soft Play Extreme)(1).png',
+            'image': 'Images/Packages/GMR (Girl Soft Play Extreme)(1).webp',
             'price': DEFAULT_PRICE,
             'price_text': DEFAULT_PRICE
         },
         {
             'name': 'Super Simple Soft Play',
-            'image': 'Images/Packages/GMR (Super Simple Soft Play)(1).png',
+            'image': 'Images/Packages/GMR (Super Simple Soft Play)(1).webp',
             'price': DEFAULT_PRICE,
             'price_text': DEFAULT_PRICE
         },
         {
             'name': 'Game Room Extreme',
-            'image': 'Images/Packages/GMR (Game Room Extreme)(1).png',
+            'image': 'Images/Packages/GMR (Game Room Extreme)(1).webp',
             'price': DEFAULT_PRICE,
             'price_text': DEFAULT_PRICE
         },
         {
             'name': 'Game Package',
-            'image': 'Images/Packages/GMR (Game Package)(1).png',
+            'image': 'Images/Packages/GMR (Game Package)(1).webp',
             'price': DEFAULT_PRICE,
             'price_text': DEFAULT_PRICE
         },
         {
             'name': 'Spooky Walkway',
-            'image': 'Images/Packages/GMR (Spooky Walkway)(1).png',
+            'image': 'Images/Packages/GMR (Spooky Walkway)(1).webp',
             'price': DEFAULT_PRICE,
             'price_text': DEFAULT_PRICE
         },
         {
             'name': 'Winter Wonderland',
-            'image': 'Images/Packages/GMR (Winter Wonderland)(1).png',
+            'image': 'Images/Packages/GMR (Winter Wonderland)(1).webp',
             'price': DEFAULT_PRICE,
             'price_text': DEFAULT_PRICE
         },
@@ -236,7 +236,7 @@ def packages():
         },
         {
             'name': 'Mobile Bar Experience',
-            'image': 'Images/Packages/GMR (Mobile Bar Experience)(1).png',
+            'image': 'Images/Packages/GMR (Mobile Bar Experience)(1).webp',
             'price': DEFAULT_PRICE,
             'price_text': DEFAULT_PRICE
         },
@@ -274,9 +274,9 @@ def about():
 @app.route('/gallery')
 def gallery():
     """Gallery page route"""
-    # Get list of all event photos
+    # Get list of all event photos (now using .webp files)
     event_photos_dir = os.path.join(app.static_folder, 'Images/EventPhotos')
-    event_photos = [f for f in os.listdir(event_photos_dir) if f.endswith('.jpg')]
+    event_photos = [f for f in os.listdir(event_photos_dir) if f.endswith('.webp')]
     
     # Randomly select 16 photos
     selected_photos = random.sample(event_photos, min(16, len(event_photos)))

@@ -2,22 +2,87 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#000000">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>GlitzME Rentals - Las Vegas Party Rentals & Experiences</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}">
+    <link rel="icon" type="image/webp" sizes="32x32" href="{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }}">
+    <link rel="icon" type="image/webp" sizes="16x16" href="{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }}">
+    
+    <!-- Preconnect to external domains for faster loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Preload critical hero image for performance -->
+    <link rel="preload" as="image" href="{{ url_for('static', filename='Images/Logos/glitzme-hero-mobile.webp') }}" media="(max-width: 768px)">
+    <link rel="preload" as="image" href="{{ url_for('static', filename='Images/Logos/glitzme-hero-main.webp') }}" media="(min-width: 769px)">
+    
+    <!-- Preload navigation logo for performance -->
+    <link rel="preload" as="image" href="{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }}" media="(max-width: 768px)">
+    <link rel="preload" as="image" href="{{ url_for('static', filename='Images/Logos/GMLogo-optimized.webp') }}" media="(min-width: 769px)">
+    
+    <!-- Font loading with improved accessibility -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" as="style">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'; this.onload=null;">
+    
+    <!-- Critical CSS for above-the-fold content -->
+    <style>
+        /* Critical CSS for immediate rendering */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; 
+            background: #000; 
+            color: #fff; 
+            overflow-x: hidden; 
+        }
+        .navbar { position: fixed; top: 0; width: 100%; background: rgba(40, 40, 40, 0.95); backdrop-filter: blur(10px); z-index: 1000; padding: 0.8rem 0; }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+        .nav-logo img { height: 90px; width: auto; transition: height 0.3s ease; }
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); padding: 6rem 0; margin-top: 120px; }
+        .hero-content { text-align: center; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 4rem; }
+        .hero-image { width: 100%; max-width: 800px; height: auto; margin: 0 auto 2rem; display: block; filter: drop-shadow(0 6px 20px rgba(44, 110, 184, 0.25)); transition: all 0.3s ease; }
+        h1, h2, h3 { font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; }
+        @media (max-width: 768px) {
+            .nav-container { flex-direction: row; justify-content: space-between; padding: 0 15px; }
+            .nav-logo img { height: 40px; }
+            .hero { padding: 4rem 15px; margin-top: 80px; min-height: calc(100vh - 80px); }
+            .hero-image { max-width: 250px; }
+        }
+    </style>
     
     <!-- Responsive CSS Loading - Mobile for small screens and portrait orientation -->
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/mobile.css') }}" media="screen and (max-width: 768px), screen and (max-height: 600px)">
     <!-- Desktop CSS for larger screens and landscape orientation -->
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/desktop.css') }}" media="screen and (min-width: 769px) and (min-height: 601px)">
     
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Font Awesome with improved accessibility -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'; this.onload=null;">
+    
+    <!-- Accessibility-compliant CSS loading fallback -->
+    <script>
+        // Ensure CSS loads even if onload doesn't fire
+        (function() {
+            var fontLink = document.querySelector('link[href*="fonts.googleapis.com"]');
+            var iconLink = document.querySelector('link[href*="font-awesome"]');
+            
+            setTimeout(function() {
+                if (fontLink && fontLink.media === 'print') {
+                    fontLink.media = 'all';
+                }
+                if (iconLink && iconLink.media === 'print') {
+                    iconLink.media = 'all';
+                }
+            }, 100);
+        })();
+    </script>
 </head>
 <body>
     <!-- Navigation -->
@@ -25,7 +90,16 @@
         <div class="nav-container">
             <div class="nav-logo">
                 <a href="{{ url_for('index') }}" aria-label="GlitzME Rentals Home" class="active" aria-current="page">
-                    <img src="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}" alt="GlitzME Rentals Logo">
+                    <img src="{{ url_for('static', filename='Images/Logos/GMLogo-optimized.webp') }}" 
+                         srcset="{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }} 768w, 
+                                 {{ url_for('static', filename='Images/Logos/GMLogo-optimized.webp') }} 1200w"
+                         sizes="(max-width: 768px) 50px, 90px"
+                         alt="GlitzME Rentals Logo"
+                         loading="eager"
+                         fetchpriority="high"
+                         width="90"
+                         height="58"
+                         decoding="async">
                 </a>
             </div>
             <ul class="nav-menu">
@@ -50,9 +124,17 @@
             <div class="container">
                 <div class="hero-content">
                     <h1 id="hero-title" class="sr-only">GlitzME Rentals - Las Vegas Party Rentals</h1>
-                    <img src="{{ url_for('static', filename='Images/Logos/GM_MagnetLayout(Transparent, WhiteText, Logo)(1).png') }}" 
+                    <img src="{{ url_for('static', filename='Images/Logos/glitzme-hero-main.webp') }}" 
+                         srcset="{{ url_for('static', filename='Images/Logos/glitzme-hero-mobile.webp') }} 768w, 
+                                 {{ url_for('static', filename='Images/Logos/glitzme-hero-main.webp') }} 1200w"
+                         sizes="(max-width: 768px) 250px, 800px"
                          alt="GlitzME Rentals - Offering Tables, Chairs, and more fun items for your events!" 
-                         class="hero-image">
+                         class="hero-image" 
+                         loading="eager"
+                         fetchpriority="high"
+                         width="800"
+                         height="800"
+                         decoding="async">
                 
                     <!-- Meet the Team Section -->
                     <section class="team-section" aria-labelledby="team-section-title">
@@ -63,9 +145,16 @@
                         <div class="team-grid">
                             <article class="team-member">
                                 <div class="member-photo">
-                                    <img src="{{ url_for('static', filename='Images/Team/RavinGMR.jpg') }}" 
+                                    <img src="{{ url_for('static', filename='Images/Team/RavinGMR.webp') }}" 
+                                         srcset="{{ url_for('static', filename='Images/Team/RavinGMR-mobile.webp') }} 480w, 
+                                                 {{ url_for('static', filename='Images/Team/RavinGMR.webp') }} 800w"
+                                         sizes="(max-width: 480px) 200px, 300px"
                                          alt="Photo of Ravin Herring" 
-                                         class="team-photo">
+                                         class="team-photo"
+                                         loading="lazy"
+                                         decoding="async"
+                                         width="300"
+                                         height="300">
                                 </div>
                                 <div class="member-info">
                                     <h3>Ravin Herring</h3>
@@ -74,9 +163,16 @@
                             </article>
                             <article class="team-member">
                                 <div class="member-photo">
-                                    <img src="{{ url_for('static', filename='Images/Team/DeshawnGMR.jpg') }}" 
+                                    <img src="{{ url_for('static', filename='Images/Team/DeshawnGMR.webp') }}" 
+                                         srcset="{{ url_for('static', filename='Images/Team/DeshawnGMR-mobile.webp') }} 480w, 
+                                                 {{ url_for('static', filename='Images/Team/DeshawnGMR.webp') }} 800w"
+                                         sizes="(max-width: 480px) 200px, 300px"
                                          alt="Photo of Deshawn Proby" 
-                                         class="team-photo">
+                                         class="team-photo"
+                                         loading="lazy"
+                                         decoding="async"
+                                         width="300"
+                                         height="300">
                                 </div>
                                 <div class="member-info">
                                     <h3>Deshawn Proby</h3>
@@ -85,9 +181,16 @@
                             </article>
                             <article class="team-member">
                                 <div class="member-photo">
-                                    <img src="{{ url_for('static', filename='Images/Team/MarvinGMR.jpg') }}" 
+                                    <img src="{{ url_for('static', filename='Images/Team/MarvinGMR.webp') }}" 
+                                         srcset="{{ url_for('static', filename='Images/Team/MarvinGMR-mobile.webp') }} 480w, 
+                                                 {{ url_for('static', filename='Images/Team/MarvinGMR.webp') }} 800w"
+                                         sizes="(max-width: 480px) 200px, 300px"
                                          alt="Photo of Marvin Herring" 
-                                         class="team-photo">
+                                         class="team-photo"
+                                         loading="lazy"
+                                         decoding="async"
+                                         width="300"
+                                         height="300">
                                 </div>
                                 <div class="member-info">
                                     <h3>Marvin Herring</h3>
@@ -133,8 +236,9 @@
                     <h3>Contact Info</h3>
                     <ul>
                         <li>Phone: (702) 344-4717</li>
+                        <li>Phone: (702) 622-0425</li>
                         <li>Email: Glitzme.rentals21@gmail.com</li>
-                        <li>Las Vegas Valley, NV</li>
+                        <li>Las Vegas, NV</li>
                         <li>Family Owned & Operated</li>
                     </ul>
                 </div>
@@ -146,7 +250,7 @@
     </footer>
 
     <!-- External JavaScript -->
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
 </body>
 </html>
 
