@@ -1,10 +1,32 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, jsonify, send_from_directory
+from flask_compress import Compress
 import os
 from datetime import datetime, timedelta
 import random
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'glitzme-rentals-secret-key-2024')
+
+# Initialize gzip compression
+compress = Compress()
+compress.init_app(app)
+
+# Configure compression settings
+app.config['COMPRESS_MIMETYPES'] = [
+    'text/html',
+    'text/css',
+    'text/xml',
+    'text/javascript',
+    'application/javascript',
+    'application/xml',
+    'application/rss+xml',
+    'application/atom+xml',
+    'image/svg+xml',
+    'application/json',
+    'text/plain'
+]
+app.config['COMPRESS_LEVEL'] = 6  # Compression level 1-9 (6 is optimal balance)
+app.config['COMPRESS_MIN_SIZE'] = 500  # Only compress files larger than 500 bytes
 
 # Add security and caching headers
 @app.after_request
@@ -44,6 +66,15 @@ def add_headers(response):
         # Add expires header
         expires_date = datetime.utcnow() + timedelta(days=7)
         response.headers['Expires'] = expires_date.strftime('%a, %d %b %Y %H:%M:%S GMT')
+    else:
+        # For HTML pages, shorter cache with revalidation
+        response.cache_control.max_age = 3600  # 1 hour
+        response.cache_control.must_revalidate = True
+        response.headers['Vary'] = 'Accept-Encoding'
+
+    # Add compression hints for better performance
+    if response.content_type.startswith(('text/', 'application/javascript', 'application/json')):
+        response.headers['Vary'] = 'Accept-Encoding'
 
     return response
 
