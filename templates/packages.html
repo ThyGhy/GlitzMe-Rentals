@@ -67,11 +67,9 @@
                             {% endif %}
                         </div>
                         <div class="package-info">
-                            <h2>{{ package.name }}</h2>
-                            <div class="price-info">
-                                <p>{{ package.price }}</p>
-                            </div>
+                            <h3>{{ package.name }}</h3>
                         </div>
+                        <a href="{{ url_for('contact_page') }}" class="contact-button" aria-label="Contact us about {{ package.name }}">Contact For Details</a>
                     </article>
                     {% endfor %}
                 </div>
@@ -177,11 +175,22 @@
             const packageCards = document.querySelectorAll('.package-card');
 
             function openModal(imgSrc, imgAlt) {
-                modalImage.src = imgSrc;
-                modalImage.alt = imgAlt;
+                // Create a temporary image to preload
+                const tempImage = new Image();
+                tempImage.src = imgSrc;
+                
+                // Show loading state
                 modal.classList.add('active');
                 modal.setAttribute('aria-hidden', 'false');
-                document.body.style.overflow = 'hidden'; // Prevent scrolling
+                document.body.style.overflow = 'hidden';
+                modalImage.style.opacity = '0';
+                
+                // Wait for image to load
+                tempImage.onload = function() {
+                    modalImage.src = imgSrc;
+                    modalImage.alt = imgAlt;
+                    modalImage.style.opacity = '1';
+                };
             }
 
             function closeModal() {
@@ -193,39 +202,67 @@
                 }, 300);
             }
 
-            // Open modal when clicking on package cards
+            // Touch event handling for package cards
             packageCards.forEach(card => {
                 const img = card.querySelector('.package-image img');
+                const contactButton = card.querySelector('.contact-button');
+                if (!img) return; // Skip if no image (for placeholder cards)
                 
-                // Handle click events
-                card.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openModal(img.src, img.alt);
-                });
+                let touchStartY = 0;
+                let touchEndY = 0;
+                let touchStartX = 0;
+                let touchEndX = 0;
+                let isSwiping = false;
 
-                // Handle touch events for mobile
-                card.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openModal(img.src, img.alt);
-                }, { passive: false });
+                // Prevent modal from opening when clicking contact button
+                if (contactButton) {
+                    contactButton.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Stop event from bubbling up to the card
+                    });
+                }
+
+                // Only add image click handler to the image container
+                const imageContainer = card.querySelector('.package-image');
+                if (imageContainer) {
+                    imageContainer.addEventListener('click', (e) => {
+                        if (!img) return; // Skip if no image
+                        e.preventDefault();
+                        openModal(img.src, img.alt);
+                    });
+
+                    imageContainer.addEventListener('touchstart', (e) => {
+                        touchStartY = e.touches[0].clientY;
+                        touchStartX = e.touches[0].clientX;
+                        isSwiping = false;
+                    }, { passive: true });
+
+                    imageContainer.addEventListener('touchmove', (e) => {
+                        touchEndY = e.touches[0].clientY;
+                        touchEndX = e.touches[0].clientX;
+                        
+                        // If the user has moved more than 10 pixels, consider it a swipe
+                        if (Math.abs(touchEndY - touchStartY) > 10 || Math.abs(touchEndX - touchStartX) > 10) {
+                            isSwiping = true;
+                        }
+                    }, { passive: true });
+
+                    imageContainer.addEventListener('touchend', (e) => {
+                        // Only open modal if it wasn't a swipe
+                        if (!img) return; // Additional check for placeholder cards
+                        if (!isSwiping) {
+                            e.preventDefault();
+                            openModal(img.src, img.alt);
+                        }
+                    });
+                }
             });
 
             // Close modal when clicking the close button or overlay
             [modalClose, modalOverlay].forEach(element => {
                 element.addEventListener('click', (e) => {
                     e.preventDefault();
-                    e.stopPropagation();
                     closeModal();
                 });
-
-                // Handle touch events for mobile
-                element.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    closeModal();
-                }, { passive: false });
             });
 
             // Close modal when pressing Escape key
@@ -236,7 +273,7 @@
             });
 
             // Prevent scrolling on modal content while allowing image to be seen
-            modalContent = document.querySelector('.modal-content');
+            const modalContent = document.querySelector('.modal-content');
             modalContent.addEventListener('touchmove', (e) => {
                 e.stopPropagation();
             }, { passive: true });

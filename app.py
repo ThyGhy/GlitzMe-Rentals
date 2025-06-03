@@ -110,7 +110,7 @@ def rentals():
             'price': '$225.00/Day Rental',
             'deposit': '$100.00 Required Deposit',
             'price_text': 'Price',
-            'deposit_text': 'Required Deposit (Non-Refundable)'
+            'deposit_text': 'Required Deposit (Refundable)'
         },
         {
             'name': 'Arcade Games',
@@ -134,7 +134,7 @@ def rentals():
             'price': '$80.00/Day Rental',
             'deposit': '$50.00 Required Deposit',
             'price_text': 'Price',
-            'deposit_text': 'Required Deposit (Non-Refundable)'
+            'deposit_text': 'Required Deposit (Refundable)'
         },
         {
             'name': 'Black Carpet',
@@ -142,7 +142,7 @@ def rentals():
             'price': '$80/Day Rental',
             'deposit': '$50 Required Deposit',
             'price_text': 'Price',
-            'deposit_text': 'Required Deposit (Non-Refundable)'
+            'deposit_text': 'Required Deposit (Refundable)'
         },
         {
             'name': 'Nacho Machine',
