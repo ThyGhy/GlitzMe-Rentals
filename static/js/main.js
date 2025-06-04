@@ -195,6 +195,207 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Transcript data from SRT files
+    const transcripts = {
+        'Testimonial1.mp4': `Okay, listen, let me tell y'all something.
+It is a little after 11 o'clock.
+My event, 11 p.m.
+My event is tomorrow at 7:30.
+Raven came through, like, listen.
+I'm gonna get these to you tonight
+so you can be set up on time in the morning
+because if you know me, I do not like giving up
+at me in no time, but Raven came through
+with the chairs and tables.
+We are hosting my first ECW class tomorrow.
+So if you're interested, let us know.
+But if you also look at the tables and chairs
+and all things, Raven got you
+and we'll get you all the way together, okay?`,
+
+        'Testimonial2.mp4': `What's up guys, had the opportunity to team up with GlitzME Rentals, great place, great
+people, had the opportunity to, for them to drop off the item, use it in my party, people
+loved it.
+So check them out, they're a great, great team and they have great prices.
+So by all means, guys, look up on IG and any other platform, GlitzME Rentals, thanks
+guys, See Yall Later!`,
+
+        'Testimonial3.mp4': `It's my 21st and we rented from GlitzME Rentals, thank y'all so much for coming out.
+They came out and delivered to chairs and tables, I'm very grateful.
+Appreciate y'all.`,
+
+        'Testimonial4.mp4': `Hey y'all, we just wanted to say hey,
+to GlitzME Rentals, big shoutout to them,
+renting some tables and chairs for my son's 21st birthday party,
+she told me to be camera ready and I'm like,
+I woke up like this,
+it's what you get, girl, I love you.`,
+
+        'Testimonial5.mp4': `What's going on all y'all? My name is Brandon Marshall. I rented from GlitzME Rentals for
+my daughter's birthday party. It was amazing. She had a blast. I got the tables, the chairs,
+and the bounce house. All the kids had a good time and so you know I would 100% recommend
+you rent from GlitzME. I would do it again. I've done it multiple times. Actually this
+is the first time that I'm actually doing a review for her. But I've done it multiple times.
+The services are immaculate. It's great. So y'all rent from GlitzME Rentals.`,
+
+        'Testimonial6.mp4': `Hi, my name is Ernest Mitchell, this is Nicole Mitchell, We rented from GltizME Rentals
+and the spirits fabulous. The Kids Enjoy themselves
+their bouncing up the yin-yang, we have a fabulous time
+please, if you feel free, rent from them and you'll be satisfied!`
+    };
+
+    // Transcript Modal Functions
+    function openTranscript(videoFile) {
+        const modal = document.getElementById('transcriptModal');
+        const transcriptText = document.getElementById('transcript-text');
+        
+        if (modal && transcriptText) {
+            transcriptText.textContent = transcripts[videoFile];
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+
+            // Focus the close button
+            const closeButton = modal.querySelector('.modal-close');
+            if (closeButton) {
+                closeButton.focus();
+            }
+        }
+    }
+
+    function closeTranscript() {
+        const modal = document.getElementById('transcriptModal');
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Make transcript functions globally available
+    window.openTranscript = openTranscript;
+    window.closeTranscript = closeTranscript;
+
+    // Close modal when clicking overlay
+    const modalOverlay = document.querySelector('.modal-overlay');
+    if (modalOverlay) {
+        modalOverlay.addEventListener('click', closeTranscript);
+    }
+
+    // Close modal on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeTranscript();
+        }
+    });
+
+    // Ensure modal is hidden by default
+    const modal = document.getElementById('transcriptModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+
+    // Testimonial Carousel Functionality
+    const carousel = document.querySelector('.testimonial-carousel');
+    if (carousel) {
+        const slides = carousel.querySelectorAll('.carousel-slide');
+        const prevButton = carousel.querySelector('.prev');
+        const nextButton = carousel.querySelector('.next');
+        const dots = document.querySelectorAll('.carousel-dot');
+        let currentIndex = 0;
+        let autoplayInterval;
+        const autoplayDelay = 30000; // 30 seconds
+
+        function showSlide(index) {
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+                slide.setAttribute('aria-hidden', 'true');
+            });
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+                dot.setAttribute('aria-selected', 'false');
+            });
+
+            slides[index].classList.add('active');
+            slides[index].removeAttribute('aria-hidden');
+            dots[index].classList.add('active');
+            dots[index].setAttribute('aria-selected', 'true');
+
+            slides.forEach(slide => {
+                const video = slide.querySelector('video');
+                if (video) video.pause();
+            });
+
+            currentIndex = index;
+        }
+
+        function nextSlide() {
+            showSlide((currentIndex + 1) % slides.length);
+        }
+
+        function prevSlide() {
+            showSlide((currentIndex - 1 + slides.length) % slides.length);
+        }
+
+        function startAutoplay() {
+            stopAutoplay();
+            autoplayInterval = setInterval(nextSlide, autoplayDelay);
+        }
+
+        function stopAutoplay() {
+            if (autoplayInterval) {
+                clearInterval(autoplayInterval);
+            }
+        }
+
+        prevButton.addEventListener('click', () => {
+            prevSlide();
+            startAutoplay();
+        });
+
+        nextButton.addEventListener('click', () => {
+            nextSlide();
+            startAutoplay();
+        });
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+                startAutoplay();
+            });
+        });
+
+        slides.forEach(slide => {
+            const video = slide.querySelector('video');
+            if (video) {
+                video.addEventListener('play', stopAutoplay);
+                video.addEventListener('pause', startAutoplay);
+            }
+        });
+
+        showSlide(0);
+        startAutoplay();
+    }
+
+    // Add audio description track if available
+    document.querySelectorAll('video').forEach(video => {
+        const descriptionTrack = document.createElement('track');
+        descriptionTrack.kind = 'descriptions';
+        descriptionTrack.label = 'Audio Descriptions';
+        descriptionTrack.srclang = 'en';
+        
+        video.addEventListener('play', function() {
+            this.setAttribute('aria-label', 'Playing: Customer testimonial video');
+        });
+        
+        video.addEventListener('pause', function() {
+            this.setAttribute('aria-label', 'Paused: Customer testimonial video');
+        });
+        
+        // Ensure captions are enabled by default
+        if (video.textTracks[0]) {
+            video.textTracks[0].mode = 'showing';
+        }
+    });
+
     // Initialize all functionality
     function init() {
         initMobileMenu();
@@ -247,61 +448,102 @@ if (typeof module !== 'undefined' && module.exports) {
 
 // Video Carousel Functionality
 document.addEventListener('DOMContentLoaded', function() {
-    const carousel = document.querySelector('.video-carousel');
-    if (!carousel) return;
+    // Initialize all carousels on the page
+    const carousels = document.querySelectorAll('.testimonial-carousel');
+    
+    carousels.forEach((carousel, carouselIndex) => {
+        const track = carousel.querySelector('.carousel-track');
+        const slides = carousel.querySelectorAll('.carousel-slide');
+        
+        // Get all navigation buttons (desktop and mobile)
+        const prevButtons = carousel.parentElement.querySelectorAll('.prev');
+        const nextButtons = carousel.parentElement.querySelectorAll('.next');
+        const dotContainers = carousel.closest('.video-gallery').querySelectorAll('.carousel-dots');
+        
+        let currentIndex = 0;
+        let autoplayInterval;
+        const autoplayDelay = 30000; // 30 seconds
 
-    const track = carousel.querySelector('.carousel-track');
-    const slides = carousel.querySelectorAll('.carousel-slide');
-    const prevButton = carousel.querySelector('.carousel-prev');
-    const nextButton = carousel.querySelector('.carousel-next');
-    const dotsContainer = carousel.querySelector('.carousel-dots');
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+                slide.setAttribute('aria-hidden', i !== index);
+            });
+            
+            // Update all dot containers (desktop and mobile)
+            dotContainers.forEach(dotsContainer => {
+                const dots = dotsContainer.querySelectorAll('.carousel-dot');
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                    dot.setAttribute('aria-selected', i === index);
+                });
+            });
 
-    let currentIndex = 0;
-    const slideWidth = 100; // percentage
+            // Pause all videos in this carousel
+            slides.forEach(slide => {
+                const video = slide.querySelector('video');
+                if (video) video.pause();
+            });
 
-    // Create dots
-    slides.forEach((_, index) => {
-        const dot = document.createElement('div');
-        dot.classList.add('carousel-dot');
-        if (index === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => goToSlide(index));
-        dotsContainer.appendChild(dot);
-    });
+            currentIndex = index;
+        }
 
-    // Update dots
-    function updateDots() {
-        const dots = dotsContainer.querySelectorAll('.carousel-dot');
-        dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentIndex);
-        });
-    }
+        function nextSlide() {
+            showSlide((currentIndex + 1) % slides.length);
+        }
 
-    // Go to specific slide
-    function goToSlide(index) {
-        currentIndex = index;
-        track.style.transform = `translateX(-${index * slideWidth}%)`;
-        updateDots();
-    }
+        function prevSlide() {
+            showSlide((currentIndex - 1 + slides.length) % slides.length);
+        }
 
-    // Previous slide
-    prevButton.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-        goToSlide(currentIndex);
-    });
+        function startAutoplay() {
+            stopAutoplay();
+            autoplayInterval = setInterval(nextSlide, autoplayDelay);
+        }
 
-    // Next slide
-    nextButton.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % slides.length;
-        goToSlide(currentIndex);
-    });
+        function stopAutoplay() {
+            if (autoplayInterval) {
+                clearInterval(autoplayInterval);
+            }
+        }
 
-    // Pause other videos when playing one
-    const videos = carousel.querySelectorAll('video');
-    videos.forEach(video => {
-        video.addEventListener('play', () => {
-            videos.forEach(v => {
-                if (v !== video) v.pause();
+        // Event listeners for all navigation buttons
+        prevButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                prevSlide();
+                startAutoplay();
             });
         });
+
+        nextButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                nextSlide();
+                startAutoplay();
+            });
+        });
+
+        // Event listeners for all dot containers
+        dotContainers.forEach(dotsContainer => {
+            const dots = dotsContainer.querySelectorAll('.carousel-dot');
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    showSlide(index);
+                    startAutoplay();
+                });
+            });
+        });
+
+        // Pause autoplay when video is playing
+        slides.forEach(slide => {
+            const video = slide.querySelector('video');
+            if (video) {
+                video.addEventListener('play', stopAutoplay);
+                video.addEventListener('pause', startAutoplay);
+            }
+        });
+
+        // Initialize first slide and start autoplay
+        showSlide(0);
+        startAutoplay();
     });
 }); 

@@ -97,9 +97,9 @@ def rentals():
             'deposit_text': 'Required Deposit (Refundable)'
         },
         {
-            'name': 'Jump Houses',
+            'name': 'Jump Houses (On Sale, Valid Thru September 1st)',
             'image': 'Images/SingularRentals/GMR(JumpHouses).webp',
-            'price': '$65.00/Day Rental',
+            'price': '$50/Day Rental (Normal Price $65)',
             'deposit': '$100.00 Required Refundable Deposit',
             'price_text': 'Price',
             'deposit_text': 'Required Deposit (Refundable)'

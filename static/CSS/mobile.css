@@ -206,34 +206,38 @@ h3 {
 .hamburger {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     cursor: pointer;
     z-index: 1001;
     width: 44px;
     height: 44px;
-    padding: 10px;
+    padding: 8px;
     margin-right: 5px;
     background: none;
     border: none;
 }
 
 .hamburger span {
-    width: 100%;
-    height: 2px;
+    display: block;
+    width: 24px;
+    height: 3px;
     background: #2c6eb8;
-    margin: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
 }
 
-.hamburger.active span:nth-child(1),
-.hamburger.active span:nth-child(3) {
-    background: #2c6eb8;
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translateY(8px);
 }
 
 .hamburger.active span:nth-child(2) {
     opacity: 0;
-    transform: translateX(-10px);
+    transform: translateX(20px);
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translateY(-8px);
 }
 
 /* Hero Section - Mobile */
@@ -1276,18 +1280,39 @@ h3 {
 
 /* Video Gallery - Mobile */
 .video-gallery {
-    padding: 2rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(44, 110, 184, 0.2);
+    backdrop-filter: blur(10px);
+    margin-bottom: 4rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.video-gallery h2 {
+    color: #fff;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, #2c6eb8 0%, #2c6eb8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .testimonial-intro {
     color: #fff;
     text-align: center;
     font-style: normal;
-    font-size: 1rem;
+    font-size: 1.1rem;
     opacity: 0.9;
     line-height: 1.5;
-    margin-bottom: 1.5rem;
-    padding: 0 1rem;
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Contact Section - Mobile */
@@ -1908,9 +1933,11 @@ h3 {
     }
 
     .packages-grid {
+        display: grid;
         grid-template-columns: 1fr;
         gap: 1.5rem;
         padding: 1rem 0;
+        align-items: stretch;
     }
 
     .package-card {
@@ -1920,6 +1947,7 @@ h3 {
         display: flex;
         flex-direction: column;
         margin-bottom: 1.5rem;
+        height: 100%;
     }
 
     .package-image {
@@ -1943,7 +1971,9 @@ h3 {
         flex: 1;
         display: flex;
         flex-direction: column;
+        justify-content: flex-start;
         gap: 0.5rem;
+        min-height: 80px;
     }
 
     .package-info h3 {
@@ -1951,6 +1981,17 @@ h3 {
         font-size: 1.2rem;
         margin: 0;
         font-weight: 600;
+    }
+
+    .package-description {
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+
+    .package-description p {
+        color: var(--secondary-blue);
+        font-size: 1rem;
+        margin: 0;
     }
 
     .price-info {
@@ -1984,6 +2025,31 @@ h3 {
 
     .package-card:hover .image-hint {
         opacity: 1;
+    }
+
+    .contact-button {
+        display: block;
+        width: 100%;
+        padding: 1rem;
+        background-color: #2c6eb8;
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: none;
+        font-size: 1rem;
+        margin-top: auto;
+    }
+
+    .contact-button:hover, 
+    .contact-button:focus {
+        background-color: #1e4c82;
+        color: white;
+    }
+
+    .contact-button:active {
+        background-color: #1a4374;
     }
 
     /* Navigation adjustments for mobile */
@@ -2581,6 +2647,7 @@ h3 {
     transition: all 0.3s ease;
     border: none;
     font-size: 1rem;
+    margin-top: auto;
 }
 
 .contact-button:hover, 
@@ -2592,3 +2659,356 @@ h3 {
 .contact-button:active {
     background-color: #1a4374;
 } 
+
+.hero-carousel {
+    position: relative;
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+.carousel-item {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.carousel-item.active {
+    display: block;
+    opacity: 1;
+}
+
+.carousel-nav {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.8rem;
+    z-index: 2;
+}
+
+.carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.carousel-dot:hover {
+    background: rgba(44, 110, 184, 0.6);
+}
+
+.carousel-dot.active {
+    background: #2c6eb8;
+    transform: scale(1.2);
+} 
+
+.promo-link {
+    display: block;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.promo-link:hover, .promo-link:active {
+    transform: scale(1.05);
+}
+
+.promo-link:focus {
+    outline: 2px solid #2c6eb8;
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+/* Mobile Carousel Redesign - Navigation Below Content */
+
+/* Testimonial Carousel Mobile Layout */
+@media screen and (max-width: 768px), screen and (max-height: 600px) {
+    .testimonial-carousel {
+        position: relative;
+        width: 100%;
+        margin: 0 auto 2rem;
+        display: block; /* Change from flex to block for mobile */
+    }
+
+    .carousel-container {
+        width: 100%;
+        overflow: hidden;
+        border-radius: 15px;
+        margin-bottom: 1rem;
+    }
+
+    .carousel-track {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-slide {
+        min-width: 100%;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        display: none;
+    }
+
+    .carousel-slide.active {
+        opacity: 1;
+        display: block;
+    }
+
+    .video-wrapper {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .video-wrapper video {
+        width: 100%;
+        border-radius: 10px;
+        background: #000;
+        aspect-ratio: 16/9;
+    }
+
+    /* Hide navigation arrows on mobile - they'll be repositioned below */
+    .carousel-nav-btn {
+        display: none; /* Hide side arrows on mobile */
+    }
+
+    /* Mobile Navigation Controls Container */
+    .mobile-carousel-controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1rem;
+        width: 100%;
+    }
+
+    /* Mobile Arrow Navigation */
+    .mobile-carousel-nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        width: 100%;
+    }
+
+    .mobile-carousel-nav .carousel-nav-btn {
+        display: flex; /* Show arrows in mobile nav */
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(44, 110, 184, 0.2);
+        border: 1px solid rgba(44, 110, 184, 0.4);
+        color: #fff;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+    }
+
+    .mobile-carousel-nav .carousel-nav-btn:hover,
+    .mobile-carousel-nav .carousel-nav-btn:active {
+        background: rgba(44, 110, 184, 0.4);
+        transform: scale(1.1);
+    }
+
+    .mobile-carousel-nav .carousel-nav-btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(44, 110, 184, 0.5);
+    }
+
+    .mobile-carousel-nav .carousel-nav-btn i {
+        font-size: 1.4rem;
+    }
+
+    /* Mobile Dots Navigation */
+    .carousel-dots {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin: 0;
+        padding: 0;
+    }
+
+    .carousel-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: 0;
+    }
+
+    .carousel-dot:hover,
+    .carousel-dot:active {
+        background: rgba(44, 110, 184, 0.6);
+    }
+
+    .carousel-dot.active {
+        background: #2c6eb8;
+        transform: scale(1.2);
+        box-shadow: 0 0 10px rgba(44, 110, 184, 0.4);
+    }
+
+    /* Transcript Button Mobile Styling */
+    .transcript-btn {
+        display: block;
+        width: 100%;
+        max-width: 300px;
+        margin: 1rem auto;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-vibrant) 100%);
+        color: #fff;
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(var(--primary-blue-rgb), 0.3);
+    }
+
+    .transcript-btn:hover,
+    .transcript-btn:active {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(var(--primary-blue-vibrant-rgb), 0.4);
+        background: linear-gradient(135deg, var(--primary-blue-vibrant) 0%, var(--primary-blue) 100%);
+    }
+
+    .transcript-btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(var(--primary-blue-rgb), 0.5);
+    }
+
+    /* Event Videos Carousel - No Transcript Button */
+    .event-videos-carousel .video-wrapper {
+        margin-bottom: 0; /* Remove bottom margin since no transcript button */
+    }
+
+    /* Specific styling for Event Videos section */
+    .video-gallery:has(.event-videos-carousel) .mobile-carousel-controls {
+        margin-top: 1.5rem; /* Add more space since no transcript button */
+    }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+    .mobile-carousel-nav .carousel-nav-btn {
+        width: 45px;
+        height: 45px;
+    }
+
+    .mobile-carousel-nav .carousel-nav-btn i {
+        font-size: 1.2rem;
+    }
+
+    .carousel-dot {
+        width: 12px;
+        height: 12px;
+    }
+
+    .transcript-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        max-width: 280px;
+    }
+
+    .mobile-carousel-nav {
+        gap: 1.5rem;
+    }
+
+    /* Adjust video gallery for very small screens */
+    .video-gallery {
+        padding: 1.5rem 1rem;
+        margin-bottom: 3rem;
+    }
+
+    .video-gallery h2 {
+        font-size: 1.5rem;
+    }
+
+    .testimonial-intro {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+        padding: 0 0.5rem;
+    }
+}
+
+/* Hide desktop dots on mobile, show mobile controls */
+@media screen and (max-width: 768px), screen and (max-height: 600px) {
+    .desktop-dots {
+        display: none !important;
+    }
+    
+    .mobile-carousel-controls {
+        display: flex !important;
+    }
+}
+
+/* Hide mobile controls on desktop, show desktop dots */
+@media screen and (min-width: 769px) and (min-height: 601px) {
+    .mobile-carousel-controls {
+        display: none !important;
+    }
+    
+    .desktop-dots {
+        display: flex !important;
+    }
+}
+
+/* Image Gallery - Match video gallery styling */
+.image-gallery {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(44, 110, 184, 0.2);
+    backdrop-filter: blur(10px);
+    margin-bottom: 4rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.image-gallery h2 {
+    color: #fff;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, #2c6eb8 0%, #2c6eb8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Adjust video gallery for very small screens */
+.video-gallery {
+    padding: 1.5rem 1rem;
+    margin-bottom: 3rem;
+}
+
+.video-gallery h2 {
+    font-size: 1.5rem;
+}
+
+.testimonial-intro {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+}
+
+/* Adjust image gallery for very small screens */
+.image-gallery {
+    padding: 1.5rem 1rem;
+    margin-bottom: 3rem;
+}
+
+.image-gallery h2 {
+    font-size: 1.5rem;
+}

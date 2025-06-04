@@ -55,10 +55,10 @@
                     <h1 id="packages-heading">Packages, Bundles, and Experiences</h1>
                     <p>Complete entertainment packages, bundles, and experiences to make your event planning even easier</p>
                 </div>
-                <div class="packages-grid" role="list">
+                <div class="rentals-grid" role="list">
                     {% for package in packages %}
-                    <article class="package-card" role="listitem">
-                        <div class="package-image">
+                    <article class="rental-card" role="listitem">
+                        <div class="rental-image">
                             {% if package.image_placeholder %}
                             <div class="placeholder-message">{{ package.image_placeholder }}</div>
                             {% else %}
@@ -66,8 +66,10 @@
                             <div class="image-hint" aria-hidden="true">Tap Image to View</div>
                             {% endif %}
                         </div>
-                        <div class="package-info">
+                        <div class="rental-info">
                             <h3>{{ package.name }}</h3>
+                            <div class="price-info">
+                            </div>
                         </div>
                         <a href="{{ url_for('contact_page') }}" class="contact-button" aria-label="Contact us about {{ package.name }}">Contact For Details</a>
                     </article>
@@ -172,7 +174,7 @@
             const modalImage = document.querySelector('.modal-image');
             const modalClose = document.querySelector('.modal-close');
             const modalOverlay = document.querySelector('.modal-overlay');
-            const packageCards = document.querySelectorAll('.package-card');
+            const packageCards = document.querySelectorAll('.rental-card');
 
             function openModal(imgSrc, imgAlt) {
                 // Create a temporary image to preload
@@ -204,7 +206,8 @@
 
             // Touch event handling for package cards
             packageCards.forEach(card => {
-                const img = card.querySelector('.package-image img');
+                const img = card.querySelector('.rental-image img');
+                const imageContainer = card.querySelector('.rental-image');
                 const contactButton = card.querySelector('.contact-button');
                 if (!img) return; // Skip if no image (for placeholder cards)
                 
@@ -222,7 +225,6 @@
                 }
 
                 // Only add image click handler to the image container
-                const imageContainer = card.querySelector('.package-image');
                 if (imageContainer) {
                     imageContainer.addEventListener('click', (e) => {
                         if (!img) return; // Skip if no image

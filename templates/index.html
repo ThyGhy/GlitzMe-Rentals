@@ -124,17 +124,36 @@
             <div class="container">
                 <div class="hero-content">
                     <h1 id="hero-title" class="sr-only">GlitzME Rentals - Las Vegas Party Rentals</h1>
-                    <img src="{{ url_for('static', filename='Images/Logos/glitzme-hero-main.webp') }}" 
-                         srcset="{{ url_for('static', filename='Images/Logos/glitzme-hero-mobile.webp') }} 768w, 
-                                 {{ url_for('static', filename='Images/Logos/glitzme-hero-main.webp') }} 1200w"
-                         sizes="(max-width: 768px) 250px, 800px"
-                         alt="GlitzME Rentals - Offering Tables, Chairs, and more fun items for your events!" 
-                         class="hero-image" 
-                         loading="eager"
-                         fetchpriority="high"
-                         width="800"
-                         height="800"
-                         decoding="async">
+                    <div class="hero-carousel">
+                        <div class="carousel-item active" data-index="0">
+                            <img src="{{ url_for('static', filename='Images/Logos/glitzme-hero-main.webp') }}" 
+                                 srcset="{{ url_for('static', filename='Images/Logos/glitzme-hero-mobile.webp') }} 768w, 
+                                         {{ url_for('static', filename='Images/Logos/glitzme-hero-main.webp') }} 1200w"
+                                 sizes="(max-width: 768px) 250px, 800px"
+                                 alt="GlitzME Rentals - Offering Tables, Chairs, and more fun items for your events!" 
+                                 class="hero-image" 
+                                 loading="eager"
+                                 fetchpriority="high"
+                                 width="800"
+                                 height="800"
+                                 decoding="async">
+                        </div>
+                        <div class="carousel-item" data-index="1">
+                            <a href="{{ url_for('contact_page') }}" class="promo-link" aria-label="View Summer Sale - Contact us for details">
+                                <img src="{{ url_for('static', filename='Images/HomePageAdverts/SumemrSaleGM.webp') }}" 
+                                     alt="Summer Sale at GlitzME Rentals" 
+                                     class="hero-image" 
+                                     loading="eager"
+                                     width="800"
+                                     height="800"
+                                     decoding="async">
+                            </a>
+                        </div>
+                        <div class="carousel-nav">
+                            <button class="carousel-dot active" data-index="0" aria-label="Show main logo"></button>
+                            <button class="carousel-dot" data-index="1" aria-label="Show summer sale"></button>
+                        </div>
+                    </div>
                 
                     <!-- Meet the Team Section -->
                     <section class="team-section" aria-labelledby="team-section-title">
@@ -251,6 +270,44 @@
 
     <!-- External JavaScript -->
     <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+
+    <!-- Add carousel JavaScript before closing body tag -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const carousel = document.querySelector('.hero-carousel');
+            const items = carousel.querySelectorAll('.carousel-item');
+            const dots = carousel.querySelectorAll('.carousel-dot');
+            let currentIndex = 0;
+            const interval = 10000; // 10 seconds
+
+            function showItem(index) {
+                items.forEach(item => {
+                    item.classList.remove('active');
+                    item.setAttribute('aria-hidden', 'true');
+                });
+                dots.forEach(dot => dot.classList.remove('active'));
+                
+                items[index].classList.add('active');
+                items[index].removeAttribute('aria-hidden');
+                dots[index].classList.add('active');
+                currentIndex = index;
+            }
+
+            // Auto switch
+            setInterval(() => {
+                const nextIndex = (currentIndex + 1) % items.length;
+                showItem(nextIndex);
+            }, interval);
+
+            // Manual navigation with dots
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const index = parseInt(dot.dataset.index);
+                    showItem(index);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
 

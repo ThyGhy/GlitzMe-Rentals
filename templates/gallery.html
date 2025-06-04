@@ -86,19 +86,21 @@
                     <h2>Customer Testimonials</h2>
                     <p class="testimonial-intro">Hear what our happy customers have to say about their experience with GlitzME Rentals</p>
                     
-                    <!-- Desktop Videos -->
-                    <div class="desktop-videos">
+                    <div class="testimonial-carousel">
+                        <button class="carousel-nav-btn prev" aria-label="Previous testimonial">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        
                         <div class="carousel-container">
-                            <div class="carousel-track-container">
                                 <div class="carousel-track">
-                                    {% for video in ['Testimonial1.mp4', 'Testimonial2.mp4', 'Testimonial3.mp4', 'Testimonial4.mp4'] %}
-                                    <div class="carousel-slide">
+                                {% for video in ['Testimonial1.mp4', 'Testimonial2.mp4', 'Testimonial3.mp4', 'Testimonial4.mp4', 'Testimonial5.mp4', 'Testimonial6.mp4'] %}
+                                <div class="carousel-slide{% if loop.first %} active{% endif %}" data-index="{{ loop.index0 }}">
                                         <div class="video-wrapper">
                                             <video controls 
                                                    poster="{{ url_for('static', filename='Images/testimonial-poster.jpg') }}" 
                                                    aria-label="Customer testimonial video"
                                                    preload="metadata">
-                                                <source src="{{ url_for('static', filename='Videos/' + video) }}" type="video/mp4">
+                                            <source src="{{ url_for('static', filename='Testimonials/' + video) }}" type="video/mp4">
                                                 <track 
                                                     kind="captions" 
                                                     label="English" 
@@ -106,7 +108,7 @@
                                                     srclang="en" 
                                                     default>
                                                 <p>Your browser doesn't support HTML5 video. Here is a 
-                                                    <a href="{{ url_for('static', filename='Videos/' + video) }}">link to the video</a> 
+                                                <a href="{{ url_for('static', filename='Testimonials/' + video) }}">link to the video</a> 
                                                     and its 
                                                     <a href="{{ url_for('static', filename='Captions/' + video.replace('.mp4', '.vtt')) }}">transcript</a>.
                                                 </p>
@@ -122,51 +124,114 @@
                                     {% endfor %}
                                 </div>
                             </div>
+
+                        <button class="carousel-nav-btn next" aria-label="Next testimonial">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Mobile Navigation Controls for Testimonials -->
+                    <div class="mobile-carousel-controls">
+                        <div class="mobile-carousel-nav">
+                            <button class="carousel-nav-btn prev" aria-label="Previous testimonial">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="carousel-nav-btn next" aria-label="Next testimonial">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <div class="carousel-dots" role="tablist" aria-label="Testimonial navigation">
+                            {% for i in range(6) %}
+                            <button class="carousel-dot{% if loop.first %} active{% endif %}" 
+                                    data-index="{{ loop.index0 }}"
+                                    role="tab"
+                                    aria-label="Show testimonial {{ loop.index }}"
+                                    aria-selected="{{ 'true' if loop.first else 'false' }}">
+                            </button>
+                            {% endfor %}
                         </div>
                     </div>
 
-                    <!-- Mobile Video Carousel -->
-                    <div class="mobile-video-carousel">
-                        <div class="video-carousel">
-                            <div class="carousel-container">
+                    <!-- Desktop Dots (hidden on mobile) -->
+                    <div class="carousel-dots desktop-dots" role="tablist" aria-label="Testimonial navigation">
+                        {% for i in range(6) %}
+                        <button class="carousel-dot{% if loop.first %} active{% endif %}" 
+                                data-index="{{ loop.index0 }}"
+                                role="tab"
+                                aria-label="Show testimonial {{ loop.index }}"
+                                aria-selected="{{ 'true' if loop.first else 'false' }}">
+                                            </button>
+                                    {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Event Videos Gallery -->
+                <div class="video-gallery" role="region" aria-label="Event Videos">
+                    <h2>Event Videos</h2>
+                    <p class="testimonial-intro">See our amazing events and party setups in action</p>
+                    
+                    <div class="testimonial-carousel event-videos-carousel">
+                        <button class="carousel-nav-btn prev" aria-label="Previous event video">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        
+                        <div class="carousel-container">
                                 <div class="carousel-track">
-                                    {% for video in ['Testimonial1.mp4', 'Testimonial2.mp4', 'Testimonial3.mp4', 'Testimonial4.mp4'] %}
-                                    <div class="carousel-slide">
+                                {% for video in ['PromoVideo1.mp4', 'PromoVideo2.mp4'] %}
+                                <div class="carousel-slide{% if loop.first %} active{% endif %}" data-index="{{ loop.index0 }}">
                                         <div class="video-wrapper">
                                             <video controls 
                                                    poster="{{ url_for('static', filename='Images/testimonial-poster.jpg') }}" 
-                                                   aria-label="Customer testimonial video"
+                                                   aria-label="Event promotional video"
                                                    preload="metadata">
-                                                <source src="{{ url_for('static', filename='Videos/' + video) }}" type="video/mp4">
-                                                <track 
-                                                    kind="captions" 
-                                                    label="English" 
-                                                    src="{{ url_for('static', filename='Captions/' + video.replace('.mp4', '.vtt')) }}" 
-                                                    srclang="en" 
-                                                    default>
+                                            <source src="{{ url_for('static', filename='EventVideos/' + video) }}" type="video/mp4">
                                                 <p>Your browser doesn't support HTML5 video. Here is a 
-                                                    <a href="{{ url_for('static', filename='Videos/' + video) }}">link to the video</a> 
-                                                    and its 
-                                                    <a href="{{ url_for('static', filename='Captions/' + video.replace('.mp4', '.vtt')) }}">transcript</a>.
+                                                <a href="{{ url_for('static', filename='EventVideos/' + video) }}">link to the video</a>.
                                                 </p>
                                             </video>
-                                            <button type="button" 
-                                                    class="transcript-btn" 
-                                                    onclick="openTranscript('{{ video }}')"
-                                                    aria-label="View transcript for testimonial video">
-                                                View Transcript
-                                            </button>
                                         </div>
                                     </div>
                                     {% endfor %}
                                 </div>
                             </div>
-                            <div class="carousel-nav" role="navigation" aria-label="Video carousel controls">
-                                <button class="carousel-prev" aria-label="Previous testimonial"><i class="fas fa-chevron-left"></i></button>
-                                <div class="carousel-dots" role="tablist" aria-label="Video carousel pagination"></div>
-                                <button class="carousel-next" aria-label="Next testimonial"><i class="fas fa-chevron-right"></i></button>
-                            </div>
+
+                        <button class="carousel-nav-btn next" aria-label="Next event video">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Mobile Navigation Controls for Event Videos -->
+                    <div class="mobile-carousel-controls">
+                        <div class="mobile-carousel-nav">
+                            <button class="carousel-nav-btn prev" aria-label="Previous event video">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="carousel-nav-btn next" aria-label="Next event video">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
                         </div>
+                        <div class="carousel-dots" role="tablist" aria-label="Event video navigation">
+                            {% for i in range(2) %}
+                            <button class="carousel-dot{% if loop.first %} active{% endif %}" 
+                                    data-index="{{ loop.index0 }}"
+                                    role="tab"
+                                    aria-label="Show event video {{ loop.index }}"
+                                    aria-selected="{{ 'true' if loop.first else 'false' }}">
+                            </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Desktop Dots (hidden on mobile) -->
+                    <div class="carousel-dots desktop-dots" role="tablist" aria-label="Event video navigation">
+                        {% for i in range(2) %}
+                        <button class="carousel-dot{% if loop.first %} active{% endif %}" 
+                                data-index="{{ loop.index0 }}"
+                                role="tab"
+                                aria-label="Show event video {{ loop.index }}"
+                                aria-selected="{{ 'true' if loop.first else 'false' }}">
+                                            </button>
+                                    {% endfor %}
                     </div>
                 </div>
             </div>
@@ -272,7 +337,19 @@ to GlitzME Rentals, big shoutout to them,
 renting some tables and chairs for my son's 21st birthday party,
 she told me to be camera ready and I'm like,
 I woke up like this,
-it's what you get, girl, I love you.`
+it's what you get, girl, I love you.`,
+
+                'Testimonial5.mp4': `What's going on all y'all? My name is Brandon Marshall. I rented from GlitzME Rentals for
+my daughter's birthday party. It was amazing. She had a blast. I got the tables, the chairs,
+and the bounce house. All the kids had a good time and so you know I would 100% recommend
+you rent from GlitzME. I would do it again. I've done it multiple times. Actually this
+is the first time that I'm actually doing a review for her. But I've done it multiple times.
+The services are immaculate. It's great. So y'all rent from GlitzME Rentals.`,
+
+                'Testimonial6.mp4': `Hi, my name is Ernest Mitchell, this is Nicole Mitchell, We rented from GltizME Rentals
+and the spirits fabulous. The Kids Enjoy themselves
+their bouncing up the yin-yang, we have a fabulous time
+please, if you feel free, rent from them and you'll be satisfied!`
             };
 
             // Make functions globally available
