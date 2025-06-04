@@ -6,10 +6,14 @@
     <title>Package Deals - GlitzME Rentals</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}">
+    <link rel="icon" type="image/webp" sizes="32x32" href="{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }}">
+    <link rel="icon" type="image/webp" sizes="16x16" href="{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }}">
+    
+    <!-- Preload optimized logos -->
+    <link rel="preload" as="image" href="{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }}" media="(max-width: 768px)">
+    <link rel="preload" as="image" href="{{ url_for('static', filename='Images/Logos/GMLogo-optimized.webp') }}" media="(min-width: 769px)">
     
     <!-- Responsive CSS Loading -->
     <!-- Mobile CSS for screens up to 768px -->
@@ -17,16 +21,43 @@
     <!-- Desktop CSS for screens larger than 768px -->
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/desktop.css') }}" media="screen and (min-width: 769px)">
     
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Font loading fallback -->
+    <script>
+        (function() {
+            var fontLink = document.querySelector('link[href*="fonts.googleapis.com"]');
+            setTimeout(function() {
+                if (fontLink && fontLink.media === 'print') {
+                    fontLink.media = 'all';
+                }
+            }, 100);
+        })();
+    </script>
 </head>
 <body>
+    <!-- Skip link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <!-- Navigation -->
     <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="nav-container">
             <div class="nav-logo">
                 <a href="{{ url_for('index') }}" aria-label="GlitzME Rentals Home">
-                    <img src="{{ url_for('static', filename='Images/Logos/GMLogo(NoBG).png') }}" alt="GlitzME Rentals Logo">
+                    <img src="{{ url_for('static', filename='Images/Logos/GMLogo-optimized.webp') }}" 
+                         srcset="{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }} 768w, 
+                                 {{ url_for('static', filename='Images/Logos/GMLogo-optimized.webp') }} 1200w"
+                         sizes="(max-width: 768px) 50px, 90px"
+                         alt="GlitzME Rentals Logo"
+                         loading="eager"
+                         fetchpriority="high"
+                         width="90"
+                         height="58"
+                         decoding="async">
                 </a>
             </div>
             <ul class="nav-menu" role="menubar">
@@ -62,14 +93,12 @@
                             {% if package.image_placeholder %}
                             <div class="placeholder-message">{{ package.image_placeholder }}</div>
                             {% else %}
-                            <img src="{{ url_for('static', filename=package.image) }}" alt="{{ package.name }}">
+                            <img src="{{ url_for('static', filename=package.image) }}" alt="{{ package.name }}" loading="{% if loop.index <= 2 %}eager{% else %}lazy{% endif %}" decoding="async"{% if loop.index <= 2 %} fetchpriority="high"{% endif %}>
                             <div class="image-hint" aria-hidden="true">Tap Image to View</div>
                             {% endif %}
                         </div>
                         <div class="rental-info">
                             <h3>{{ package.name }}</h3>
-                            <div class="price-info">
-                            </div>
                         </div>
                         <a href="{{ url_for('contact_page') }}" class="contact-button" aria-label="Contact us about {{ package.name }}">Contact For Details</a>
                     </article>
@@ -166,7 +195,7 @@
     </footer>
 
     <!-- External JavaScript -->
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Image Modal functionality
@@ -174,7 +203,7 @@
             const modalImage = document.querySelector('.modal-image');
             const modalClose = document.querySelector('.modal-close');
             const modalOverlay = document.querySelector('.modal-overlay');
-            const packageCards = document.querySelectorAll('.rental-card');
+            const rentalCards = document.querySelectorAll('.rental-card');
 
             function openModal(imgSrc, imgAlt) {
                 // Create a temporary image to preload
@@ -204,8 +233,8 @@
                 }, 300);
             }
 
-            // Touch event handling for package cards
-            packageCards.forEach(card => {
+            // Touch event handling for rental cards
+            rentalCards.forEach(card => {
                 const img = card.querySelector('.rental-image img');
                 const imageContainer = card.querySelector('.rental-image');
                 const contactButton = card.querySelector('.contact-button');

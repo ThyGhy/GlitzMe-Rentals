@@ -20,9 +20,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     
-    <!-- Preload critical hero image for performance -->
-    <link rel="preload" as="image" href="{{ url_for('static', filename='Images/Logos/glitzme-hero-mobile.webp') }}" media="(max-width: 768px)">
-    <link rel="preload" as="image" href="{{ url_for('static', filename='Images/Logos/glitzme-hero-main.webp') }}" media="(min-width: 769px)">
+    <!-- Preload critical hero image for performance - Optimized for LCP -->
+    <link rel="preload" as="image" href="{{ url_for('static', filename='Images/Logos/glitzme-hero-main.webp') }}" 
+          imagesizes="(max-width: 768px) 250px, 800px" 
+          imagesrcset="{{ url_for('static', filename='Images/Logos/glitzme-hero-mobile.webp') }} 768w, {{ url_for('static', filename='Images/Logos/glitzme-hero-main.webp') }} 1200w">
     
     <!-- Preload navigation logo for performance -->
     <link rel="preload" as="image" href="{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }}" media="(max-width: 768px)">
@@ -85,6 +86,9 @@
     </script>
 </head>
 <body>
+    <!-- Skip link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <!-- Navigation -->
     <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="nav-container">

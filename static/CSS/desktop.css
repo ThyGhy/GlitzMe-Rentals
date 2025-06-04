@@ -1,8 +1,30 @@
-/* Reset and Base Styles - Desktop */
+/* Global Reset and Base Styles - Desktop */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    max-width: 100vw;
+}
+
+/* Skip link for accessibility */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: #000;
+    color: #fff;
+    padding: 8px;
+    text-decoration: none;
+    z-index: 9999;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: top 0.3s;
+}
+
+.skip-link:focus {
+    top: 6px;
+    outline: 2px solid #2c6eb8;
+    outline-offset: 2px;
 }
 
 /* CSS Custom Properties for Brand Colors */
@@ -187,6 +209,33 @@ h3 {
     padding: 10px;
     background: none;
     border: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.hamburger span {
+    width: 24px;
+    height: 2px;
+    background: #ffffff;
+    margin: 2px 0;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translateY(8px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translateY(-8px);
 }
 
 @media (max-width: 768px) {
@@ -631,63 +680,6 @@ h3 {
     background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
 }
 
-.packages-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-    padding: 2rem 0;
-}
-
-.package-card {
-    background: rgba(40, 40, 40, 0.95);
-    border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1.5rem;
-    transition: transform 0.3s ease;
-}
-
-.package-card:hover {
-    transform: translateY(-5px);
-}
-
-.package-image {
-    width: 100%;
-    height: 300px;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-}
-
-.package-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.package-card:hover .package-image img {
-    transform: scale(1.05);
-}
-
-.package-info {
-    padding: 1.5rem;
-    text-align: center;
-    background: rgba(40, 40, 40, 0.95);
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.package-info h3 {
-    color: var(--secondary-blue);
-    font-size: 1.3rem;
-    margin: 0;
-    font-weight: 600;
-}
-
 .price-info {
     margin-top: 0.5rem;
 }
@@ -717,90 +709,6 @@ h3 {
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
-}
-
-.package-card:hover .image-hint {
-    opacity: 0.8;
-}
-
-/* Media Queries for Package Grid */
-@media (max-width: 1200px) {
-    .packages-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    }
-}
-
-@media (max-width: 768px) {
-    .packages-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-        padding: 1rem 0;
-    }
-    
-    .package-card {
-        display: flex;
-        flex-direction: row;
-        height: 120px;
-        align-items: center;
-        cursor: pointer;
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
-
-    .package-card.expanded {
-        height: 220px;
-    }
-
-    .package-image {
-        width: 120px;
-        height: 120px;
-        flex-shrink: 0;
-    }
-
-    .package-info {
-        flex: 1;
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-    }
-
-    .package-info h3 {
-        font-size: 1.1rem;
-        margin-bottom: 0.5rem;
-        text-align: left;
-    }
-
-    .price-info {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.3s ease;
-    }
-
-    .package-card.expanded .price-info {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .package-info::after {
-        content: '\f078';
-        font-family: 'Font Awesome 6 Free';
-        font-weight: 900;
-        position: absolute;
-        right: 1rem;
-        top: 50%;
-        transform: translateY(-50%) rotate(0deg);
-        transition: transform 0.3s ease;
-        color: #2c6eb8;
-    }
-
-    .package-card.expanded .package-info::after {
-        transform: translateY(-50%) rotate(180deg);
-    }
-
-    .price-info p {
-        font-size: 0.9rem;
-    }
 }
 
 /* About Section - Desktop */
@@ -921,8 +829,6 @@ h3 {
     gap: 1.5rem;
     margin-bottom: 0;
 }
-
-
 
 .gallery-item {
     aspect-ratio: 16/9;
@@ -1088,9 +994,9 @@ h3 {
 }
 
 .modal-close:focus {
-    outline: none;
+    outline: 2px solid #2c6eb8;
+    outline-offset: 2px;
     box-shadow: 0 0 0 3px rgba(44, 110, 184, 0.5);
-    background: rgba(255, 255, 255, 0.2);
 }
 
 /* Contact Section - Desktop */
@@ -1911,8 +1817,7 @@ h3 {
     padding: 0 1rem;
 }
 
-.rental-info h2,
-.package-info h2 {
+.rental-info h2 {
     font-size: 1.5rem;
     margin: 0.5rem 0;
     color: var(--primary-color);
@@ -2040,7 +1945,8 @@ h3 {
 }
 
 .transcript-btn:focus {
-    outline: none;
+    outline: 2px solid #2c6eb8;
+    outline-offset: 2px;
     box-shadow: 0 0 0 3px rgba(44, 110, 184, 0.5);
 }
 

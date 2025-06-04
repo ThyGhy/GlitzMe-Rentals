@@ -1,8 +1,30 @@
-/* Reset and Base Styles - Mobile */
+/* Global Reset and Base Styles - Mobile */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    max-width: 100vw;
+}
+
+/* Skip link for accessibility */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: #000;
+    color: #fff;
+    padding: 8px;
+    text-decoration: none;
+    z-index: 9999;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: top 0.3s;
+}
+
+.skip-link:focus {
+    top: 6px;
+    outline: 2px solid #2c6eb8;
+    outline-offset: 2px;
 }
 
 /* CSS Custom Properties for Brand Colors */
@@ -785,70 +807,6 @@ h3 {
     position: relative;
 }
 
-.package-selector-card {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 1.2rem;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(44, 110, 184, 0.2);
-    backdrop-filter: blur(10px);
-}
-
-.package-selector-card:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 8px 25px rgba(44, 110, 184, 0.2);
-}
-
-.package-selector-card.active {
-    background: rgba(44, 110, 184, 0.2);
-    border-color: #2c6eb8;
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(44, 110, 184, 0.3);
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    margin-bottom: 0;
-}
-
-.package-selector-card h3 {
-    color: var(--secondary-blue);
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem;
-}
-
-.package-selector-card p {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.9rem;
-}
-
-/* Package Details - Mobile */
-.package-detail-mobile {
-    height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    position: relative;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-}
-
-.package-detail-mobile.active {
-    height: auto;
-    opacity: 1;
-    margin-bottom: 1rem;
-}
-
-.package-gallery {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 1rem;
-    border: 1px solid rgba(44, 110, 184, 0.2);
-    border-top: none;
-    backdrop-filter: blur(10px);
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-}
-
 .gallery-main {
     width: 100%;
 }
@@ -877,19 +835,6 @@ h3 {
         padding: 3rem 0;
     }
     
-    .package-selector-card {
-        padding: 1rem;
-    }
-    
-    .package-selector-card h3 {
-        font-size: 1rem;
-        margin-bottom: 0.3rem;
-    }
-    
-    .package-selector-card p {
-        font-size: 0.8rem;
-    }
-    
     .main-image {
         height: 200px;
     }
@@ -897,18 +842,6 @@ h3 {
 
 /* Very small screens */
 @media (max-width: 480px) {
-    .package-selector-card {
-        padding: 1.2rem;
-    }
-    
-    .package-selector-card h3 {
-        font-size: 1rem;
-    }
-    
-    .package-selector-card p {
-        font-size: 0.8rem;
-    }
-    
     .main-image {
         height: 200px;
     }
@@ -1661,23 +1594,7 @@ h3 {
         padding: 3rem 0;
     }
     
-    .packages-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-    }
-    
-    .package-card {
-        padding: 1rem 0.8rem;
-    }
-    
-    .package-card h3 {
-        font-size: 1rem;
-        margin-bottom: 0.5rem;
-    }
-    
-    .package-card p {
-        font-size: 0.8rem;
-    }
+
     
     .footer {
         padding: 2rem 0 1rem;
@@ -1708,14 +1625,7 @@ h3 {
         font-size: 1.5rem;
     }
     
-    .packages-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
-    .package-card {
-        padding: 1.5rem 1rem;
-    }
+
     
     .experience-card {
         padding: 2rem 1rem;
@@ -1932,7 +1842,7 @@ h3 {
         font-size: 1rem;
     }
 
-    .packages-grid {
+    .rentals-grid {
         display: grid;
         grid-template-columns: 1fr;
         gap: 1.5rem;
@@ -1940,7 +1850,7 @@ h3 {
         align-items: stretch;
     }
 
-    .package-card {
+    .rental-card {
         background: rgba(40, 40, 40, 0.95);
         border-radius: 12px;
         overflow: hidden;
@@ -1950,48 +1860,36 @@ h3 {
         height: 100%;
     }
 
-    .package-image {
+    .rental-image {
         width: 100%;
         height: 240px;
         position: relative;
         overflow: hidden;
+        cursor: pointer;
     }
 
-    .package-image img {
+    .rental-image img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         transition: transform 0.3s ease;
     }
 
-    .package-info {
+    .rental-info {
         padding: 1rem;
         text-align: center;
         background: rgba(40, 40, 40, 0.95);
         flex: 1;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
         gap: 0.5rem;
-        min-height: 80px;
     }
 
-    .package-info h3 {
+    .rental-info h3 {
         color: var(--secondary-blue);
         font-size: 1.2rem;
-        margin: 0;
+        margin-bottom: 0;
         font-weight: 600;
-    }
-
-    .package-description {
-        margin-top: 0;
-        margin-bottom: 1rem;
-    }
-
-    .package-description p {
-        color: var(--secondary-blue);
-        font-size: 1rem;
-        margin: 0;
     }
 
     .price-info {
@@ -2023,9 +1921,7 @@ h3 {
         transition: opacity 0.3s ease;
     }
 
-    .package-card:hover .image-hint {
-        opacity: 1;
-    }
+
 
     .contact-button {
         display: block;
@@ -2138,17 +2034,7 @@ h3 {
         cursor: pointer;
     }
 
-    /* Make package images clickable */
-    .package-image {
-        cursor: pointer;
-        position: relative;
-        z-index: 1;
-    }
 
-    /* Image hint text */
-    .package-image {
-        position: relative;
-    }
 
     .image-hint {
         position: absolute;
@@ -2340,8 +2226,7 @@ h3 {
     image-rendering: -webkit-optimize-contrast;
 }
 
-.rental-info h2,
-.package-info h2 {
+.rental-info h2 {
     font-size: 1.25rem;
     margin: 0.5rem 0;
     color: var(--primary-color);
@@ -2469,7 +2354,8 @@ h3 {
 }
 
 .transcript-btn:focus {
-    outline: none;
+    outline: 2px solid #2c6eb8;
+    outline-offset: 2px;
     box-shadow: 0 0 0 3px rgba(44, 110, 184, 0.5);
     background: rgba(44, 110, 184, 0.3);
 }
@@ -2551,7 +2437,8 @@ h3 {
 }
 
 .transcript-modal .modal-close:focus {
-    outline: none;
+    outline: 2px solid #2c6eb8;
+    outline-offset: 2px;
     box-shadow: 0 0 0 3px rgba(44, 110, 184, 0.5);
 }
 
@@ -2615,13 +2502,7 @@ h3 {
     margin: 0;
 }
 
-.package-image {
-    position: relative;
-    height: 240px;
-    overflow: hidden;
-    border-radius: 8px 8px 0 0;
-    background-color: rgba(0, 0, 0, 0.05);
-}
+
 
 .placeholder-message {
     position: absolute;
@@ -2817,7 +2698,8 @@ h3 {
     }
 
     .mobile-carousel-nav .carousel-nav-btn:focus {
-        outline: none;
+        outline: 2px solid #2c6eb8;
+        outline-offset: 2px;
         box-shadow: 0 0 0 3px rgba(44, 110, 184, 0.5);
     }
 
@@ -2883,7 +2765,8 @@ h3 {
     }
 
     .transcript-btn:focus {
-        outline: none;
+        outline: 2px solid #2c6eb8;
+        outline-offset: 2px;
         box-shadow: 0 0 0 3px rgba(var(--primary-blue-rgb), 0.5);
     }
 

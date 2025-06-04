@@ -402,6 +402,111 @@ please, if you feel free, rent from them and you'll be satisfied!`
         initSmoothScrolling();
         initNavbarScrollEffect();
         initServicesSection();
+        initCarousels();
+    }
+    
+    // Carousel initialization function
+    function initCarousels() {
+        // Initialize all carousels on the page
+        const carousels = document.querySelectorAll('.testimonial-carousel');
+        
+        carousels.forEach((carousel, carouselIndex) => {
+            const track = carousel.querySelector('.carousel-track');
+            const slides = carousel.querySelectorAll('.carousel-slide');
+            
+            // Get all navigation buttons (desktop and mobile)
+            const prevButtons = carousel.parentElement.querySelectorAll('.prev');
+            const nextButtons = carousel.parentElement.querySelectorAll('.next');
+            const dotContainers = carousel.closest('.video-gallery').querySelectorAll('.carousel-dots');
+            
+            let currentIndex = 0;
+            let autoplayInterval;
+            const autoplayDelay = 30000; // 30 seconds
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                    slide.setAttribute('aria-hidden', i !== index);
+                });
+                
+                // Update all dot containers (desktop and mobile)
+                dotContainers.forEach(dotsContainer => {
+                    const dots = dotsContainer.querySelectorAll('.carousel-dot');
+                    dots.forEach((dot, i) => {
+                        dot.classList.toggle('active', i === index);
+                        dot.setAttribute('aria-selected', i === index);
+                    });
+                });
+
+                // Pause all videos in this carousel
+                slides.forEach(slide => {
+                    const video = slide.querySelector('video');
+                    if (video) video.pause();
+                });
+
+                currentIndex = index;
+            }
+
+            function nextSlide() {
+                showSlide((currentIndex + 1) % slides.length);
+            }
+
+            function prevSlide() {
+                showSlide((currentIndex - 1 + slides.length) % slides.length);
+            }
+
+            function startAutoplay() {
+                stopAutoplay();
+                autoplayInterval = setInterval(nextSlide, autoplayDelay);
+            }
+
+            function stopAutoplay() {
+                if (autoplayInterval) {
+                    clearInterval(autoplayInterval);
+                }
+            }
+
+            // Event listeners for all navigation buttons
+            prevButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    prevSlide();
+                    startAutoplay();
+                });
+            });
+
+            nextButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    nextSlide();
+                    startAutoplay();
+                });
+            });
+
+            // Event listeners for all dot containers
+            dotContainers.forEach(dotsContainer => {
+                const dots = dotsContainer.querySelectorAll('.carousel-dot');
+                dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => {
+                        showSlide(index);
+                        startAutoplay();
+                    });
+                });
+            });
+
+            // Pause autoplay when video is playing
+            slides.forEach(slide => {
+                const video = slide.querySelector('video');
+                if (video) {
+                    video.addEventListener('play', stopAutoplay);
+                    video.addEventListener('pause', startAutoplay);
+                }
+            });
+
+            // Initialize first slide and start autoplay
+            if (slides.length > 0) {
+                showSlide(0);
+                startAutoplay();
+            }
+        });
     }
 
     // Call init to start all functionality
@@ -446,104 +551,4 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = { GlitzMEUtils };
 }
 
-// Video Carousel Functionality
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize all carousels on the page
-    const carousels = document.querySelectorAll('.testimonial-carousel');
-    
-    carousels.forEach((carousel, carouselIndex) => {
-        const track = carousel.querySelector('.carousel-track');
-        const slides = carousel.querySelectorAll('.carousel-slide');
-        
-        // Get all navigation buttons (desktop and mobile)
-        const prevButtons = carousel.parentElement.querySelectorAll('.prev');
-        const nextButtons = carousel.parentElement.querySelectorAll('.next');
-        const dotContainers = carousel.closest('.video-gallery').querySelectorAll('.carousel-dots');
-        
-        let currentIndex = 0;
-        let autoplayInterval;
-        const autoplayDelay = 30000; // 30 seconds
-
-        function showSlide(index) {
-            slides.forEach((slide, i) => {
-                slide.classList.toggle('active', i === index);
-                slide.setAttribute('aria-hidden', i !== index);
-            });
-            
-            // Update all dot containers (desktop and mobile)
-            dotContainers.forEach(dotsContainer => {
-                const dots = dotsContainer.querySelectorAll('.carousel-dot');
-                dots.forEach((dot, i) => {
-                    dot.classList.toggle('active', i === index);
-                    dot.setAttribute('aria-selected', i === index);
-                });
-            });
-
-            // Pause all videos in this carousel
-            slides.forEach(slide => {
-                const video = slide.querySelector('video');
-                if (video) video.pause();
-            });
-
-            currentIndex = index;
-        }
-
-        function nextSlide() {
-            showSlide((currentIndex + 1) % slides.length);
-        }
-
-        function prevSlide() {
-            showSlide((currentIndex - 1 + slides.length) % slides.length);
-        }
-
-        function startAutoplay() {
-            stopAutoplay();
-            autoplayInterval = setInterval(nextSlide, autoplayDelay);
-        }
-
-        function stopAutoplay() {
-            if (autoplayInterval) {
-                clearInterval(autoplayInterval);
-            }
-        }
-
-        // Event listeners for all navigation buttons
-        prevButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                prevSlide();
-                startAutoplay();
-            });
-        });
-
-        nextButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                nextSlide();
-                startAutoplay();
-            });
-        });
-
-        // Event listeners for all dot containers
-        dotContainers.forEach(dotsContainer => {
-            const dots = dotsContainer.querySelectorAll('.carousel-dot');
-            dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => {
-                    showSlide(index);
-                    startAutoplay();
-                });
-            });
-        });
-
-        // Pause autoplay when video is playing
-        slides.forEach(slide => {
-            const video = slide.querySelector('video');
-            if (video) {
-                video.addEventListener('play', stopAutoplay);
-                video.addEventListener('pause', startAutoplay);
-            }
-        });
-
-        // Initialize first slide and start autoplay
-        showSlide(0);
-        startAutoplay();
-    });
-}); 
+// Video Carousel Functionality has been moved to the main init() function above 
