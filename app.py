@@ -97,22 +97,6 @@ def rentals():
             'deposit_text': 'Required Deposit (Refundable)'
         },
         {
-            'name': 'Jump Houses (On Sale, Valid Thru September 1st)',
-            'image': 'Images/SingularRentals/GMR(JumpHouses).webp',
-            'price': '$50/Day Rental (Normal Price $65)',
-            'deposit': '$100.00 Required Refundable Deposit',
-            'price_text': 'Price',
-            'deposit_text': 'Required Deposit (Refundable)'
-        },
-        {
-            'name': 'Double Water Slide',
-            'image': 'Images/SingularRentals/GMR (Double Water Slide)(1).webp',
-            'price': '$225.00/Day Rental',
-            'deposit': '$100.00 Required Deposit',
-            'price_text': 'Price',
-            'deposit_text': 'Required Deposit (Refundable)'
-        },
-        {
             'name': 'Arcade Games',
             'image': 'Images/SingularRentals/GMR (Arcade Games)(1).webp',
             'price': '$200.00/Day Rental',

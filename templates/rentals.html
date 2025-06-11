@@ -81,9 +81,153 @@
         <section id="rentals" class="rentals" aria-labelledby="rentals-heading">
             <div class="container">
                 <div class="section-header">
-                    <h1 id="rentals-heading">Individual Rentals</h1>
-                    <p>Browse our selection of individual rental items to create your perfect event setup</p>
+                    <h1 id="rentals-heading">Rentals</h1>
+                    <p>Browse our selection of Jumphouses, Waterslides, and other individual rental items to create your perfect event setup</p>
                 </div>
+
+                <!-- Jumphouses and Waterslides Section -->
+                <div class="rental-tabs-section">
+                    <div class="rental-tabs-container">
+                        <!-- Tab Navigation -->
+                        <div class="rental-tabs" role="tablist" aria-label="Rental categories">
+                            <button class="rental-tab active" role="tab" aria-selected="true" aria-controls="jumphouses-panel" id="jumphouses-tab">
+                                <span class="tab-title">Jumphouses</span>
+                                <span class="tab-description">6 Different Options Available, On Sale thru 09/01/2025</span>
+                                <span class="tab-price">Starting at $50/Day</span>
+                            </button>
+                            <button class="rental-tab" role="tab" aria-selected="false" aria-controls="waterslides-panel" id="waterslides-tab">
+                                <span class="tab-title">Waterslide</span>
+                                <span class="tab-description">1 Exciting Option</span>
+                                <span class="tab-price">Starting at $225/Day</span>
+                            </button>
+                        </div>
+
+                        <!-- Tab Panels -->
+                        <div class="rental-tabs-content">
+                            <!-- Jumphouses Panel -->
+                            <div class="rental-tab-panel active" role="tabpanel" id="jumphouses-panel" aria-labelledby="jumphouses-tab">
+                                <div class="rental-grid">
+                                    <article class="rental-card">
+                                        <div class="rental-image">
+                                            <img src="{{ url_for('static', filename='Images/KeyRentals/GM(Jumphouse1).webp') }}" alt="Jumphouse 1" loading="eager">
+                                            <div class="image-hint" aria-hidden="true">Tap Image to View</div>
+                                        </div>
+                                        <div class="rental-info">
+                                            <h3>Soft Play White</h3>
+                                            <div class="price-info">
+                                                <p><span>Price:</span> $50/Day Rental (Normal Price $65)</p>
+                                                <p><span>Required Deposit (Refundable):</span> $100.00</p>
+                                            </div>
+                                        </div>
+                                        <a href="{{ url_for('contact_page') }}" class="contact-button" aria-label="Contact us about Jumphouse 1">Contact For Details</a>
+                                    </article>
+                                    <article class="rental-card">
+                                        <div class="rental-image">
+                                            <img src="{{ url_for('static', filename='Images/KeyRentals/GM(Jumphouse2).webp') }}" alt="Jumphouse 2" loading="eager">
+                                            <div class="image-hint" aria-hidden="true">Tap Image to View</div>
+                                        </div>
+                                        <div class="rental-info">
+                                            <h3>Pink Castle</h3>
+                                            <div class="price-info">
+                                                <p><span>Price:</span> $50/Day Rental (Normal Price $65)</p>
+                                                <p><span>Required Deposit (Refundable):</span> $100.00</p>
+                                            </div>
+                                        </div>
+                                        <a href="{{ url_for('contact_page') }}" class="contact-button" aria-label="Contact us about Jumphouse 2">Contact For Details</a>
+                                    </article>
+                                    <article class="rental-card">
+                                        <div class="rental-image">
+                                            <img src="{{ url_for('static', filename='Images/KeyRentals/GM(Jumphouse3).webp') }}" alt="Jumphouse 3" loading="eager">
+                                            <div class="image-hint" aria-hidden="true">Tap Image to View</div>
+                                        </div>
+                                        <div class="rental-info">
+                                            <h3>Colorful Gender Neutral Castle 1</h3>
+                                            <div class="price-info">
+                                                <p><span>Price:</span> $50/Day Rental (Normal Price $65)</p>
+                                                <p><span>Required Deposit (Refundable):</span> $100.00</p>
+                                            </div>
+                                        </div>
+                                        <a href="{{ url_for('contact_page') }}" class="contact-button" aria-label="Contact us about Jumphouse 3">Contact For Details</a>
+                                    </article>
+                                    <article class="rental-card">
+                                        <div class="rental-image">
+                                            <img src="{{ url_for('static', filename='Images/KeyRentals/GM(Jumphouse4).webp') }}" alt="Jumphouse 4" loading="eager">
+                                            <div class="image-hint" aria-hidden="true">Tap Image to View</div>
+                                        </div>
+                                        <div class="rental-info">
+                                            <h3>Colorful Gender Neutral Castle 2</h3>
+                                            <div class="price-info">
+                                                <p><span>Price:</span> $50/Day Rental (Normal Price $65)</p>
+                                                <p><span>Required Deposit (Refundable):</span> $100.00</p>
+                                            </div>
+                                        </div>
+                                        <a href="{{ url_for('contact_page') }}" class="contact-button" aria-label="Contact us about Jumphouse 4">Contact For Details</a>
+                                    </article>
+                                    <article class="rental-card">
+                                        <div class="rental-image">
+                                            <img src="{{ url_for('static', filename='Images/KeyRentals/GM(Jumphouse5).webp') }}" alt="Jumphouse 5" loading="eager">
+                                            <div class="image-hint" aria-hidden="true">Tap Image to View</div>
+                                        </div>
+                                        <div class="rental-info">
+                                            <h3>Soft Play Blue</h3>
+                                            <div class="price-info">
+                                                <p><span>Price:</span> $50/Day Rental (Normal Price $65)</p>
+                                                <p><span>Required Deposit (Refundable):</span> $100.00</p>
+                                            </div>
+                                        </div>
+                                        <a href="{{ url_for('contact_page') }}" class="contact-button" aria-label="Contact us about Jumphouse 5">Contact For Details</a>
+                                    </article>
+                                    <article class="rental-card">
+                                        <div class="rental-image">
+                                            <img src="{{ url_for('static', filename='Images/KeyRentals/GM(Jumphouse6).webp') }}" alt="Jumphouse 6" loading="eager">
+                                            <div class="image-hint" aria-hidden="true">Tap Image to View</div>
+                                        </div>
+                                        <div class="rental-info">
+                                            <h3>Basic Jumphouse</h3>
+                                            <div class="price-info">
+                                                <p><span>Price:</span> $50/Day Rental (Normal Price $65)</p>
+                                                <p><span>Required Deposit (Refundable):</span> $100.00</p>
+                                            </div>
+                                        </div>
+                                        <a href="{{ url_for('contact_page') }}" class="contact-button" aria-label="Contact us about Jumphouse 6">Contact For Details</a>
+                                    </article>
+                                </div>
+                            </div>
+
+                            <!-- Waterslides Panel -->
+                            <div class="rental-tab-panel" role="tabpanel" id="waterslides-panel" aria-labelledby="waterslides-tab">
+                                <div class="rental-grid">
+                                    <article class="rental-card">
+                                        <div class="rental-image">
+                                            <img src="{{ url_for('static', filename='Images/KeyRentals/GM(Waterslide1).webp') }}" alt="Waterslide 1" loading="eager">
+                                            <div class="image-hint" aria-hidden="true">Tap Image to View</div>
+                                        </div>
+                                        <div class="rental-info">
+                                            <h3>Waterslide</h3>
+                                            <div class="price-info">
+                                                <p><span>Price:</span> $225.00/Day Rental</p>
+                                                <p><span>Required Deposit (Refundable):</span> $100.00</p>
+                                            </div>
+                                        </div>
+                                        <a href="{{ url_for('contact_page') }}" class="contact-button" aria-label="Contact us about Waterslide 1">Contact For Details</a>
+                                    </article>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Mobile Jump to Top Button -->
+                    <button class="jump-to-top-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Jump to top of page">
+                        <i class="fas fa-arrow-up"></i>
+                        Jump to Top
+                    </button>
+                </div>
+
+                <!-- Mobile Section Divider -->
+                <div class="mobile-section-divider">
+                    <h2>Individual Items</h2>
+                    <p>Browse our complete collection of rental items below</p>
+                </div>
+
                 <div class="rentals-grid" role="list">
                     {% for rental in rentals %}
                     <article class="rental-card" role="listitem">
@@ -198,8 +342,67 @@
     <!-- External JavaScript -->
     <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
     <script>
-        // Image Modal functionality
         document.addEventListener('DOMContentLoaded', function() {
+            // Tab functionality
+            const tabs = document.querySelectorAll('.rental-tab');
+            const panels = document.querySelectorAll('.rental-tab-panel');
+            const tabsContainer = document.querySelector('.rental-tabs');
+            const tabsContent = document.querySelector('.rental-tabs-content');
+
+            function handleTabClick(clickedTab) {
+                // Remove active class from all tabs and panels
+                tabs.forEach(t => t.classList.remove('active'));
+                panels.forEach(p => p.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                clickedTab.classList.add('active');
+                
+                // Show corresponding panel
+                const panelId = clickedTab.getAttribute('aria-controls');
+                const panel = document.getElementById(panelId);
+                panel.classList.add('active');
+
+                // On mobile, move the tabs container after the content
+                if (window.innerWidth <= 768) {
+                    // First move all tabs back to the tabs container
+                    tabs.forEach(tab => {
+                        if (tab !== clickedTab) {
+                            tabsContainer.appendChild(tab);
+                        }
+                    });
+                    
+                    // Ensure smooth animation by using requestAnimationFrame
+                    requestAnimationFrame(() => {
+                        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                }
+            }
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => handleTabClick(tab));
+
+                // Keyboard navigation
+                tab.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleTabClick(tab);
+                    }
+                });
+            });
+
+            // Handle resize events
+            let lastWidth = window.innerWidth;
+            window.addEventListener('resize', () => {
+                const newWidth = window.innerWidth;
+                // Only trigger if we cross the mobile breakpoint
+                if ((lastWidth <= 768 && newWidth > 768) || (lastWidth > 768 && newWidth <= 768)) {
+                    // Reset layout
+                    tabs.forEach(tab => tabsContainer.appendChild(tab));
+                }
+                lastWidth = newWidth;
+            });
+
+            // Image Modal functionality
             const modal = document.querySelector('.image-modal');
             const modalImage = document.querySelector('.modal-image');
             const modalClose = document.querySelector('.modal-close');

@@ -2329,4 +2329,422 @@ h3 {
     gap: 1rem;
 }
 
-/* Desktop transcript button inherits existing styles */ 
+/* Desktop transcript button inherits existing styles */
+
+/* Featured Rentals Section */
+.featured-rentals {
+    margin-bottom: 4rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(44, 110, 184, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.featured-rentals h2 {
+    text-align: center;
+    font-size: 2rem;
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-vibrant) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 2rem;
+}
+
+.featured-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.featured-row {
+    display: grid;
+    gap: 2rem;
+}
+
+/* First row - 6 items */
+.featured-row:first-child {
+    grid-template-columns: repeat(6, 1fr);
+}
+
+/* Second row - 2 items */
+.featured-row:last-child {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (max-width: 1400px) {
+    .featured-row:first-child {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .featured-row:last-child {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .featured-row:first-child,
+    .featured-row:last-child {
+        grid-template-columns: 1fr;
+    }
+    
+    .featured-rentals {
+        padding: 1rem;
+        margin-bottom: 2rem;
+    }
+}
+
+/* Rental Tabs Section */
+.rental-tabs-section {
+    margin: 0 1rem 4rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(44, 110, 184, 0.2);
+    backdrop-filter: blur(10px);
+    max-width: 1800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.rental-tabs-container {
+    display: flex;
+    gap: 2rem;
+    max-width: 100%;
+}
+
+/* Tab Navigation */
+.rental-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 250px;
+    flex-shrink: 0;
+    align-self: center; /* Center tabs container vertically */
+    margin: auto 0; /* Additional vertical centering */
+}
+
+.rental-tabs-container {
+    display: flex;
+    gap: 2rem;
+    max-width: 100%;
+    align-items: center; /* Center tabs container vertically */
+}
+
+.rental-tab {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(44, 110, 184, 0.2);
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.rental-tab:hover {
+    background: rgba(44, 110, 184, 0.2);
+    transform: translateX(5px);
+}
+
+.rental-tab.active {
+    background: rgba(44, 110, 184, 0.2);
+    border-color: rgba(44, 110, 184, 0.5);
+    transform: translateX(10px);
+}
+
+.tab-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+}
+
+.tab-description {
+    font-size: 0.9rem;
+    color: #fff;
+    opacity: 0.8;
+}
+
+.tab-price {
+    font-size: 1rem;
+    color: var(--primary-blue);
+    font-weight: 500;
+}
+
+/* Tab Content */
+.rental-tabs-content {
+    flex: 1;
+    min-width: 0; /* Prevents flex item from overflowing */
+    overflow-x: auto; /* Allows horizontal scrolling if needed */
+    padding-bottom: 1rem; /* Space for potential scrollbar */
+}
+
+.rental-tab-panel {
+    display: none;
+}
+
+.rental-tab-panel.active {
+    display: block;
+}
+
+/* Grid Layout for Panels */
+.rental-tab-panel .rental-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* Always show 6 columns for jumphouses */
+    gap: 1rem;
+    min-width: min-content; /* Ensures grid items don't shrink below their minimum width */
+}
+
+/* Waterslides specific layout */
+#waterslides-panel .rental-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Adjust rental card sizing */
+.rental-tab-panel .rental-card {
+    height: 100%;
+    min-width: 220px; /* Minimum width for cards */
+}
+
+.rental-tab-panel .rental-image {
+    height: 200px; /* Slightly reduced height to fit better */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1600px) {
+    .rental-tab-panel .rental-grid {
+        gap: 0.75rem;
+    }
+
+    .rental-tab-panel .rental-card {
+        min-width: 200px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .rental-tabs-container {
+        flex-direction: column;
+        align-items: stretch; /* Reset alignment for mobile layout */
+    }
+
+    .rental-tabs {
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+        align-self: stretch; /* Reset alignment for mobile layout */
+        margin: 0; /* Reset margin for mobile layout */
+    }
+
+    .rental-tab {
+        flex: 1;
+        max-width: 300px;
+    }
+
+    .rental-tab:hover,
+    .rental-tab.active {
+        transform: translateY(-5px);
+    }
+
+    .rental-tab-panel .rental-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .rental-tabs {
+        flex-direction: column;
+    }
+
+    .rental-tab {
+        max-width: none;
+    }
+
+    .rental-tab-panel .rental-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #waterslides-panel .rental-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Hide mobile-only elements */
+.mobile-section-divider,
+.jump-to-top-btn {
+    display: none;
+}
+
+/* Rental Tabs Section */
+.rental-tabs-section {
+    margin: 0 1rem 4rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(44, 110, 184, 0.2);
+    backdrop-filter: blur(10px);
+    max-width: 1800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.rental-tabs-container {
+    display: flex;
+    gap: 2rem;
+    max-width: 100%;
+}
+
+/* Tab Navigation */
+.rental-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 250px;
+    flex-shrink: 0;
+}
+
+.rental-tab {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(44, 110, 184, 0.2);
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.rental-tab:hover {
+    background: rgba(44, 110, 184, 0.2);
+    transform: translateX(5px);
+}
+
+.rental-tab.active {
+    background: rgba(44, 110, 184, 0.2);
+    border-color: rgba(44, 110, 184, 0.5);
+    transform: translateX(10px);
+}
+
+.tab-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+}
+
+.tab-description {
+    font-size: 0.9rem;
+    color: #fff;
+    opacity: 0.8;
+}
+
+.tab-price {
+    font-size: 1rem;
+    color: var(--primary-blue);
+    font-weight: 500;
+}
+
+/* Tab Content */
+.rental-tabs-content {
+    flex: 1;
+    min-width: 0; /* Prevents flex item from overflowing */
+    overflow-x: auto; /* Allows horizontal scrolling if needed */
+    padding-bottom: 1rem; /* Space for potential scrollbar */
+}
+
+.rental-tab-panel {
+    display: none;
+}
+
+.rental-tab-panel.active {
+    display: block;
+}
+
+/* Grid Layout for Panels */
+.rental-tab-panel .rental-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* Always show 6 columns for jumphouses */
+    gap: 1rem;
+    min-width: min-content; /* Ensures grid items don't shrink below their minimum width */
+}
+
+/* Waterslides specific layout */
+#waterslides-panel .rental-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Adjust rental card sizing */
+.rental-tab-panel .rental-card {
+    height: 100%;
+    min-width: 220px; /* Minimum width for cards */
+}
+
+.rental-tab-panel .rental-image {
+    height: 200px; /* Slightly reduced height to fit better */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1600px) {
+    .rental-tab-panel .rental-grid {
+        gap: 0.75rem;
+    }
+
+    .rental-tab-panel .rental-card {
+        min-width: 200px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .rental-tabs-container {
+        flex-direction: column;
+        align-items: stretch; /* Reset alignment for mobile layout */
+    }
+
+    .rental-tabs {
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+        align-self: stretch; /* Reset alignment for mobile layout */
+        margin: 0; /* Reset margin for mobile layout */
+    }
+
+    .rental-tab {
+        flex: 1;
+        max-width: 300px;
+    }
+
+    .rental-tab:hover,
+    .rental-tab.active {
+        transform: translateY(-5px);
+    }
+
+    .rental-tab-panel .rental-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .rental-tabs {
+        flex-direction: column;
+    }
+
+    .rental-tab {
+        max-width: none;
+    }
+
+    .rental-tab-panel .rental-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #waterslides-panel .rental-grid {
+        grid-template-columns: 1fr;
+    }
+} 
