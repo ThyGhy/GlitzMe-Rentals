@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+Allow: /static/
+
+# Sitemaps
+Sitemap: https://glitzmerentals.com/sitemap.xml
+
+# Disallow admin/backend paths (if any exist in future)
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_private/
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Crawl delay to be respectful
+Crawl-delay: 1 

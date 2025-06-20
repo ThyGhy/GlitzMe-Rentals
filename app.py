@@ -7,6 +7,10 @@ import random
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'glitzme-rentals-secret-key-2024')
 
+# Production optimizations
+app.config['TEMPLATES_AUTO_RELOAD'] = False
+app.config['EXPLAIN_TEMPLATE_LOADING'] = False
+
 # Initialize gzip compression
 compress = Compress()
 compress.init_app(app)
@@ -27,6 +31,9 @@ app.config['COMPRESS_MIMETYPES'] = [
 ]
 app.config['COMPRESS_LEVEL'] = 6  # Compression level 1-9 (6 is optimal balance)
 app.config['COMPRESS_MIN_SIZE'] = 500  # Only compress files larger than 500 bytes
+
+# Performance optimizations
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 604800  # 7 days cache for static files
 
 # Add security and caching headers
 @app.after_request
@@ -219,6 +226,24 @@ def packages():
             'price_text': DEFAULT_PRICE
         },
         {
+            'name': 'Extreme Party Bundle',
+            'image': 'Images/Packages/ExtremePartyBundle.webp',
+            'price': DEFAULT_PRICE,
+            'price_text': DEFAULT_PRICE
+        },
+        {
+            'name': 'Extreme Party Bundle (Game Package)',
+            'image': 'Images/Packages/ExtremePartyBundle(Game Package).webp',
+            'price': DEFAULT_PRICE,
+            'price_text': DEFAULT_PRICE
+        },
+        {
+            'name': 'Extreme Party Bundle (Waterslide)',
+            'image': 'Images/Packages/ExtremePartyBundle(Waterslide).webp',
+            'price': DEFAULT_PRICE,
+            'price_text': DEFAULT_PRICE
+        },
+        {
             'name': 'Game Room Extreme',
             'image': 'Images/Packages/GMR (Game Room Extreme)(1).webp',
             'price': DEFAULT_PRICE,
@@ -323,6 +348,58 @@ def contact_submit():
     flash('Thank you for your inquiry! We will contact you within 24 hours to discuss your event needs.', 'success')
     
     return redirect(url_for('contact_page'))
+
+@app.route('/sitemap.xml')
+def sitemap():
+    """Generate sitemap for SEO"""
+    from flask import Response
+    
+    sitemap_xml = '''<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://glitzmerentals.com/</loc>
+        <lastmod>{}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://glitzmerentals.com/rentals</loc>
+        <lastmod>{}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://glitzmerentals.com/packages</loc>
+        <lastmod>{}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://glitzmerentals.com/about</loc>
+        <lastmod>{}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://glitzmerentals.com/gallery</loc>
+        <lastmod>{}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://glitzmerentals.com/contact</loc>
+        <lastmod>{}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+</urlset>'''.format(*([datetime.now().strftime('%Y-%m-%d')] * 6))
+    
+    return Response(sitemap_xml, mimetype='application/xml')
+
+@app.route('/robots.txt')
+def robots():
+    """Serve robots.txt for SEO"""
+    return send_from_directory(app.root_path, 'robots.txt')
 
 @app.route('/health')
 def health_check():

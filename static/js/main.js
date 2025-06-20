@@ -1,4 +1,5 @@
 // GlitzME Rentals - Main JavaScript Functionality
+// Optimized for performance and accessibility
 
 document.addEventListener('DOMContentLoaded', function() {
     
