@@ -1,14 +1,37 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, jsonify, send_from_directory
+from flask import Flask, render_template, request, flash, redirect, url_for, jsonify, send_from_directory, session
 from flask_compress import Compress
 import os
 from datetime import datetime, timedelta
 import random
+import secrets
+import hashlib
+from database import (get_rental_items, get_package_items, get_team_members, get_site_settings, get_carousel_items,
+                     db_manager)
+
+try:
+    from dotenv import load_dotenv, find_dotenv  # type: ignore
+    # Load .env explicitly from the project root (same dir as this file)
+    dotenv_path = find_dotenv(filename='.env', usecwd=True) or os.path.join(os.path.dirname(__file__), '.env')
+    load_dotenv(dotenv_path, override=False)
+except Exception:
+    # If python-dotenv isn't installed or fails, rely on OS env vars
+    pass
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'glitzme-rentals-secret-key-2024')
 
-# Production optimizations
-app.config['TEMPLATES_AUTO_RELOAD'] = False
+# Admin configuration
+# Read secrets from environment (use .env in development). No hardcoded defaults.
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
+if not ADMIN_PASSWORD:
+    raise RuntimeError(
+        "ADMIN_PASSWORD is not set. Create a .env file in the project root and define ADMIN_PASSWORD, or set it as an environment variable."
+    )
+ADMIN_TOKEN_EXPIRY = 3600  # 1 hour in seconds
+
+# Template and loader behavior
+# Enable template auto-reload in development so edited templates reflect without full restarts
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['EXPLAIN_TEMPLATE_LOADING'] = False
 
 # Initialize gzip compression
@@ -88,86 +111,25 @@ def add_headers(response):
 @app.route('/')
 def index():
     """Homepage route"""
-    return render_template('index.html')
+    # Get dynamic content from database
+    team_members = get_team_members()
+    site_settings = get_site_settings()
+    carousel_items = get_carousel_items()
+    
+    return render_template('index.html', 
+                         team_members=team_members,
+                         site_settings=site_settings,
+                         carousel_items=carousel_items)
 
 @app.route('/rentals', methods=['GET', 'POST'])
 def rentals():
     """Rentals page route with pagination"""
-    # List of all rental items
-    rental_items = [
-        {
-            'name': 'Tables & Chairs',
-            'image': 'Images/SingularRentals/GMR (Tables & Chairs)(1).webp',
-            'price': 'Tables $5-$14 per (Depends On Table Type), Chairs $1-$6 per (Depends On Chair Type), Ask for Details',
-            'deposit': '$25.00 - $150.00 Required Deposit',
-            'price_text': 'Prices',
-            'deposit_text': 'Required Deposit (Refundable)'
-        },
-        {
-            'name': 'Arcade Games',
-            'image': 'Images/SingularRentals/GMR (Arcade Games)(1).webp',
-            'price': '$200.00/Day Rental',
-            'deposit': '$100.00 Required Deposit',
-            'price_text': 'Price',
-            'deposit_text': 'Required Deposit (Refundable)'
-        },
-        {
-            'name': 'Canopy Tents',
-            'image': 'Images/SingularRentals/GMR (Canopy Tent)(1).webp',
-            'price': 'Starting at $70',
-            'deposit': '$100.00 Required Refundable Deposit',
-            'price_text': 'Prices Vary',
-            'deposit_text': 'Required Deposit (Refundable)'
-        },
-        {
-            'name': 'Red Carpet',
-            'image': 'Images/SingularRentals/GMR (Red Carpet)(1).webp',
-            'price': '$80.00/Day Rental',
-            'deposit': '$50.00 Required Deposit',
-            'price_text': 'Price',
-            'deposit_text': 'Required Deposit (Refundable)'
-        },
-        {
-            'name': 'Black Carpet',
-            'image': 'Images/SingularRentals/GMR (Black Carpet)(1).webp',
-            'price': '$80/Day Rental',
-            'deposit': '$50 Required Deposit',
-            'price_text': 'Price',
-            'deposit_text': 'Required Deposit (Refundable)'
-        },
-        {
-            'name': 'Nacho Machine',
-            'image': 'Images/SingularRentals/GMR (Nacho Machine)(1).webp',
-            'price': '$60/Day Rental',
-            'deposit': '$50 Required Deposit',
-            'price_text': 'Price',
-            'deposit_text': 'Required Deposit (Refundable)'
-        },
-        {
-            'name': 'Mobile Bars',
-            'image': 'Images/SingularRentals/GMR (Mobile Bars)(1).webp',
-            'price': 'Starting at $30',
-            'deposit': '$100 Required Deposit',
-            'price_text': 'Prices Vary',
-            'deposit_text': 'Required Deposit (Refundable)'
-        },
-        {
-            'name': 'Queens/Throne Chair',
-            'image': 'Images/SingularRentals/GMR (Kids Throne Chair)(1).webp',
-            'price': '$44/Day Rental',
-            'deposit': '$50 Required Deposit',
-            'price_text': 'Price',
-            'deposit_text': 'Required Deposit (Refundable)'
-        },
-        {
-            'name': 'Snow Machine',
-            'image': 'Images/SingularRentals/GMR (Snow Machine)(1).webp',
-            'price': '$45/Day Rental',
-            'deposit': '$25 Required Deposit',
-            'price_text': 'Price',
-            'deposit_text': 'Required Deposit (Refundable)'
-        }
-    ]
+    # Get rental items from database
+    rental_items = get_rental_items()
+    
+    # Convert database format to template format (add 'image' key for compatibility)
+    for item in rental_items:
+        item['image'] = item['image_path']
 
     # Pagination
     items_per_page = 4
@@ -196,91 +158,12 @@ def rentals():
 @app.route('/packages')
 def packages():
     """Packages page route with pagination"""
-    # Default price settings for all packages
-    DEFAULT_PRICE = 'Contact For Details'
+    # Get package items from database
+    package_items = get_package_items()
     
-    # List of package configurations
-    package_items = [
-        {
-            'name': 'Movie Theater Experience',
-            'image': 'Images/Packages/GMR (Movie Theater Experience)(1).webp',
-            'price': DEFAULT_PRICE,
-            'price_text': DEFAULT_PRICE
-        },
-        {
-            'name': 'Boy Soft Play Extreme',
-            'image': 'Images/Packages/GMR (Boy Soft Play Extreme)(1).webp',
-            'price': DEFAULT_PRICE,
-            'price_text': DEFAULT_PRICE
-        },
-        {
-            'name': 'Girl Soft Play Extreme',
-            'image': 'Images/Packages/GMR (Girl Soft Play Extreme)(1).webp',
-            'price': DEFAULT_PRICE,
-            'price_text': DEFAULT_PRICE
-        },
-        {
-            'name': 'Super Simple Soft Play',
-            'image': 'Images/Packages/GMR (Super Simple Soft Play)(1).webp',
-            'price': DEFAULT_PRICE,
-            'price_text': DEFAULT_PRICE
-        },
-        {
-            'name': 'Extreme Party Bundle',
-            'image': 'Images/Packages/ExtremePartyBundle.webp',
-            'price': DEFAULT_PRICE,
-            'price_text': DEFAULT_PRICE
-        },
-        {
-            'name': 'Extreme Party Bundle (Game Package)',
-            'image': 'Images/Packages/ExtremePartyBundle(Game Package).webp',
-            'price': DEFAULT_PRICE,
-            'price_text': DEFAULT_PRICE
-        },
-        {
-            'name': 'Extreme Party Bundle (Waterslide)',
-            'image': 'Images/Packages/ExtremePartyBundle(Waterslide).webp',
-            'price': DEFAULT_PRICE,
-            'price_text': DEFAULT_PRICE
-        },
-        {
-            'name': 'Game Room Extreme',
-            'image': 'Images/Packages/GMR (Game Room Extreme)(1).webp',
-            'price': DEFAULT_PRICE,
-            'price_text': DEFAULT_PRICE
-        },
-        {
-            'name': 'Game Package',
-            'image': 'Images/Packages/GMR (Game Package)(1).webp',
-            'price': DEFAULT_PRICE,
-            'price_text': DEFAULT_PRICE
-        },
-        {
-            'name': 'Spooky Walkway',
-            'image': 'Images/Packages/GMR (Spooky Walkway)(1).webp',
-            'price': DEFAULT_PRICE,
-            'price_text': DEFAULT_PRICE
-        },
-        {
-            'name': 'Winter Wonderland',
-            'image': 'Images/Packages/GMR (Winter Wonderland)(1).webp',
-            'price': DEFAULT_PRICE,
-            'price_text': DEFAULT_PRICE
-        },
-        {
-            'name': 'Treasure Package',
-            'image': 'Images/Packages/coming-soon-placeholder.png',
-            'price': DEFAULT_PRICE,
-            'price_text': DEFAULT_PRICE,
-            'image_placeholder': 'Image Coming Soon'
-        },
-        {
-            'name': 'Mobile Bar Experience',
-            'image': 'Images/Packages/GMR (Mobile Bar Experience)(1).webp',
-            'price': DEFAULT_PRICE,
-            'price_text': DEFAULT_PRICE
-        },
-    ]
+    # Convert database format to template format (add 'image' key for compatibility)
+    for item in package_items:
+        item['image'] = item['image_path']
 
     # Pagination
     items_per_page = 4
@@ -414,6 +297,360 @@ def health_check():
 def not_found(error):
     """Handle 404 errors"""
     return redirect(url_for('index'))
+
+# AUTHENTICATION HELPERS
+def generate_admin_token():
+    """Generate a secure token for admin access"""
+    return secrets.token_urlsafe(32)
+
+def is_admin_authenticated():
+    """Check if current session is authenticated as admin"""
+    return session.get('admin_authenticated') == True and \
+           session.get('admin_token') and \
+           session.get('admin_expires', 0) > datetime.now().timestamp()
+
+def require_admin_auth(f):
+    """Decorator to require admin authentication"""
+    def decorated_function(*args, **kwargs):
+        if not is_admin_authenticated():
+            flash('Please log in to access the admin area.', 'error')
+            return redirect(url_for('admin_login'))
+        return f(*args, **kwargs)
+    decorated_function.__name__ = f.__name__
+    return decorated_function
+
+# ADMIN AUTHENTICATION ROUTES
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    """Admin login page"""
+    if request.method == 'POST':
+        password = request.form.get('password', '').strip()
+        
+        if password == ADMIN_PASSWORD:
+            # Set session data
+            session['admin_authenticated'] = True
+            session['admin_token'] = generate_admin_token()
+            session['admin_expires'] = datetime.now().timestamp() + ADMIN_TOKEN_EXPIRY
+            session.permanent = True
+            
+            flash('Successfully logged in to admin area!', 'success')
+            return redirect(url_for('admin_dashboard'))
+        else:
+            flash('Invalid password. Please try again.', 'error')
+    
+    # Get site settings for the login page
+    site_settings = get_site_settings()
+    return render_template('admin_login.html', site_settings=site_settings)
+
+@app.route('/admin/logout')
+def admin_logout():
+    """Admin logout"""
+    session.pop('admin_authenticated', None)
+    session.pop('admin_token', None)
+    session.pop('admin_expires', None)
+    flash('Successfully logged out of admin area.', 'success')
+    return redirect(url_for('index'))
+
+# ADMIN ROUTES
+@app.route('/admin')
+@require_admin_auth
+def admin_dashboard():
+    """Admin dashboard homepage"""
+    # Get counts for dashboard overview
+    rental_count = len(get_rental_items(active_only=False))
+    package_count = len(get_package_items(active_only=False))
+    team_count = len(get_team_members(active_only=False))
+    
+    return render_template('admin/dashboard.html',
+                         rental_count=rental_count,
+                         package_count=package_count,
+                         team_count=team_count)
+
+# Friendly aliases to prevent accidental 404s (e.g., trailing slash or pluralization)
+@app.route('/admin/')
+def admin_dashboard_trailing_slash():
+    """Allow /admin/ to resolve correctly by redirecting to /admin"""
+    if not is_admin_authenticated():
+        return redirect(url_for('admin_login'))
+    return redirect(url_for('admin_dashboard'))
+
+@app.route('/admin/rentals')
+@require_admin_auth
+def admin_rentals():
+    """Admin page for managing rental items"""
+    rentals = get_rental_items(active_only=False)
+    return render_template('admin/rentals.html', rentals=rentals)
+
+@app.route('/admin/rentals/add', methods=['GET', 'POST'])
+@require_admin_auth
+def admin_rentals_add():
+    """Add new rental item"""
+    if request.method == 'POST':
+        name = request.form.get('name', '').strip()
+        image_path = request.form.get('image_path', '').strip()
+        price = request.form.get('price', '').strip()
+        deposit = request.form.get('deposit', '').strip()
+        price_text = request.form.get('price_text', 'Price').strip()
+        deposit_text = request.form.get('deposit_text', 'Required Deposit (Refundable)').strip()
+        category = request.form.get('category', 'general').strip()
+        description = request.form.get('description', '').strip()
+        
+        if name and image_path and price:
+            db_manager.add_rental_item(
+                name=name, image_path=image_path, price=price, deposit=deposit,
+                price_text=price_text, deposit_text=deposit_text,
+                category=category, description=description or None
+            )
+            flash('Rental item added successfully!', 'success')
+            return redirect(url_for('admin_rentals'))
+        else:
+            flash('Please fill in all required fields (Name, Image Path, Price).', 'error')
+    
+    return render_template('admin/rental_form.html', rental=None, action='Add')
+
+@app.route('/admin/rentals/<int:rental_id>/edit', methods=['GET', 'POST'])
+@require_admin_auth
+def admin_rentals_edit(rental_id):
+    """Edit rental item"""
+    rental = db_manager.get_rental_item(rental_id)
+    if not rental:
+        flash('Rental item not found.', 'error')
+        return redirect(url_for('admin_rentals'))
+    
+    if request.method == 'POST':
+        name = request.form.get('name', '').strip()
+        image_path = request.form.get('image_path', '').strip()
+        price = request.form.get('price', '').strip()
+        deposit = request.form.get('deposit', '').strip()
+        price_text = request.form.get('price_text', 'Price').strip()
+        deposit_text = request.form.get('deposit_text', 'Required Deposit (Refundable)').strip()
+        category = request.form.get('category', 'general').strip()
+        description = request.form.get('description', '').strip()
+        is_active = bool(request.form.get('is_active'))
+        
+        if name and image_path and price:
+            db_manager.update_rental_item(
+                rental_id,
+                name=name, image_path=image_path, price=price, deposit=deposit,
+                price_text=price_text, deposit_text=deposit_text,
+                category=category, description=description or None,
+                is_active=is_active
+            )
+            flash('Rental item updated successfully!', 'success')
+            return redirect(url_for('admin_rentals'))
+        else:
+            flash('Please fill in all required fields (Name, Image Path, Price).', 'error')
+    
+    return render_template('admin/rental_form.html', rental=rental, action='Edit')
+
+@app.route('/admin/rentals/<int:rental_id>/delete', methods=['POST'])
+@require_admin_auth
+def admin_rentals_delete(rental_id):
+    """Delete rental item"""
+    if db_manager.delete_rental_item(rental_id):
+        flash('Rental item deleted successfully!', 'success')
+    else:
+        flash('Error deleting rental item.', 'error')
+    return redirect(url_for('admin_rentals'))
+
+@app.route('/admin/packages')
+@require_admin_auth
+def admin_packages():
+    """Admin page for managing package items"""
+    packages = get_package_items(active_only=False)
+    return render_template('admin/packages.html', packages=packages)
+
+@app.route('/admin/package')
+@require_admin_auth
+def admin_packages_alias():
+    """Alias singular /admin/package to plural route"""
+    return redirect(url_for('admin_packages'))
+
+@app.route('/admin/packages/add', methods=['GET', 'POST'])
+@require_admin_auth
+def admin_packages_add():
+    """Add new package item"""
+    if request.method == 'POST':
+        name = request.form.get('name', '').strip()
+        image_path = request.form.get('image_path', '').strip()
+        price = request.form.get('price', '').strip()
+        price_text = request.form.get('price_text', 'Contact For Details').strip()
+        description = request.form.get('description', '').strip()
+        
+        if name and image_path and price:
+            db_manager.add_package_item(
+                name=name, image_path=image_path, price=price,
+                price_text=price_text, description=description or None
+            )
+            flash('Package item added successfully!', 'success')
+            return redirect(url_for('admin_packages'))
+        else:
+            flash('Please fill in all required fields (Name, Image Path, Price).', 'error')
+    
+    return render_template('admin/package_form.html', package=None, action='Add')
+
+@app.route('/admin/packages/<int:package_id>/edit', methods=['GET', 'POST'])
+@require_admin_auth
+def admin_packages_edit(package_id):
+    """Edit package item"""
+    package = db_manager.get_package_item(package_id)
+    if not package:
+        flash('Package item not found.', 'error')
+        return redirect(url_for('admin_packages'))
+    
+    if request.method == 'POST':
+        name = request.form.get('name', '').strip()
+        image_path = request.form.get('image_path', '').strip()
+        price = request.form.get('price', '').strip()
+        price_text = request.form.get('price_text', 'Contact For Details').strip()
+        description = request.form.get('description', '').strip()
+        is_active = bool(request.form.get('is_active'))
+        
+        if name and image_path and price:
+            db_manager.update_package_item(
+                package_id,
+                name=name, image_path=image_path, price=price,
+                price_text=price_text, description=description or None,
+                is_active=is_active
+            )
+            flash('Package item updated successfully!', 'success')
+            return redirect(url_for('admin_packages'))
+        else:
+            flash('Please fill in all required fields (Name, Image Path, Price).', 'error')
+    
+    return render_template('admin/package_form.html', package=package, action='Edit')
+
+@app.route('/admin/packages/<int:package_id>/delete', methods=['POST'])
+@require_admin_auth
+def admin_packages_delete(package_id):
+    """Delete package item"""
+    if db_manager.delete_package_item(package_id):
+        flash('Package item deleted successfully!', 'success')
+    else:
+        flash('Error deleting package item.', 'error')
+    return redirect(url_for('admin_packages'))
+
+@app.route('/admin/team')
+@require_admin_auth
+def admin_team():
+    """Admin page for managing team members"""
+    team = get_team_members(active_only=False)
+    return render_template('admin/team.html', team=team)
+
+@app.route('/admin/teams')
+@require_admin_auth
+def admin_team_alias():
+    """Alias /admin/teams to the canonical /admin/team route"""
+    return redirect(url_for('admin_team'))
+
+@app.route('/admin/team/add', methods=['GET', 'POST'])
+@require_admin_auth
+def admin_team_add():
+    """Add new team member"""
+    if request.method == 'POST':
+        name = request.form.get('name', '').strip()
+        role = request.form.get('role', '').strip()
+        image_path = request.form.get('image_path', '').strip()
+        mobile_image_path = request.form.get('mobile_image_path', '').strip()
+        
+        if name and role and image_path:
+            db_manager.add_team_member(
+                name=name, role=role, image_path=image_path,
+                mobile_image_path=mobile_image_path or None
+            )
+            flash('Team member added successfully!', 'success')
+            return redirect(url_for('admin_team'))
+        else:
+            flash('Please fill in all required fields (Name, Role, Image Path).', 'error')
+    
+    return render_template('admin/team_form.html', member=None, action='Add')
+
+@app.route('/admin/team/<int:member_id>/edit', methods=['GET', 'POST'])
+@require_admin_auth
+def admin_team_edit(member_id):
+    """Edit team member"""
+    member = db_manager.get_team_member(member_id)
+    if not member:
+        flash('Team member not found.', 'error')
+        return redirect(url_for('admin_team'))
+    
+    if request.method == 'POST':
+        name = request.form.get('name', '').strip()
+        role = request.form.get('role', '').strip()
+        image_path = request.form.get('image_path', '').strip()
+        mobile_image_path = request.form.get('mobile_image_path', '').strip()
+        is_active = bool(request.form.get('is_active'))
+        
+        if name and role and image_path:
+            db_manager.update_team_member(
+                member_id,
+                name=name, role=role, image_path=image_path,
+                 mobile_image_path=mobile_image_path or None,
+                 is_active=is_active
+            )
+            flash('Team member updated successfully!', 'success')
+            return redirect(url_for('admin_team'))
+        else:
+            flash('Please fill in all required fields (Name, Role, Image Path).', 'error')
+    
+    return render_template('admin/team_form.html', member=member, action='Edit')
+
+@app.route('/admin/team/<int:member_id>/delete', methods=['POST'])
+@require_admin_auth
+def admin_team_delete(member_id):
+    """Delete team member"""
+    if db_manager.delete_team_member(member_id):
+        flash('Team member deleted successfully!', 'success')
+    else:
+        flash('Error deleting team member.', 'error')
+    return redirect(url_for('admin_team'))
+
+@app.route('/admin/api/images')
+@require_admin_auth
+def admin_api_images():
+    """API endpoint to get all available images"""
+    import glob
+    
+    image_folders = [
+        'static/Images/SingularRentals/*.webp',
+        'static/Images/Packages/*.webp',
+        'static/Images/Team/*.webp',
+        'static/Images/HomePageAdverts/*.webp',
+        'static/Images/Logos/*.webp'
+    ]
+    
+    all_images = []
+    for folder_pattern in image_folders:
+        images = glob.glob(folder_pattern)
+        for img_path in images:
+            # Convert to relative path from static folder
+            relative_path = img_path.replace('static/', '')
+            all_images.append(relative_path)
+    
+    return jsonify(sorted(all_images))
+
+@app.route('/admin/settings', methods=['GET', 'POST'])
+@require_admin_auth
+def admin_settings():
+    """Admin page for managing site settings"""
+    if request.method == 'POST':
+        # Get all form data and update settings
+        settings_to_update = [
+            'business_name', 'business_description', 'phone_primary', 'phone_secondary',
+            'email', 'address', 'tagline', 'instagram_url', 'meta_description',
+            'meta_keywords', 'team_section_quote'
+        ]
+        
+        for setting_key in settings_to_update:
+            value = request.form.get(setting_key, '').strip()
+            if value:  # Only update if value is provided
+                db_manager.set_site_setting(setting_key, value)
+        
+        flash('Site settings updated successfully!', 'success')
+        return redirect(url_for('admin_settings'))
+    
+    settings = get_site_settings()
+    return render_template('admin/settings.html', settings=settings)
 
 @app.errorhandler(500)
 def internal_error(error):

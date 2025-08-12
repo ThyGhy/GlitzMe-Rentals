@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GlitzME Rentals Admin{% endblock %}</title>
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Preconnect to external domains for faster loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Font loading -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" as="style">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Sitewide CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/mobile.css') }}?v=20250604080112" media="screen and (max-width: 768px), screen and (max-height: 600px)">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/desktop.css') }}?v=20250604080112" media="screen and (min-width: 769px) and (min-height: 601px)">
+</head>
+<body class="admin-page">
+    <!-- Navigation -->
+    <nav class="admin-navbar">
+        <div class="nav-container">
+            <button class="admin-hamburger" aria-label="Open admin menu" aria-controls="admin-sidebar" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <a href="{{ url_for('admin_dashboard') }}" class="admin-brand">
+                <i class="fas fa-cog"></i> GlitzME Admin
+            </a>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" target="_blank" class="btn btn-secondary btn-small">
+                    <i class="fas fa-external-link-alt"></i> View Site
+                </a>
+                <a href="{{ url_for('admin_logout') }}" class="btn btn-secondary btn-small">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <div class="sidebar" id="admin-sidebar">
+            <ul class="sidebar-nav">
+                <li>
+                    <a href="{{ url_for('admin_dashboard') }}" class="{% if request.endpoint == 'admin_dashboard' %}active{% endif %}">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('admin_rentals') }}" class="{% if 'rental' in request.endpoint %}active{% endif %}">
+                        <i class="fas fa-box"></i> Rentals
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('admin_packages') }}" class="{% if 'package' in request.endpoint %}active{% endif %}">
+                        <i class="fas fa-gift"></i> Packages
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('admin_team') }}" class="{% if 'team' in request.endpoint %}active{% endif %}">
+                        <i class="fas fa-users"></i> Team
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('admin_settings') }}" class="{% if 'settings' in request.endpoint %}active{% endif %}">
+                        <i class="fas fa-cogs"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ 'error' if category == 'error' else category }}">
+                            <i class="fas fa-{{ 'check-circle' if category == 'success' else 'exclamation-triangle' if category == 'error' else 'info-circle' }}"></i>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <!-- Page Content -->
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    <!-- Custom JS -->
+    <script>
+        // Auto-hide alerts after 5 seconds
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                alert.style.opacity = '0';
+                alert.style.transform = 'translateY(-10px)';
+                setTimeout(function() {
+                    alert.remove();
+                }, 300);
+            });
+        }, 5000);
+        
+        // Confirm delete actions
+        function confirmDelete(itemName) {
+            return confirm('Are you sure you want to delete "' + itemName + '"? This action cannot be undone.');
+        }
+        
+        // Image preview functionality
+        function previewImage(input, previewId) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(previewId).src = e.target.result;
+                    document.getElementById(previewId).style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        
+        // Mobile hamburger toggle for admin sidebar
+        (function(){
+            var btn = document.querySelector('.admin-hamburger');
+            var sidebar = document.getElementById('admin-sidebar');
+            if(!btn || !sidebar) return;
+            btn.addEventListener('click', function(){
+                var expanded = btn.getAttribute('aria-expanded') === 'true';
+                btn.setAttribute('aria-expanded', String(!expanded));
+                sidebar.classList.toggle('open');
+                btn.classList.toggle('active');
+            });
+        })();
+
+        // Helper to stamp data-labels on tables for mobile card layout
+        (function stampDataLabels(){
+            if (window.innerWidth > 768) return;
+            document.querySelectorAll('.data-table').forEach(function(tbl){
+                var headers = Array.from(tbl.querySelectorAll('thead th')).map(th => th.innerText.trim());
+                tbl.querySelectorAll('tbody tr').forEach(function(row){
+                    Array.from(row.children).forEach(function(cell, idx){
+                        if (!cell.getAttribute('data-label') && headers[idx]) {
+                            cell.setAttribute('data-label', headers[idx]);
+                        }
+                    });
+                });
+            });
+        })();
+    </script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>

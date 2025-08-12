@@ -7,9 +7,9 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>GlitzME Rentals - Las Vegas Party Rentals & Experiences</title>
-    <meta name="description" content="Las Vegas premier party rental company. Family-owned business offering bounce houses, waterslides, tables, chairs, arcade games & complete party packages. Professional service, competitive prices.">
-    <meta name="keywords" content="Las Vegas party rentals, bounce house rental, waterslide rental, table chair rental, party equipment, arcade games, Las Vegas events, family business">
+    <title>{{ site_settings.get('business_name', 'GlitzME Rentals') }} - Las Vegas Party Rentals & Experiences</title>
+    <meta name="description" content="{{ site_settings.get('meta_description', 'Las Vegas premier party rental company. Family-owned business offering bounce houses, waterslides, tables, chairs, arcade games & complete party packages. Professional service, competitive prices.') }}">
+    <meta name="keywords" content="{{ site_settings.get('meta_keywords', 'Las Vegas party rentals, bounce house rental, waterslide rental, table chair rental, party equipment, arcade games, Las Vegas events, family business') }}">
     <meta property="og:title" content="GlitzME Rentals - Las Vegas Party Rentals">
     <meta property="og:description" content="Las Vegas premier party rental company offering bounce houses, waterslides, tables, chairs & complete party packages.">
     <meta property="og:type" content="website">
@@ -85,6 +85,39 @@
         .hero-image {
             content-visibility: auto;
             contain: layout style paint;
+        }
+        
+        /* Admin access link in footer */
+        .footer-bottom-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .admin-access-link {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+        
+        .admin-access-link:hover {
+            color: var(--primary-blue-vibrant);
+            background: rgba(44, 110, 184, 0.1);
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .footer-bottom-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
         }
     </style>
     
@@ -201,33 +234,33 @@
                 <div class="hero-content">
                     <h1 id="hero-title" class="sr-only">GlitzME Rentals - Las Vegas Party Rentals</h1>
                     <div class="hero-carousel">
-                        <div class="carousel-item active" data-index="0">
-                            <img src="{{ url_for('static', filename='Images/Logos/glitzme-hero-mobile.webp') }}" 
-                                 srcset="{{ url_for('static', filename='Images/Logos/glitzme-hero-mobile.webp') }} 480w, 
-                                         {{ url_for('static', filename='Images/Logos/glitzme-hero-main.webp') }} 800w"
-                                 sizes="(max-width: 768px) 220px, 800px"
-                                 alt="GlitzME Rentals - Offering Tables, Chairs, and more fun items for your events!" 
-                                 class="hero-image" 
-                                 loading="eager"
-                                 fetchpriority="high"
-                                 width="220"
-                                 height="220"
-                                 decoding="async">
-                        </div>
-                        <div class="carousel-item" data-index="1">
-                            <a href="{{ url_for('contact_page') }}" class="promo-link" aria-label="View Summer Sale - Contact us for details">
-                                <img src="{{ url_for('static', filename='Images/HomePageAdverts/SumemrSaleGM.webp') }}" 
-                                     alt="Summer Sale at GlitzME Rentals" 
+                        {% for item in carousel_items %}
+                        <div class="carousel-item {% if loop.first %}active{% endif %}" data-index="{{ loop.index0 }}">
+                            {% if item.link_url %}
+                            <a href="{{ item.link_url }}" class="promo-link" aria-label="{{ item.link_text or item.alt_text }}">
+                            {% endif %}
+                                <img src="{{ url_for('static', filename=item.mobile_image_path or item.image_path) }}" 
+                                     {% if item.mobile_image_path and item.image_path != item.mobile_image_path %}
+                                     srcset="{{ url_for('static', filename=item.mobile_image_path) }} 480w, 
+                                             {{ url_for('static', filename=item.image_path) }} 800w"
+                                     {% endif %}
+                                     sizes="(max-width: 768px) 220px, 800px"
+                                     alt="{{ item.alt_text }}" 
                                      class="hero-image" 
-                                     loading="eager"
-                                     width="800"
-                                     height="800"
+                                     loading="{% if loop.first %}eager{% else %}lazy{% endif %}"
+                                     {% if loop.first %}fetchpriority="high"{% endif %}
+                                     width="{% if loop.first %}220{% else %}800{% endif %}"
+                                     height="{% if loop.first %}220{% else %}800{% endif %}"
                                      decoding="async">
+                            {% if item.link_url %}
                             </a>
+                            {% endif %}
                         </div>
+                        {% endfor %}
                         <div class="carousel-nav">
-                            <button class="carousel-dot active" data-index="0" aria-label="Show main logo"></button>
-                            <button class="carousel-dot" data-index="1" aria-label="Show summer sale"></button>
+                            {% for item in carousel_items %}
+                            <button class="carousel-dot {% if loop.first %}active{% endif %}" data-index="{{ loop.index0 }}" aria-label="{{ item.title }}"></button>
+                            {% endfor %}
                         </div>
                     </div>
                 
@@ -235,16 +268,19 @@
                     <section class="team-section" aria-labelledby="team-section-title">
                         <div class="section-header">
                             <h2 id="team-section-title">Meet the Team</h2>
-                            <p>"None of us is as smart as all of us." - Ken Blanchard</p>
+                            <p>{{ site_settings.get('team_section_quote', '"None of us is as smart as all of us." - Ken Blanchard') }}</p>
                         </div>
                         <div class="team-grid">
+                            {% for member in team_members %}
                             <article class="team-member">
                                 <div class="member-photo">
-                                    <img src="{{ url_for('static', filename='Images/Team/RavinGMR.webp') }}" 
-                                         srcset="{{ url_for('static', filename='Images/Team/RavinGMR-mobile.webp') }} 480w, 
-                                                 {{ url_for('static', filename='Images/Team/RavinGMR.webp') }} 800w"
+                                    <img src="{{ url_for('static', filename=member.image_path) }}" 
+                                         {% if member.mobile_image_path %}
+                                         srcset="{{ url_for('static', filename=member.mobile_image_path) }} 480w, 
+                                                 {{ url_for('static', filename=member.image_path) }} 800w"
+                                         {% endif %}
                                          sizes="(max-width: 480px) 200px, 300px"
-                                         alt="Photo of Ravin Herring" 
+                                         alt="Photo of {{ member.name }}" 
                                          class="team-photo"
                                          loading="lazy"
                                          decoding="async"
@@ -252,46 +288,12 @@
                                          height="300">
                                 </div>
                                 <div class="member-info">
-                                    <h3>Ravin Herring</h3>
-                                    <p class="member-role">Founder & Creative Director</p>
+                                    <h3>{{ member.name }}</h3>
+                                    <p class="member-role">{{ member.role }}</p>
+                                    
                                 </div>
                             </article>
-                            <article class="team-member">
-                                <div class="member-photo">
-                                    <img src="{{ url_for('static', filename='Images/Team/DeshawnGMR.webp') }}" 
-                                         srcset="{{ url_for('static', filename='Images/Team/DeshawnGMR-mobile.webp') }} 480w, 
-                                                 {{ url_for('static', filename='Images/Team/DeshawnGMR.webp') }} 800w"
-                                         sizes="(max-width: 480px) 200px, 300px"
-                                         alt="Photo of Deshawn Proby" 
-                                         class="team-photo"
-                                         loading="lazy"
-                                         decoding="async"
-                                         width="300"
-                                         height="300">
-                                </div>
-                                <div class="member-info">
-                                    <h3>Deshawn Proby</h3>
-                                    <p class="member-role">Co-Founder & Photographer</p>
-                                </div>
-                            </article>
-                            <article class="team-member">
-                                <div class="member-photo">
-                                    <img src="{{ url_for('static', filename='Images/Team/MarvinGMR.webp') }}" 
-                                         srcset="{{ url_for('static', filename='Images/Team/MarvinGMR-mobile.webp') }} 480w, 
-                                                 {{ url_for('static', filename='Images/Team/MarvinGMR.webp') }} 800w"
-                                         sizes="(max-width: 480px) 200px, 300px"
-                                         alt="Photo of Marvin Herring" 
-                                         class="team-photo"
-                                         loading="lazy"
-                                         decoding="async"
-                                         width="300"
-                                         height="300">
-                                </div>
-                                <div class="member-info">
-                                    <h3>Marvin Herring</h3>
-                                    <p class="member-role">Co-Founder & Business Development</p>
-                                </div>
-                            </article>
+                            {% endfor %}
                         </div>
                     </section>
                 </div>
@@ -315,9 +317,9 @@
                 </nav>
                 <div class="footer-section rentals-info">
                     <h3>GlitzME Rentals</h3>
-                    <p>Local Family Owned party rental business serving the Las Vegas Valley. Creating memorable experiences with exceptional customer service - there's no other way but the GlitzME WAY!</p>
+                    <p>{{ site_settings.get('business_description', 'Local Family Owned party rental business serving the Las Vegas Valley. Creating memorable experiences with exceptional customer service - there\'s no other way but the GlitzME WAY!') }}</p>
                     <div class="social-links">
-                        <a href="https://www.instagram.com/glitzme_rentals/" 
+                        <a href="{{ site_settings.get('instagram_url', 'https://www.instagram.com/glitzme_rentals/') }}" 
                            target="_blank" 
                            rel="noopener noreferrer" 
                            class="instagram-link"
@@ -330,16 +332,23 @@
                 <div class="footer-section social">
                     <h3>Contact Info</h3>
                     <ul>
-                        <li>Phone: (702) 344-4717</li>
-                        <li>Phone: (702) 622-0425</li>
-                        <li>Email: Glitzme.rentals21@gmail.com</li>
-                        <li>Las Vegas, NV</li>
-                        <li>Family Owned & Operated</li>
+                        <li>Phone: {{ site_settings.get('phone_primary', '(702) 344-4717') }}</li>
+                        {% if site_settings.get('phone_secondary') %}
+                        <li>Phone: {{ site_settings.get('phone_secondary') }}</li>
+                        {% endif %}
+                        <li>Email: {{ site_settings.get('email', 'Glitzme.rentals21@gmail.com') }}</li>
+                        <li>{{ site_settings.get('address', 'Las Vegas, NV') }}</li>
+                        <li>{{ site_settings.get('tagline', 'Family Owned & Operated') }}</li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Glitzme LLC. All rights reserved.</p>
+                <div class="footer-bottom-content">
+                    <p>&copy; 2025 Glitzme LLC. All rights reserved.</p>
+                    <a href="{{ url_for('admin_login') }}" class="admin-access-link">
+                        <i class="fas fa-cog"></i> Admin
+                    </a>
+                </div>
             </div>
         </div>
     </footer>

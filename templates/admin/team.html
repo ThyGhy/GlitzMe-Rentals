@@ -1,0 +1,82 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Manage Team - GlitzME Admin{% endblock %}
+
+{% block content %}
+<div class="content-header">
+    <h1 class="page-title">
+        <i class="fas fa-users"></i> Team Members
+    </h1>
+    <a href="{{ url_for('admin_team_add') }}" class="btn btn-primary">
+        <i class="fas fa-user-plus"></i> Add Team Member
+    </a>
+</div>
+
+{% if team %}
+<div class="content-card">
+    <h3>All Team Members ({{ team|length }})</h3>
+    <div style="overflow-x: auto;">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th width="60">Photo</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th width="80">Status</th>
+                    <th width="150">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for member in team %}
+                <tr class="{% if not member.is_active %}inactive-row{% endif %}">
+                    <td data-label="Photo">
+                        <img src="{{ url_for('static', filename=member.image_path) }}" 
+                             alt="{{ member.name }}" 
+                             class="image-preview rounded-circle"
+                             onerror="this.src='{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }}'">
+                    </td>
+                    <td data-label="Name">
+                        <strong>{{ member.name }}</strong>
+                    </td>
+                    <td data-label="Role">
+                        <span class="badge badge-secondary">{{ member.role }}</span>
+                    </td>
+                    <td data-label="Status">
+                        {% if member.is_active %}
+                        <span class="badge badge-success">Active</span>
+                        {% else %}
+                        <span class="badge badge-warning">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td data-label="Actions">
+                        <div class="action-buttons">
+                            <a href="{{ url_for('admin_team_edit', member_id=member.id) }}" 
+                               class="btn btn-small btn-primary">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form method="POST" action="{{ url_for('admin_team_delete', member_id=member.id) }}" 
+                                  style="display: inline;" 
+                                  onsubmit="return confirmDelete('{{ member.name }}')">
+                                <button type="submit" class="btn btn-small btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+<div class="content-card" style="text-align: center; padding: 4rem 2rem;">
+    <i class="fas fa-users" style="font-size: 4rem; opacity: 0.5; margin-bottom: 1rem; display: block;"></i>
+    <h3 style="margin-bottom: 1rem;">No team members found</h3>
+    <p style="opacity: 0.7; margin-bottom: 2rem;">Get started by adding your first team member.</p>
+    <a href="{{ url_for('admin_team_add') }}" class="btn btn-primary">
+        <i class="fas fa-user-plus"></i> Add First Team Member
+    </a>
+</div>
+{% endif %}
+{% endblock %}

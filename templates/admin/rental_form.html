@@ -1,0 +1,424 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ action }} Rental - GlitzME Admin{% endblock %}
+
+{% block content %}
+<div class="content-header">
+    <h1 class="page-title">
+        <i class="fas fa-box"></i> {{ action }} Rental Item
+    </h1>
+    <a href="{{ url_for('admin_rentals') }}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Back to Rentals
+    </a>
+</div>
+
+<div class="form-layout">
+    <div class="content-card">
+        <h3><i class="fas fa-edit"></i> Item Details</h3>
+        <form method="POST" style="margin-top: 2rem;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                <div class="form-group">
+                    <label for="name" class="form-label">
+                        <i class="fas fa-tag"></i> What is this rental item?
+                    </label>
+                    <input type="text" class="form-input" id="name" name="name" 
+                           value="{{ rental.name if rental else '' }}" 
+                           placeholder="e.g., Tables & Chairs" required>
+                </div>
+                <div class="form-group">
+                    <label for="category" class="form-label">
+                        <i class="fas fa-folder"></i> Category
+                    </label>
+                    <select class="form-select" id="category" name="category">
+                        <option value="general" {% if rental and rental.category == 'general' %}selected{% endif %}>General</option>
+                        <option value="furniture" {% if rental and rental.category == 'furniture' %}selected{% endif %}>🪑 Furniture</option>
+                        <option value="entertainment" {% if rental and rental.category == 'entertainment' %}selected{% endif %}>🎮 Entertainment</option>
+                        <option value="decor" {% if rental and rental.category == 'decor' %}selected{% endif %}>✨ Decor</option>
+                        <option value="food_beverage" {% if rental and rental.category == 'food_beverage' %}selected{% endif %}>🍕 Food & Beverage</option>
+                        <option value="shelter" {% if rental and rental.category == 'shelter' %}selected{% endif %}>⛺ Shelter</option>
+                        <option value="effects" {% if rental and rental.category == 'effects' %}selected{% endif %}>🎆 Effects</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Image Selection Section -->
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-image"></i> Choose an Image
+                </label>
+                <div class="image-selection-container">
+                    <input type="hidden" id="image_path" name="image_path" value="{{ rental.image_path if rental else '' }}" required>
+                    
+                    <div class="image-upload-area" onclick="document.getElementById('image_upload').click()">
+                        <div class="upload-content">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Upload New Image</p>
+                            <small>Click to browse files</small>
+                        </div>
+                        <input type="file" id="image_upload" accept="image/*" style="display: none;">
+                    </div>
+                    
+                    <div class="divider-text">
+                        <span>or choose from existing</span>
+                    </div>
+                    
+                    <div class="existing-images">
+                        <div class="image-grid" id="image-grid">
+                            <div class="loading-message" style="grid-column: 1 / -1; text-align: center; padding: 2rem; opacity: 0.7;">
+                                <i class="fas fa-spinner fa-spin"></i> Loading images...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pricing Section -->
+            <div style="background: rgba(255, 255, 255, 0.03); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+                <h4 style="margin-bottom: 1.5rem; color: var(--primary-blue-vibrant);">
+                    <i class="fas fa-dollar-sign"></i> Pricing Information
+                </h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label for="price" class="form-label">
+                            <i class="fas fa-money-bill-wave"></i> How much does this cost?
+                        </label>
+                        <input type="text" class="form-input" id="price" name="price" 
+                               value="{{ rental.price if rental else '' }}" 
+                               placeholder="e.g., $50/Day Rental" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price_text" class="form-label">
+                            <i class="fas fa-tag"></i> Price Label (optional)
+                        </label>
+                        <input type="text" class="form-input" id="price_text" name="price_text" 
+                               value="{{ rental.price_text if rental else 'Price' }}" 
+                               placeholder="e.g., Starting Price">
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+                    <div class="form-group">
+                        <label for="deposit" class="form-label">
+                            <i class="fas fa-shield-alt"></i> Security Deposit (optional)
+                        </label>
+                        <input type="text" class="form-input" id="deposit" name="deposit" 
+                               value="{{ rental.deposit if rental else '' }}" 
+                               placeholder="e.g., $50 Required Deposit">
+                    </div>
+                    <div class="form-group">
+                        <label for="deposit_text" class="form-label">
+                            <i class="fas fa-info-circle"></i> Deposit Details
+                        </label>
+                        <input type="text" class="form-input" id="deposit_text" name="deposit_text" 
+                               value="{{ rental.deposit_text if rental else 'Required Deposit (Refundable)' }}" 
+                               placeholder="Required Deposit (Refundable)">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="description" class="form-label">
+                    <i class="fas fa-align-left"></i> Tell customers about this item (optional)
+                </label>
+                <textarea class="form-textarea" id="description" name="description" rows="3" 
+                          placeholder="Describe what makes this rental special, what's included, or any important details...">{{ rental.description if rental else '' }}</textarea>
+            </div>
+            
+            {% if rental %}
+            <div class="form-checkbox">
+                <input type="checkbox" id="is_active" name="is_active" 
+                       {% if rental.is_active %}checked{% endif %}>
+                <label for="is_active">
+                    <i class="fas fa-eye"></i> Make this item visible on the website
+                </label>
+            </div>
+            {% endif %}
+            
+            <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: flex-end;">
+                <a href="{{ url_for('admin_rentals') }}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> {{ action }} Rental Item
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Preview Panel -->
+    <div class="content-card preview-card">
+        <h3><i class="fas fa-eye"></i> Preview</h3>
+        
+        <div class="preview-container" style="margin-top: 1.5rem;">
+            <div class="image-preview-large" id="image-preview" style="text-align: center; margin-bottom: 1rem;">
+                {% if rental and rental.image_path %}
+                <img src="{{ url_for('static', filename=rental.image_path) }}" 
+                     alt="{{ rental.name }}" 
+                     style="max-width: 100%; max-height: 250px; border-radius: 10px; object-fit: cover;"
+                     onerror="this.src='{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }}'; this.alt='Image not found';">
+                {% else %}
+                <div style="padding: 4rem 2rem; background: rgba(255, 255, 255, 0.05); border-radius: 10px; border: 2px dashed rgba(255, 255, 255, 0.2);">
+                    <i class="fas fa-image" style="font-size: 3rem; opacity: 0.5; margin-bottom: 1rem; display: block;"></i>
+                    <p style="opacity: 0.7;">Choose an image to see preview</p>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="preview-details">
+                <h4 id="preview-name">{{ rental.name if rental else 'Item Name' }}</h4>
+                <p id="preview-price" style="color: var(--primary-blue-vibrant); font-weight: 600;">
+                    {{ rental.price if rental else '$50/Day Rental' }}
+                </p>
+                {% if rental and rental.description %}
+                <p id="preview-description" style="opacity: 0.8; font-size: 0.9rem;">{{ rental.description }}</p>
+                {% else %}
+                <p id="preview-description" style="opacity: 0.8; font-size: 0.9rem; font-style: italic;">Description will appear here</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div style="margin-top: 2rem; padding: 1rem; background: rgba(255, 193, 7, 0.1); border-radius: 8px; border: 1px solid rgba(255, 193, 7, 0.3);">
+            <h5 style="color: #ffc107; margin-bottom: 0.5rem;">
+                <i class="fas fa-lightbulb"></i> Quick Tips
+            </h5>
+            <ul style="font-size: 0.85rem; color: #ffc107; margin: 0;">
+                <li>Use clear, high-quality photos</li>
+                <li>Include the price customers will pay</li>
+                <li>Be specific about what's included</li>
+                <li>Mention any special requirements</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+.form-layout{display:grid;grid-template-columns:1fr 400px;gap:2rem;align-items:start}
+.preview-card{position:sticky;top:2rem}
+@media(max-width:768px){
+  .form-layout{grid-template-columns:1fr;gap:1rem}
+  .preview-card{position:static}
+}
+</style>
+
+<style>
+.image-selection-container {
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.image-upload-area {
+    border: 2px dashed rgba(44, 110, 184, 0.5);
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(44, 110, 184, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.image-upload-area:hover {
+    border-color: var(--primary-blue-vibrant);
+    background: rgba(44, 110, 184, 0.2);
+}
+
+.upload-content i {
+    font-size: 2.5rem;
+    color: var(--primary-blue-vibrant);
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.upload-content p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.upload-content small {
+    opacity: 0.7;
+}
+
+.divider-text {
+    text-align: center;
+    position: relative;
+    margin: 1.5rem 0;
+}
+
+.divider-text:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.divider-text span {
+    background: var(--primary-blue);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 1;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.75rem;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.image-option {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.image-option:hover {
+    transform: scale(1.05);
+    border-color: var(--primary-blue-vibrant);
+}
+
+.image-option.selected {
+    border-color: var(--primary-blue-vibrant);
+    box-shadow: 0 0 0 2px rgba(59, 123, 201, 0.3);
+}
+
+.image-option img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-option .image-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.25rem;
+    font-size: 0.7rem;
+    text-align: center;
+}
+</style>
+
+<script>
+// Real-time preview updates
+document.getElementById('name').addEventListener('input', function() {
+    document.getElementById('preview-name').textContent = this.value || 'Item Name';
+});
+
+document.getElementById('price').addEventListener('input', function() {
+    document.getElementById('preview-price').textContent = this.value || '$50/Day Rental';
+});
+
+document.getElementById('description').addEventListener('input', function() {
+    const desc = document.getElementById('preview-description');
+    if (this.value) {
+        desc.textContent = this.value;
+        desc.style.fontStyle = 'normal';
+    } else {
+        desc.textContent = 'Description will appear here';
+        desc.style.fontStyle = 'italic';
+    }
+});
+
+// Load existing images
+async function loadExistingImages() {
+    try {
+        const response = await fetch('{{ url_for("admin_api_images") }}');
+        const images = await response.json();
+        const grid = document.getElementById('image-grid');
+        
+        // Clear loading message
+        grid.innerHTML = '';
+        
+        if (images.length === 0) {
+            grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 2rem; opacity: 0.7;">No images found</div>';
+            return;
+        }
+        
+        images.forEach(imagePath => {
+            const option = document.createElement('div');
+            option.className = 'image-option';
+            option.onclick = () => selectImage(imagePath, option);
+            
+            const img = document.createElement('img');
+            img.src = `/static/${imagePath}`;
+            img.alt = imagePath.split('/').pop();
+            
+            const name = document.createElement('div');
+            name.className = 'image-name';
+            name.textContent = imagePath.split('/').pop();
+            
+            option.appendChild(img);
+            option.appendChild(name);
+            grid.appendChild(option);
+            
+            // Mark as selected if this is the current image
+            if (document.getElementById('image_path').value === imagePath) {
+                option.classList.add('selected');
+            }
+        });
+    } catch (error) {
+        console.error('Error loading images:', error);
+        const grid = document.getElementById('image-grid');
+        grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #ff6b7a;">Error loading images. Please refresh the page.</div>';
+    }
+}
+
+function selectImage(imagePath, element) {
+    // Remove selection from all options
+    document.querySelectorAll('.image-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    // Select clicked option
+    element.classList.add('selected');
+    
+    // Update hidden input
+    document.getElementById('image_path').value = imagePath;
+    
+    // Update preview
+    const preview = document.getElementById('image-preview');
+    preview.innerHTML = `<img src="/static/${imagePath}" 
+                                alt="Preview" 
+                                style="max-width: 100%; max-height: 250px; border-radius: 10px; object-fit: cover;">`;
+}
+
+// File upload functionality
+document.getElementById('image_upload').addEventListener('change', function() {
+    if (this.files && this.files[0]) {
+        const file = this.files[0];
+        
+        // Show preview immediately
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('image-preview');
+            preview.innerHTML = `<img src="${e.target.result}" 
+                                      alt="Uploaded preview" 
+                                      style="max-width: 100%; max-height: 250px; border-radius: 10px; object-fit: cover;">`;
+        };
+        reader.readAsDataURL(file);
+        
+        // Here you would typically upload the file to the server
+        // For now, we'll show an alert
+        alert('Image upload functionality will be implemented by your developer. For now, please use existing images.');
+    }
+});
+
+// Load existing images when page loads
+document.addEventListener('DOMContentLoaded', loadExistingImages);
+</script>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Manage Rentals - GlitzME Admin{% endblock %}
+
+{% block content %}
+<div class="content-header">
+    <h1 class="page-title">
+        <i class="fas fa-box"></i> Rental Items
+    </h1>
+    <a href="{{ url_for('admin_rentals_add') }}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Add New Rental
+    </a>
+</div>
+
+{% if rentals %}
+<div class="content-card">
+    <h3>All Rental Items ({{ rentals|length }})</h3>
+    <div style="overflow-x: auto;">
+        <table class="data-table">
+                <thead>
+                    <tr>
+                        <th width="60">Image</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Deposit</th>
+                        <th width="80">Status</th>
+                        <th width="150">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rental in rentals %}
+                    <tr class="{% if not rental.is_active %}inactive-row{% endif %}">
+                        <td data-label="Image">
+                            <img src="{{ url_for('static', filename=rental.image_path) }}" 
+                                 alt="{{ rental.name }}" 
+                                 class="image-preview"
+                                 onerror="this.src='{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }}'">
+                        </td>
+                        <td data-label="Name">
+                            <strong>{{ rental.name }}</strong>
+                            {% if rental.description %}
+                            <br><small style="opacity: 0.7;">{{ rental.description[:100] }}{% if rental.description|length > 100 %}...{% endif %}</small>
+                            {% endif %}
+                        </td>
+                        <td data-label="Category">
+                            <span class="badge badge-secondary">{{ rental.category|title }}</span>
+                        </td>
+                        <td data-label="Price">
+                            <strong>{{ rental.price }}</strong>
+                            {% if rental.price_text != 'Price' %}
+                            <br><small style="opacity: 0.7;">{{ rental.price_text }}</small>
+                            {% endif %}
+                        </td>
+                        <td data-label="Deposit">
+                            {% if rental.deposit %}
+                            {{ rental.deposit }}
+                            {% if rental.deposit_text != 'Required Deposit (Refundable)' %}
+                            <br><small style="opacity: 0.7;">{{ rental.deposit_text }}</small>
+                            {% endif %}
+                            {% else %}
+                            <span style="opacity: 0.7;">No deposit</span>
+                            {% endif %}
+                        </td>
+                        <td data-label="Status">
+                            {% if rental.is_active %}
+                            <span class="badge badge-success">Active</span>
+                            {% else %}
+                            <span class="badge badge-warning">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td data-label="Actions">
+                            <div class="action-buttons">
+                                <a href="{{ url_for('admin_rentals_edit', rental_id=rental.id) }}" 
+                                   class="btn btn-small btn-primary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form method="POST" action="{{ url_for('admin_rentals_delete', rental_id=rental.id) }}" 
+                                      style="display: inline;" 
+                                      onsubmit="return confirmDelete('{{ rental.name }}')">
+                                    <button type="submit" class="btn btn-small btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+<div class="content-card" style="text-align: center; padding: 4rem 2rem;">
+    <i class="fas fa-box" style="font-size: 4rem; opacity: 0.5; margin-bottom: 1rem; display: block;"></i>
+    <h3 style="margin-bottom: 1rem;">No rental items found</h3>
+    <p style="opacity: 0.7; margin-bottom: 2rem;">Get started by adding your first rental item.</p>
+    <a href="{{ url_for('admin_rentals_add') }}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Add First Rental
+    </a>
+</div>
+{% endif %}
+{% endblock %}

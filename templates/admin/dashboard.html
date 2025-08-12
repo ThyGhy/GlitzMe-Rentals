@@ -1,0 +1,40 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Admin Dashboard - GlitzME Rentals{% endblock %}
+
+{% block content %}
+<div class="content-header">
+    <h1 class="page-title">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+    </h1>
+    <p>Welcome to the GlitzME Rentals Admin Panel</p>
+</div>
+
+<!-- Stats Overview (mobile-first tiles) -->
+<div class="stats-grid">
+    <a class="stats-card" href="{{ url_for('admin_rentals') }}">
+        <div class="stats-number">{{ rental_count }}</div>
+        <div class="stats-label"><i class="fas fa-box"></i> Rentals</div>
+    </a>
+    <a class="stats-card" href="{{ url_for('admin_packages') }}">
+        <div class="stats-number">{{ package_count }}</div>
+        <div class="stats-label"><i class="fas fa-gift"></i> Packages</div>
+    </a>
+    <a class="stats-card" href="{{ url_for('admin_team') }}">
+        <div class="stats-number">{{ team_count }}</div>
+        <div class="stats-label"><i class="fas fa-users"></i> Team</div>
+    </a>
+    <a class="stats-card" href="{{ url_for('admin_settings') }}">
+        <div class="stats-number"><i class="fas fa-cogs"></i></div>
+        <div class="stats-label">Settings</div>
+    </a>
+    <a class="stats-card" href="{{ url_for('index') }}" title="View Site">
+        <div class="stats-number"><i class="fas fa-external-link-alt"></i></div>
+        <div class="stats-label">View Site</div>
+    </a>
+</div>
+
+<!-- Quick action buttons removed (users can use the large tiles or sidebar) -->
+
+<!-- Getting Started removed per request -->
+{% endblock %}

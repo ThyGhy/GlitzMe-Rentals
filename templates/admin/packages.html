@@ -1,0 +1,104 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Manage Packages - GlitzME Admin{% endblock %}
+
+{% block content %}
+<div class="content-header">
+    <h1 class="page-title">
+        <i class="fas fa-gift"></i> Package Deals
+    </h1>
+    <a href="{{ url_for('admin_packages_add') }}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Add New Package
+    </a>
+    
+</div>
+
+{% if packages %}
+<div class="content-card">
+    <h3>All Package Deals ({{ packages|length }})</h3>
+    <div style="overflow-x: auto;">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th width="60">Image</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Deposit</th>
+                    <th width="80">Status</th>
+                    <th width="150">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for package in packages %}
+                <tr class="{% if not package.is_active %}inactive-row{% endif %}">
+                    <td data-label="Image">
+                        <img src="{{ url_for('static', filename=package.image_path) }}" 
+                             alt="{{ package.name }}" 
+                             class="image-preview"
+                             onerror="this.src='{{ url_for('static', filename='Images/Logos/GMLogo-mobile.webp') }}'">
+                    </td>
+                    <td data-label="Name">
+                        <strong>{{ package.name }}</strong>
+                        {% if package.description %}
+                        <br><small style="opacity: 0.7;">{{ package.description[:100] }}{% if package.description|length > 100 %}...{% endif %}</small>
+                        {% endif %}
+                    </td>
+                    <td data-label="Category">
+                        <span class="badge badge-secondary">{{ package.category|default('General')|replace('_', ' ')|title }}</span>
+                    </td>
+                    <td data-label="Price">
+                        <strong>{{ package.price }}</strong>
+                        {% if package.price_text and package.price_text != 'Package Price' and package.price_text != 'Price' %}
+                        <br><small style="opacity: 0.7;">{{ package.price_text }}</small>
+                        {% endif %}
+                    </td>
+                    <td data-label="Deposit">
+                        {% if package.deposit %}
+                        {{ package.deposit }}
+                        {% if package.deposit_text and package.deposit_text != 'Required Deposit (Refundable)' %}
+                        <br><small style="opacity: 0.7;">{{ package.deposit_text }}</small>
+                        {% endif %}
+                        {% else %}
+                        <span style="opacity: 0.7;">No deposit</span>
+                        {% endif %}
+                    </td>
+                    <td data-label="Status">
+                        {% if package.is_active %}
+                        <span class="badge badge-success">Active</span>
+                        {% else %}
+                        <span class="badge badge-warning">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td data-label="Actions">
+                        <div class="action-buttons">
+                            <a href="{{ url_for('admin_packages_edit', package_id=package.id) }}" 
+                               class="btn btn-small btn-primary">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form method="POST" action="{{ url_for('admin_packages_delete', package_id=package.id) }}" 
+                                  style="display: inline;" 
+                                  onsubmit="return confirmDelete('{{ package.name }}')">
+                                <button type="submit" class="btn btn-small btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+<div class="content-card" style="text-align: center; padding: 4rem 2rem;">
+    <i class="fas fa-gift" style="font-size: 4rem; opacity: 0.5; margin-bottom: 1rem; display: block;"></i>
+    <h3 style="margin-bottom: 1rem;">No package deals found</h3>
+    <p style="opacity: 0.7; margin-bottom: 2rem;">Get started by adding your first package deal.</p>
+    <a href="{{ url_for('admin_packages_add') }}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Add First Package
+    </a>
+</div>
+{% endif %}
+{% endblock %}
